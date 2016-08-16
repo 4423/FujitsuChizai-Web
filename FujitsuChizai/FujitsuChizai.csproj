@@ -214,7 +214,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DirectionViewModels.cs" />
     <Compile Include="Models\Entities\Edge.cs" />
     <Compile Include="Models\Entities\History.cs" />
