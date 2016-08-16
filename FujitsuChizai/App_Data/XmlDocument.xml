@@ -504,6 +504,11 @@
             <param name="userId">ユーザID</param>
             <returns></returns>
         </member>
+        <member name="T:FujitsuChizai.Controllers.geocodeController">
+            <summary>
+            座標位置を扱うエンドポイントです。
+            </summary>
+        </member>
         <member name="M:FujitsuChizai.Controllers.geocodeController.Get(System.Int32,System.Int32)">
             <summary>
             2つの照明位置から現在位置を取得します。
