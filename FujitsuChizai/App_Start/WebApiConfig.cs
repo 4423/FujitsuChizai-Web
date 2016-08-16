@@ -17,6 +17,10 @@ namespace FujitsuChizai
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
+            // JSONプレビュー時のループ対策
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
+                = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
             // Web API ルート
             config.MapHttpAttributeRoutes();
 
