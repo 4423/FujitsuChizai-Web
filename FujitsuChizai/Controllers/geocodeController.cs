@@ -8,6 +8,9 @@ using System.Web.Http;
 
 namespace FujitsuChizai.Controllers
 {
+    /// <summary>
+    /// 座標位置を扱うエンドポイントです。
+    /// </summary>
     public class geocodeController : ApiController
     {
         /// <summary>
