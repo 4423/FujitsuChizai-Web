@@ -205,7 +205,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\directionsController.cs" />
+    <Compile Include="Controllers\geocodeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\lightsController.cs" />
+    <Compile Include="Controllers\placesController.cs" />
+    <Compile Include="Controllers\usersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,6 +224,7 @@
     <Compile Include="Models\GeocodeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LightViewModels.cs" />
+    <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
     <Compile Include="Models\UserBindingModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
