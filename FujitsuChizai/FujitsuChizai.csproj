@@ -218,6 +218,7 @@
     <Compile Include="Models\DirectionViewModels.cs" />
     <Compile Include="Models\Entities\Edge.cs" />
     <Compile Include="Models\Entities\History.cs" />
+    <Compile Include="Models\Entities\Map.cs" />
     <Compile Include="Models\Entities\ModelContext.cs" />
     <Compile Include="Models\Entities\PlaceMark.cs" />
     <Compile Include="Models\Entities\User.cs" />

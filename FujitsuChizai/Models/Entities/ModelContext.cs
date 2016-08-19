@@ -12,5 +12,6 @@ namespace FujitsuChizai.Models.Entities
         public DbSet<History> Histories { get; set; }
         public DbSet<PlaceMark> PlaceMarks { get; set; }
         public DbSet<Edge> Edges { get; set; }
+        public DbSet<Map> Maps { get; set; }
     }
 }
