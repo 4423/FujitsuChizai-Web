@@ -16,6 +16,9 @@ namespace FujitsuChizai.Migrations
 
         protected override void Seed(FujitsuChizai.Models.Entities.ModelContext context)
         {
+            //InitializeTable(context.Maps);
+            //InitializeTable(context.PlaceMarks);
+
             #region ínê}âÊëúÇÃìoò^
             context.Maps.AddOrUpdate(
                 new Map()
@@ -48,13 +51,17 @@ namespace FujitsuChizai.Migrations
             context.SemiFixedPlaceAdd(2048, verticalLine);
             context.SemiFixedPlaceAdd(2048, verticalLineEV2);
             #endregion
+            
+        }
 
-
-        }        
+        private void InitializeTable<T>(DbSet<T> table) where T : class
+        {
+            table.RemoveRange(table);
+        }
 
         private IEnumerable<int> GetArithmeticProgression(int start, int difference, int maxGenerateNumber)
         {
-            for (int i = start; i <= maxGenerateNumber; i++)
+            for (int i = 1; i <= maxGenerateNumber; i++)
             {
                 yield return start + (i - 1) * difference;
             }
