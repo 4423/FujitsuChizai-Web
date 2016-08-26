@@ -11,8 +11,12 @@
 </p>
 
 <!--外部CSSファイル(MapStyleSheet.css)の読み込み方不明-->
+<div>
+    <input type="button" value="縮小" onClick="zoomOut()" />
+    <input type="button" value="拡大" onClick="zoomIn()" />
+</div>
 <div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
-    <div style="transform: scale(0.5);">
+    <div id="canvas" style="transform: scale(0.5);">
         <img src="~/Resources/Map/6F.jpg" style="position:absolute;">
         <div id="path_canvas" style="position:absolute;"></div>
 
@@ -81,4 +85,25 @@
                 'stroke-width': 5,
             });
     }
+</script>
+
+<script type="text/javascript">
+        var zoomRatio = 0.5;
+
+        $(function(){
+            setZoomRatio();
+        });
+
+        function setZoomRatio() {
+            $('#canvas').css('transform', 'scale(' + zoomRatio + ')');
+        }
+
+        function zoomOut() {
+            zoomRatio -= 0.1;
+            setZoomRatio();
+        }
+        function zoomIn() {
+            zoomRatio += 0.1;
+            setZoomRatio();
+        }
 </script>
