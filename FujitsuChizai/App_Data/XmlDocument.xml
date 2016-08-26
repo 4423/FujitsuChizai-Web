@@ -635,21 +635,21 @@
             <summary>
             すべてのユーザ情報を取得します。
             </summary>
-            <returns></returns>
+            <returns>すべてのユーザ情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.usersController.Get(System.Int32)">
             <summary>
             指定されたユーザIDと一致するユーザ情報を取得します。
             </summary>
             <param name="id">ユーザID</param>
-            <returns></returns>
+            <returns>ユーザIDと一致したユーザ情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.usersController.Post(FujitsuChizai.Models.RegisterBindingModel)">
             <summary>
             ユーザ情報を登録します。
             </summary>
             <param name="value">登録するユーザ情報</param>
-            <returns></returns>
+            <returns>ユーザIDが含まれる登録後のユーザ情報</returns>
         </member>
         <member name="T:FujitsuChizai.Models.Entities.Edge">
             <summary>
