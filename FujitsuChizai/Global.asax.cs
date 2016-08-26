@@ -23,6 +23,9 @@ namespace FujitsuChizai
             // JSONをLowerCamelCaseで返す
             var config = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            // JSONのみを使用
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
         }
     }
 }
