@@ -14,6 +14,7 @@
 <div>
     <input type="button" value="縮小" onClick="zoomOut()" />
     <input type="button" value="拡大" onClick="zoomIn()" />
+    <input type="button" value="登録" onClick="registerPath()" />
 </div>
 <div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
     <div id="canvas" style="transform: scale(0.5);">
@@ -62,8 +63,11 @@
             startNode = node;
         }
         else {
+            if (startNode.attr('id') == node.attr('id')) {
+                return; // 自身同士は接続させない
+            }
             isConnect = false;
-            drawConnection(getPoint(startNode), getPoint(node));
+            drawConnection(startNode, node);
         }
     }
 
@@ -72,21 +76,60 @@
         return [obj.attr('cx'), obj.attr('cy')];
     }
 
+    // 2点間の距離を1/10した値(切り上げ)
+    function getCost(pos) {
+        return Math.ceil(0.1 * Math.sqrt(
+            Math.pow(Math.abs(pos[0][0] - pos[1][0]), 2) //x^2
+            + Math.pow(Math.abs(pos[0][1] - pos[1][1]), 2) //y^2
+        ));
+    }
+
+    // 照明同士かどうか
+    function isLightEach(obj1, obj2) {
+        return obj1.attr('type') == "Light" && obj2.attr('type') == "Light";
+    }
+
     // 線を描画
-    function drawConnection(arr1, arr2) {
+    function drawConnection(node1, node2) {
         var line = d3.svg.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
-
+        var pos = [getPoint(node1), getPoint(node2)];
         pathSvg.append("path")
             .attr({
-                'd': line([arr1, arr2]),
+                'd': line(pos),
                 'stroke': 'gray',
                 'stroke-width': 5,
+                'id1': node1.attr('id'),
+                'id2': node2.attr('id'),
+                // 照明-場所などのコストは0
+                'cost': isLightEach(node1, node2) ? getCost(pos) : 0
             });
     }
 </script>
+<script type="text/javascript">
+    function registerPath() {
+        $('path').each(function (i, e) {
+            post($(e).attr('id1'), $(e).attr('id2'), $(e).attr('cost'));
+        });
+    }
 
+    function post(id1, id2, cost) {
+        jQuery.ajax({
+            url: '@Request.Url.AbsoluteUri.Replace(Request.RawUrl, "")/api/edges',
+            type: 'POST',
+            dataType: 'json',
+            data: { placeMarkId1: id1, placeMarkId2: id2, cost: cost },
+            timeout: 10000,
+            success: function (data) {
+                alert("ok");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("error");
+            }
+        });
+    }
+</script>
 <script type="text/javascript">
         var zoomRatio = 0.5;
 
