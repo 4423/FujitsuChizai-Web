@@ -12,11 +12,6 @@ namespace FujitsuChizai
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API の設定およびサービス
-            // ベアラ トークン認証のみを使用するように、Web API を設定します。
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-
             // JSONプレビュー時のループ対策
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
