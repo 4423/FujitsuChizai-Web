@@ -9,55 +9,76 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.X)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Y)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Floor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LightId)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.X)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Y)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Floor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LightId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+<!--外部CSSファイル(MapStyleSheet.css)の読み込み方不明-->
+<div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
+    <div style="transform: scale(0.5);">
+        <img src="~/Resources/Map/6F.jpg" style="position:absolute;">
+        <div id="path_canvas" style="position:absolute;"></div>
 
-</table>
+        <div id="circle_canvas" style="position:absolute;">
+            <svg width="3500" height="3700">
+                @foreach (var item in Model)
+                {
+                    <circle cx="@Html.DisplayFor(modelItem => item.X)"
+                            cy="@Html.DisplayFor(modelItem => item.Y)"
+                            r="20"
+                            fill="lightgreen"
+                            id="@Html.DisplayFor(modelItem => item.Id)"
+                            lightId="@Html.DisplayFor(modelItem => item.LightId)"
+                            floor="@Html.DisplayFor(modelItem => item.Floor)"
+                            type="@Html.DisplayFor(modelItem => item.Type)"
+                            name="@Html.DisplayFor(modelItem => item.Name)" />
+                }
+            </svg>
+        </div>
+    </div>
+</div>
+
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var pathSvg;
+    var circleSvg;
+
+    window.onload = function () {
+        pathSvg = d3.select("#path_canvas").append("svg")
+            .attr({ width: 3500, height: 3700 });
+        circleSvg = d3.select("#circle_canvas");
+
+        // イベントハンドラ設定
+        circleSvg.selectAll('circle')
+            .on("click", function (d, i) { mouseclick($(this)); });
+    }
+
+    var isConnect = false;
+    var startNode;
+    function mouseclick(node) {
+        if (!isConnect) {
+            isConnect = true;
+            startNode = node;
+        }
+        else {
+            isConnect = false;
+            drawConnection(getPoint(startNode), getPoint(node));
+        }
+    }
+
+    // 属性から[x,y]配列を取得
+    function getPoint(obj) {
+        return [obj.attr('cx'), obj.attr('cy')];
+    }
+
+    // 線を描画
+    function drawConnection(arr1, arr2) {
+        var line = d3.svg.line()
+            .x(function (d) { return d[0]; })
+            .y(function (d) { return d[1]; });
+
+        pathSvg.append("path")
+            .attr({
+                'd': line([arr1, arr2]),
+                'stroke': 'gray',
+                'stroke-width': 5,
+            });
+    }
+</script>
