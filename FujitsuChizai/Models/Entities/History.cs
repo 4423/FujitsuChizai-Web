@@ -12,8 +12,10 @@ namespace FujitsuChizai.Models.Entities
     {
         public int Id { get; set; }
         public DateTime Timestamp { get; set; }
+        public int UserId { get; set; }
+        public int PlaceMarkId { get; set; }
 
-        public virtual User UserId { get; set; }
-        public virtual PlaceMark PlaceMarkId { get; set; }
+        public virtual User User { get; set; }
+        public virtual PlaceMark PlaceMark { get; set; }
     }
 }
