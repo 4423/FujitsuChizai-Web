@@ -18,4 +18,19 @@ namespace FujitsuChizai.Models
         public int Floor { get; set; }
         public string Name { get; set; }
     }
+
+    public static class PlaceViewExt
+    {
+        public static PlaceViewModel ToPlaceViewModel(this Entities.PlaceMark p)
+        {
+            return new PlaceViewModel()
+            {
+                Id = p.Id,
+                X = p.X,
+                Y = p.Y,
+                Name = p.Name,
+                Floor = p.Floor
+            };
+        }
+    }
 }

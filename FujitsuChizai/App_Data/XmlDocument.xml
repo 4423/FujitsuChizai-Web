@@ -572,14 +572,14 @@
             <summary>
             すべての場所情報を取得します。
             </summary>
-            <returns></returns>
+            <returns>すべての場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get(System.String)">
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
             <param name="keyword">場所を示すキーワード</param>
-            <returns></returns>
+            <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -588,7 +588,7 @@
             <param name="x">x座標地点</param>
             <param name="y">y座標地点</param>
             <param name="radius"></param>
-            <returns></returns>
+            <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get(System.String,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -598,27 +598,29 @@
             <param name="x">x座標地点</param>
             <param name="y">y座標地点</param>
             <param name="radius"></param>
-            <returns></returns>
+            <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get(System.Int32)">
             <summary>
             指定された場所IDと一致する場所情報を取得します。
             </summary>
             <param name="id">場所ID</param>
-            <returns></returns>
+            <returns>場所IDと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Post(FujitsuChizai.Models.PlaceBindingModel)">
             <summary>
             場所情報を登録します。
             </summary>
             <param name="value">登録する場所情報</param>
+            <returns>場所IDが含まれる登録後の場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Put(System.Int32,FujitsuChizai.Models.PlaceBindingModel)">
             <summary>
             指定された場所IDと一致する場所情報を更新します。
             </summary>
             <param name="id">場所ID</param>
-            <param name="value">登録する場所情報</param>
+            <param name="value">更新する場所情報</param>
+            <returns>更新後の場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Delete(System.Int32)">
             <summary>

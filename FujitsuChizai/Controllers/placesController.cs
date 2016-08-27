@@ -1,4 +1,5 @@
 ﻿using FujitsuChizai.Models;
+using FujitsuChizai.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +12,46 @@ namespace FujitsuChizai.Controllers
     /// <summary>
     /// 場所（店舗・部屋・トイレなど）を扱うエンドポイントです。
     /// </summary>
-    public class placesController : ApiController
+    public class placesController : ErrorHandleableApiController
     {
+        private ModelContext db = new ModelContext();
+
+        private HttpResponseException ResponseCore(List<PlaceMark> p)
+        {
+            if (p.Count == 0)
+            {
+                return ErrorResponse(HttpStatusCode.NotFound);
+            }
+
+            var r = new PlaceListViewModel()
+            {
+                Places = p.Select(x => x.ToPlaceViewModel())
+            };
+            return OKResponse(r);
+        }
+
         /// <summary>
         /// すべての場所情報を取得します。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>すべての場所情報</returns>
         public PlaceListViewModel Get()
         {
-            return new PlaceListViewModel();
+            var p = db.PlaceMarks.Where(x => x.Type == PlaceMarkType.Place).ToList();
+            throw ResponseCore(p);
         }
 
         /// <summary>
         /// 指定されたパラメータに一致する場所情報を取得します。
         /// </summary>
         /// <param name="keyword">場所を示すキーワード</param>
-        /// <returns></returns>
+        /// <returns>指定されたパラメータと一致した場所情報</returns>
         public PlaceListViewModel Get(string keyword)
         {
-            return new PlaceListViewModel();
+            var p = db.PlaceMarks
+                .Where(t => t.Name.Contains(keyword))
+                .Where(t => t.Type == PlaceMarkType.Place)
+                .ToList();
+            throw ResponseCore(p);
         }
 
         /// <summary>
@@ -38,10 +60,15 @@ namespace FujitsuChizai.Controllers
         /// <param name="x">x座標地点</param>
         /// <param name="y">y座標地点</param>
         /// <param name="radius"></param>
-        /// <returns></returns>
+        /// <returns>指定されたパラメータと一致した場所情報</returns>
         public PlaceListViewModel Get(int x, int y, int radius = 10)
         {
-            return new PlaceListViewModel();
+            var p = db.PlaceMarks
+                .Where(t => t.Type == PlaceMarkType.Place)
+                .Where(t => (x - radius) <= t.X && t.X <= (x + radius))
+                .Where(t => (y - radius) <= t.Y && t.Y <= (y + radius))
+                .ToList();
+            throw ResponseCore(p);
         }
 
         /// <summary>
@@ -51,37 +78,75 @@ namespace FujitsuChizai.Controllers
         /// <param name="x">x座標地点</param>
         /// <param name="y">y座標地点</param>
         /// <param name="radius"></param>
-        /// <returns></returns>
+        /// <returns>指定されたパラメータと一致した場所情報</returns>
         public PlaceListViewModel Get(string keyword, int x, int y, int radius = 10)
         {
-            return new PlaceListViewModel();
+            var p = db.PlaceMarks
+                .Where(t => t.Name.Contains(keyword))
+                .Where(t => t.Type == PlaceMarkType.Place)
+                .Where(t => (x - radius) <= t.X && t.X <= (x + radius))
+                .Where(t => (y - radius) <= t.Y && t.Y <= (y + radius))
+                .ToList();
+            throw ResponseCore(p);
         }
 
         /// <summary>
         /// 指定された場所IDと一致する場所情報を取得します。
         /// </summary>
         /// <param name="id">場所ID</param>
-        /// <returns></returns>
+        /// <returns>場所IDと一致した場所情報</returns>
         public PlaceViewModel Get(int id)
         {
-            return new PlaceViewModel();
+            var p = db.PlaceMarks.Find(id);
+            if (p == null || p.Type != PlaceMarkType.Place)
+            {
+                throw ErrorResponse(HttpStatusCode.NotFound);
+            }
+            throw OKResponse(p.ToPlaceViewModel());
         }
 
         /// <summary>
         /// 場所情報を登録します。
         /// </summary>
         /// <param name="value">登録する場所情報</param>
-        public void Post([FromBody]PlaceBindingModel value)
+        /// <returns>場所IDが含まれる登録後の場所情報</returns>
+        public PlaceViewModel Post([FromBody]PlaceBindingModel value)
         {
+            if (!ModelState.IsValid)
+            {
+                throw ErrorResponse(HttpStatusCode.BadRequest);
+            }
+            var p = value.ToPlaceMark();
+            db.PlaceMarks.Add(p);
+            db.SaveChanges();
+            throw OKResponse(p.ToPlaceViewModel());
         }
 
         /// <summary>
         /// 指定された場所IDと一致する場所情報を更新します。
         /// </summary>
         /// <param name="id">場所ID</param>
-        /// <param name="value">登録する場所情報</param>
-        public void Put(int id, [FromBody]PlaceBindingModel value)
+        /// <param name="value">更新する場所情報</param>
+        /// <returns>更新後の場所情報</returns>
+        public PlaceViewModel Put(int id, [FromBody]PlaceBindingModel value)
         {
+            if (!ModelState.IsValid)
+            {
+                throw ErrorResponse(HttpStatusCode.BadRequest);
+            }
+
+            var p = db.PlaceMarks.Find(id);
+            if (p == null || p.Type != PlaceMarkType.Place)
+            {
+                throw ErrorResponse(HttpStatusCode.NotFound);
+            }
+
+            p.X = value.X;
+            p.Y = value.Y;
+            p.Name = value.Name;
+            p.Floor = value.Floor;
+            db.SaveChanges();
+            throw OKResponse(p.ToPlaceViewModel());
         }
 
         /// <summary>
@@ -90,6 +155,14 @@ namespace FujitsuChizai.Controllers
         /// <param name="id">場所ID</param>
         public void Delete(int id)
         {
+            var p = db.PlaceMarks.Find(id);
+            if (p == null || p.Type != PlaceMarkType.Place)
+            {
+                throw ErrorResponse(HttpStatusCode.NotFound);
+            }
+            db.PlaceMarks.Remove(p);
+            db.SaveChanges();
+            throw ErrorResponse(HttpStatusCode.Accepted);
         }
     }
 }
