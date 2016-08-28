@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace FujitsuChizai.Models.Entities
     {
         public int Id { get; set; }
         public int BornIn { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Sexes Sex { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Countries Country { get; set; }
         public DateTime CreatedAt { get; set; }
 

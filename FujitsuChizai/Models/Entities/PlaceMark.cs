@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace FujitsuChizai.Models.Entities
         /// <summary>
         /// この PlaceMark の種類
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public PlaceMarkType Type { get; set; }
         /// <summary>
         /// Type が Place の場合にのみ格納される場所名
