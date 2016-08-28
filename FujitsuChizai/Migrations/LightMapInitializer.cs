@@ -8,7 +8,7 @@ using FujitsuChizai.Models.Entities;
 
 namespace FujitsuChizai.Migrations
 {
-    public class LightMapInitializer : DropCreateDatabaseIfModelChanges<ModelContext>
+    public class LightMapInitializer : CreateDatabaseIfNotExists<ModelContext>
     {
         protected override void Seed(ModelContext context)
         {
