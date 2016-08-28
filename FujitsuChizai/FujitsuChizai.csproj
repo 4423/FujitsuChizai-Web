@@ -221,6 +221,7 @@
       <DependentUpon>201608280916190_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\LightMapInitializer.cs" />
     <Compile Include="Models\DirectionViewModels.cs" />
     <Compile Include="Models\Entities\Edge.cs" />
     <Compile Include="Models\Entities\History.cs" />
