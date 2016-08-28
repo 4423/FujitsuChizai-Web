@@ -12,10 +12,6 @@ namespace FujitsuChizai
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling
-                = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-
             // JSONプレビュー時のループ対策
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

@@ -13,12 +13,12 @@ namespace FujitsuChizai.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201608251028386_Initial"; }
+            get { return "201608280916190_Initial"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

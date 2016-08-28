@@ -51,7 +51,7 @@ namespace FujitsuChizai.Migrations
             context.SemiFixedPlaceAdd(2048, verticalLine);
             context.SemiFixedPlaceAdd(2048, verticalLineEV2);
             #endregion
-            
+
         }
 
         private void InitializeTable<T>(DbSet<T> table) where T : class
