@@ -35,13 +35,13 @@ namespace FujitsuChizai.Models.Entities
         [JsonConverter(typeof(StringEnumConverter))]
         public PlaceMarkType Type { get; set; }
         /// <summary>
-        /// Type が Place の場合にのみ格納される場所名
+        /// Type が Place または Warp の場合にのみ格納される場所名
         /// </summary>
         public string Name { get; set; }
         /// <summary>
         /// Type が Light の場合にのみ格納される照明ID
         /// </summary>
-        public int LightId { get; set; }
+        public int? LightId { get; set; }
 
         [JsonIgnore]
         [IgnoreDataMember]
@@ -53,9 +53,21 @@ namespace FujitsuChizai.Models.Entities
 
     public enum PlaceMarkType
     {
+        /// <summary>
+        /// 不明
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// 照明
+        /// </summary>
         Light,
+        /// <summary>
+        /// 場所
+        /// </summary>
         Place,
+        /// <summary>
+        /// 上下階の接続点
+        /// </summary>
         Warp
     }
 }

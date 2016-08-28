@@ -526,36 +526,46 @@
             <summary>
             すべての照明情報を取得します。
             </summary>
-            <returns></returns>
+            <returns>すべての照明情報</returns>
         </member>
-        <member name="M:FujitsuChizai.Controllers.lightsController.Get(System.Int32,System.Int32,System.Int32)">
+        <member name="M:FujitsuChizai.Controllers.lightsController.GetFloor(System.Int32)">
             <summary>
             指定されたパラメータに一致する照明情報を取得します。
             </summary>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="radius"></param>
-            <returns></returns>
+            <param name="floor">階</param>
+            <returns>指定されたパラメータと一致した照明情報</returns>
+        </member>
+        <member name="M:FujitsuChizai.Controllers.lightsController.Get(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            指定されたパラメータに一致する照明情報を取得します。
+            </summary>
+            <param name="x">X座標地点</param>
+            <param name="y">Y座標地点</param>
+            <param name="floor">階</param>
+            <param name="radius">半径</param>
+            <returns>指定されたパラメータと一致した照明情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.lightsController.Get(System.Int32)">
             <summary>
             指定された照明IDと一致する照明情報を取得します。
             </summary>
             <param name="id">照明ID</param>
-            <returns></returns>
+            <returns>照明IDと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.lightsController.Post(FujitsuChizai.Models.LightViewModel)">
             <summary>
             照明情報を登録します。
             </summary>
-            <param name="value"></param>
+            <param name="value">登録する照明情報</param>
+            <returns>登録後の照明情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.lightsController.Put(System.Int32,FujitsuChizai.Models.LightViewModel)">
             <summary>
             指定された照明IDと一致する照明情報を更新します。
             </summary>
             <param name="id">照明ID</param>
-            <param name="value"></param>
+            <param name="value">更新する照明情報</param>
+            <returns>更新後の照明情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.lightsController.Delete(System.Int32)">
             <summary>
@@ -565,7 +575,7 @@
         </member>
         <member name="T:FujitsuChizai.Controllers.placesController">
             <summary>
-            場所（店舗・部屋・トイレなど）を扱うエンドポイントです。
+            場所（店舗・部屋・エレベータなど）を扱うエンドポイントです。
             </summary>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get">
@@ -581,23 +591,32 @@
             <param name="keyword">場所を示すキーワード</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
-        <member name="M:FujitsuChizai.Controllers.placesController.Get(System.Int32,System.Int32,System.Int32)">
+        <member name="M:FujitsuChizai.Controllers.placesController.GetFloor(System.Int32)">
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
-            <param name="x">x座標地点</param>
-            <param name="y">y座標地点</param>
-            <param name="radius"></param>
+            <param name="floor">階</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
-        <member name="M:FujitsuChizai.Controllers.placesController.Get(System.String,System.Int32,System.Int32,System.Int32)">
+        <member name="M:FujitsuChizai.Controllers.placesController.Get(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            指定されたパラメータに一致する場所情報を取得します。
+            </summary>
+            <param name="x">X座標地点</param>
+            <param name="y">Y座標地点</param>
+            <param name="floor">階</param>
+            <param name="radius">半径</param>
+            <returns>指定されたパラメータと一致した場所情報</returns>
+        </member>
+        <member name="M:FujitsuChizai.Controllers.placesController.Get(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
             <param name="keyword">場所を示すキーワード</param>
-            <param name="x">x座標地点</param>
-            <param name="y">y座標地点</param>
-            <param name="radius"></param>
+            <param name="x">X座標地点</param>
+            <param name="y">Y座標地点</param>
+            <param name="floor">階</param>
+            <param name="radius">半径</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get(System.Int32)">
@@ -700,7 +719,7 @@
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Name">
             <summary>
-            Type が Place の場合にのみ格納される場所名
+            Type が Place または Warp の場合にのみ格納される場所名
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.LightId">
@@ -708,9 +727,44 @@
             Type が Light の場合にのみ格納される照明ID
             </summary>
         </member>
+        <member name="F:FujitsuChizai.Models.Entities.PlaceMarkType.Unknown">
+            <summary>
+            不明
+            </summary>
+        </member>
+        <member name="F:FujitsuChizai.Models.Entities.PlaceMarkType.Light">
+            <summary>
+            照明
+            </summary>
+        </member>
+        <member name="F:FujitsuChizai.Models.Entities.PlaceMarkType.Place">
+            <summary>
+            場所
+            </summary>
+        </member>
+        <member name="F:FujitsuChizai.Models.Entities.PlaceMarkType.Warp">
+            <summary>
+            上下階の接続点
+            </summary>
+        </member>
         <member name="T:FujitsuChizai.Models.Entities.User">
             <summary>
             ユーザ情報を表します。
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.LightViewModel.Id">
+            <summary>
+            照明ID
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.LightViewModel.Type">
+            <summary>
+            この PlaceMark の種類（ Light ）
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.Type">
+            <summary>
+            この PlaceMark の種類（ Place または Warp）
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.RegisterBindingModel.BornIn">
