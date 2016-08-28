@@ -33,7 +33,7 @@ namespace FujitsuChizai.Migrations
 
             #region 照明位置のプロット
             // 照明位置の等差数列
-            var horizontalLine = GetArithmeticProgression(310, 145, 22);
+            var horizontalLine = GetArithmeticProgression(310, 145, 21);
             var verticalLine = GetArithmeticProgression(1012, 145, 12);
             var verticalLineEV1 = GetArithmeticProgression(680, 100, 3);
             var verticalLineEV2 = GetArithmeticProgression(2740, 100, 3);
