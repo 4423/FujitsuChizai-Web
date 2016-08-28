@@ -22,9 +22,15 @@ namespace FujitsuChizai.Controllers
         /// <returns>すべてのユーザ情報</returns>
         public UserListViewModel Get()
         {
+            var u = db.Users;
+            if (u.Count() == 0)
+            {
+                throw ErrorResponse(HttpStatusCode.NotFound);
+            }
+
             var r = new UserListViewModel()
             {
-                Users = db.Users
+                Users = u
             };
             throw OKResponse(r);
         }
