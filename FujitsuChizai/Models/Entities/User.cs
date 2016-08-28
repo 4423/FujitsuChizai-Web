@@ -13,12 +13,27 @@ namespace FujitsuChizai.Models.Entities
     /// </summary>
     public class User
     {
+        /// <summary>
+        /// ユーザID
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// 生まれ年
+        /// </summary>
         public int BornIn { get; set; }
+        /// <summary>
+        /// 性別
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public Sexes Sex { get; set; }
+        /// <summary>
+        /// 出身国
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public Countries Country { get; set; }
+        /// <summary>
+        /// 登録日時
+        /// </summary>
         public DateTime CreatedAt { get; set; }
 
         [JsonIgnore]

@@ -752,6 +752,31 @@
             ユーザ情報を表します。
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.Entities.User.Id">
+            <summary>
+            ユーザID
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.User.BornIn">
+            <summary>
+            生まれ年
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.User.Sex">
+            <summary>
+            性別
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.User.Country">
+            <summary>
+            出身国
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.User.CreatedAt">
+            <summary>
+            登録日時
+            </summary>
+        </member>
         <member name="P:FujitsuChizai.Models.LightListViewModel.Lights">
             <summary>
             照明情報の配列
