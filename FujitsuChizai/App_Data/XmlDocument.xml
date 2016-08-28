@@ -515,7 +515,7 @@
             </summary>
             <param name="ceilingLightId">天井の照明ID</param>
             <param name="floorLightId">床に反射した照明ID</param>
-            <returns></returns>
+            <returns>現在位置の座標</returns>
         </member>
         <member name="T:FujitsuChizai.Controllers.lightsController">
             <summary>
