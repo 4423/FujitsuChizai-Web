@@ -752,19 +752,94 @@
             ユーザ情報を表します。
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.LightListViewModel.Lights">
+            <summary>
+            照明情報の配列
+            </summary>
+        </member>
         <member name="P:FujitsuChizai.Models.LightViewModel.Id">
             <summary>
             照明ID
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.LightViewModel.X">
+            <summary>
+            X座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.LightViewModel.Y">
+            <summary>
+            Y座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.LightViewModel.Floor">
+            <summary>
+            階
+            </summary>
+        </member>
         <member name="P:FujitsuChizai.Models.LightViewModel.Type">
             <summary>
-            この PlaceMark の種類（ Light ）
+            この照明の種類（ Light ）
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.X">
+            <summary>
+            X座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.Y">
+            <summary>
+            Y座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.Floor">
+            <summary>
+            階
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.Name">
+            <summary>
+            場所名
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.Type">
             <summary>
-            この PlaceMark の種類（ Place または Warp）
+            この場所の種類（ Place または Warp ）
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceListViewModel.Places">
+            <summary>
+            場所情報の配列
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.Id">
+            <summary>
+            場所ID
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.X">
+            <summary>
+            X座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.Y">
+            <summary>
+            Y座標地点
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.Floor">
+            <summary>
+            階
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.Name">
+            <summary>
+            場所名
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.PlaceViewModel.Type">
+            <summary>
+            この場所の種類（ Place または Warp ）
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.RegisterBindingModel.BornIn">
@@ -780,6 +855,11 @@
         <member name="P:FujitsuChizai.Models.RegisterBindingModel.Country">
             <summary>
             出身国
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.UserListViewModel.Users">
+            <summary>
+            ユーザ情報の配列
             </summary>
         </member>
     </members>

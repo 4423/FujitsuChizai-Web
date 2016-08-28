@@ -8,6 +8,9 @@ namespace FujitsuChizai.Models
 {
     public class UserListViewModel
     {
+        /// <summary>
+        /// ユーザ情報の配列
+        /// </summary>
         public IEnumerable<User> Users { get; set; }
     }
 }
