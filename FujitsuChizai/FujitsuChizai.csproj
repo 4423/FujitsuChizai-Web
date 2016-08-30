@@ -216,10 +216,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608280916190_Initial.cs" />
-    <Compile Include="Migrations\201608280916190_Initial.Designer.cs">
-      <DependentUpon>201608280916190_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\LightMapInitializer.cs" />
     <Compile Include="Models\DirectionViewModels.cs" />
@@ -231,9 +227,11 @@
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\ErrorMessageViewModel.cs" />
     <Compile Include="Models\GeocodeViewModels.cs" />
+    <Compile Include="Models\IRouteFinding.cs" />
     <Compile Include="Models\LightViewModels.cs" />
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
+    <Compile Include="Models\RouteFinding.cs" />
     <Compile Include="Models\UserBindingModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -313,11 +311,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608280916190_Initial.resx">
-      <DependentUpon>201608280916190_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

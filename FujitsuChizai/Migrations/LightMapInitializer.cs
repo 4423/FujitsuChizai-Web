@@ -8,7 +8,7 @@ using FujitsuChizai.Models.Entities;
 
 namespace FujitsuChizai.Migrations
 {
-    public class LightMapInitializer : CreateDatabaseIfNotExists<ModelContext>
+    public class LightMapInitializer : DropCreateDatabaseIfModelChanges<ModelContext>
     {
         protected override void Seed(ModelContext context)
         {
@@ -57,6 +57,49 @@ namespace FujitsuChizai.Migrations
             {
                 yield return start + (i - 1) * difference;
             }
+        }
+    }
+
+    public static class PlaceMarkSeedHelper
+    {
+        private static int LightId = 601;
+
+        public static void FixedPlaceAdd(this ModelContext context, int x, int y)
+        {
+            context.PlaceMarks.AddOrUpdate(new PlaceMark()
+            {
+                X = x,
+                Y = y,
+                Floor = 6,
+                LightId = LightId++,
+                Type = PlaceMarkType.Light
+            });
+        }
+
+        public static void SemiFixedPlaceAdd(this ModelContext context, int x, IEnumerable<int> y)
+        {
+            context.PlaceMarks.AddOrUpdate(
+                y.Select(t => new PlaceMark()
+                {
+                    X = x,
+                    Y = t,
+                    Floor = 6,
+                    LightId = LightId++,
+                    Type = PlaceMarkType.Light
+                }).ToArray());
+        }
+
+        public static void SemiFixedPlaceAdd(this ModelContext context, IEnumerable<int> x, int y)
+        {
+            context.PlaceMarks.AddOrUpdate(
+                x.Select(t => new PlaceMark()
+                {
+                    X = t,
+                    Y = y,
+                    Floor = 6,
+                    LightId = LightId++,
+                    Type = PlaceMarkType.Light
+                }).ToArray());
         }
     }
 }
