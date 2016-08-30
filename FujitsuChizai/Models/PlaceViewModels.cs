@@ -59,5 +59,30 @@ namespace FujitsuChizai.Models
                 Type = p.Type
             };
         }
+
+        /// <summary>
+        /// 種類 Light の PlaceMark を PlaceViewModel に変換します。
+        /// LightID の値が ID に設定され、 Name の値は null になります。
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static PlaceViewModel ToPlaceViewModelTypeLight(this Entities.PlaceMark p)
+        {
+            if (p.LightId == null)
+            {
+                throw new NullReferenceException("LightId の値が null です。");
+            }
+            return new PlaceViewModel()
+            {
+                Id = (int)p.LightId,
+                X = p.X,
+                Y = p.Y,
+                Floor = p.Floor,
+                Type = p.Type
+            };
+        }
+
+        public static PlaceViewModel ToPlaceViewModelType(this Entities.PlaceMark p)
+            => p.Type == PlaceMarkType.Light ? p.ToPlaceViewModelTypeLight() : p.ToPlaceViewModel();
     }
 }

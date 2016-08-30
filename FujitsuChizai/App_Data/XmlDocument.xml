@@ -486,23 +486,27 @@
             案内経路を扱うエンドポイントです。
             </summary>
         </member>
-        <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32)">
+        <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32,FujitsuChizai.Models.Entities.PlaceMarkType,FujitsuChizai.Models.Entities.PlaceMarkType)">
             <summary>
             2点間の案内経路を取得します。
             </summary>
-            <param name="originId">出発点の照明光IDまたは場所ID</param>
-            <param name="destinationId">到達点の照明光IDまたは場所ID</param>
-            <returns></returns>
+            <param name="originId">出発点の照明IDまたは場所ID（既定は照明ID）</param>
+            <param name="destinationId">到達点の照明IDまたは場所ID（既定は場所ID）</param>
+            <param name="originType">出発点の種類</param>
+            <param name="destinationType">到達点の種類</param>
+            <returns>2点間の案内経路</returns>
         </member>
-        <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32,System.Int32)">
+        <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32,System.Int32,FujitsuChizai.Models.Entities.PlaceMarkType,FujitsuChizai.Models.Entities.PlaceMarkType)">
             <summary>
             2点間の案内経路を取得します。
             userId を指定した場合、この要求は記録されます。
             </summary>
-            <param name="originId">出発点の照明光IDまたは場所ID</param>
-            <param name="destinationId">到達点の照明光IDまたは場所ID</param>
+            <param name="originId">出発点の照明光IDまたは場所ID（既定は照明ID）</param>
+            <param name="destinationId">到達点の照明光IDまたは場所ID（既定は場所ID）</param>
             <param name="userId">ユーザID</param>
-            <returns></returns>
+            <param name="originType">出発点の種類</param>
+            <param name="destinationType">到達点の種類</param>
+            <returns>2点間の案内経路</returns>
         </member>
         <member name="T:FujitsuChizai.Controllers.geocodeController">
             <summary>
@@ -677,9 +681,29 @@
             2つのPlaceMarkを接続する辺を表します。
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMarkId1">
+            <summary>
+            1つめの PlaceMark の ID
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMarkId2">
+            <summary>
+            2つめの PlaceMark の ID
+            </summary>
+        </member>
         <member name="P:FujitsuChizai.Models.Entities.Edge.Cost">
             <summary>
             辺の重み
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMark1">
+            <summary>
+            1つめの PlaceMark
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMark2">
+            <summary>
+            2つめの PlaceMark
             </summary>
         </member>
         <member name="T:FujitsuChizai.Models.Entities.History">
@@ -777,6 +801,19 @@
             登録日時
             </summary>
         </member>
+        <member name="M:FujitsuChizai.Models.IRouteFinding.InitializeShortestPathTree">
+            <summary>
+            最短経路木を初期化します。
+            </summary>
+        </member>
+        <member name="M:FujitsuChizai.Models.IRouteFinding.SeekRoutes(FujitsuChizai.Models.Entities.PlaceMark,FujitsuChizai.Models.Entities.PlaceMark)">
+            <summary>
+            最短経路を求めます。
+            </summary>
+            <param name="start"></param>
+            <param name="goal"></param>
+            <returns></returns>
+        </member>
         <member name="P:FujitsuChizai.Models.LightListViewModel.Lights">
             <summary>
             照明情報の配列
@@ -865,6 +902,19 @@
         <member name="P:FujitsuChizai.Models.PlaceViewModel.Type">
             <summary>
             この場所の種類（ Place または Warp ）
+            </summary>
+        </member>
+        <member name="M:FujitsuChizai.Models.PlaceViewExt.ToPlaceViewModelTypeLight(FujitsuChizai.Models.Entities.PlaceMark)">
+            <summary>
+            種類 Light の PlaceMark を PlaceViewModel に変換します。
+            LightID の値が ID に設定され、 Name の値は null になります。
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FujitsuChizai.Models.RouteFinding">
+            <summary>
+            Warshall–Floyd Algorithm により最短経路を求めます。
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.RegisterBindingModel.BornIn">

@@ -8,8 +8,8 @@ namespace FujitsuChizai.Models
     public class DirectionViewModel
     {
         public bool HasRegistered { get; set; }
-        public LightViewModel OriginLight { get; set; }
-        public LightViewModel DestinationLight { get; set; }
+        public PlaceViewModel Origin { get; set; }
+        public PlaceViewModel Destination { get; set; }
         public IEnumerable<RouteViewModel> Routes { get; set; }
     }
 
@@ -22,7 +22,7 @@ namespace FujitsuChizai.Models
     public class StepViewModel
     {
         public int Cost { get; set; }
-        public LightViewModel StartLight { get; set; }
-        public LightViewModel EndLight { get; set; }
+        public PlaceViewModel Start { get; set; }
+        public PlaceViewModel End { get; set; }
     }
 }
