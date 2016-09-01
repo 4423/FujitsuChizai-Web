@@ -1,0 +1,48 @@
+﻿@model IEnumerable<FujitsuChizai.Models.Entities.Map>
+
+@{
+    ViewBag.Title = "管理ページ";
+}
+
+<h2>管理ページ</h2>
+<p>
+    各フロアの情報を表示・設定することができます。
+</p>
+
+<p>
+    @Html.ActionLink("新しいフロアを登録", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            階数
+        </th>
+        <th>
+            説明
+        </th>
+        <th>
+            地図画像
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Floor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MapImageFilePath)
+        </td>
+        <td>
+            @Html.ActionLink("編集", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("詳細", "Details", new { id=item.Id }) |
+            @Html.ActionLink("照明・場所情報", "Map", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
