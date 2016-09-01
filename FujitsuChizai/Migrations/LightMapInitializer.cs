@@ -44,6 +44,14 @@ namespace FujitsuChizai.Migrations
             context.SemiFixedPlaceAdd(2048, verticalLine);
             context.SemiFixedPlaceAdd(2048, verticalLineEV2);
             #endregion
+
+            #region 場所位置のプロット
+            var placeLine1 = new[] { 380, 590, 925, 1340, 1770, 2310, 2740, 3040, 3250 };
+            var placeLine4 = new[] { 610, 1040, 1510, 1930, 2260, 2500, 2655, 2810, 2965, 3125, 3280 };
+            
+            context.SemiFixedPlaceAdd(placeLine1, 315);
+            context.SemiFixedPlaceAdd(placeLine4, 3295);
+            #endregion
         }
 
         private void InitializeTable<T>(DbSet<T> table) where T : class
