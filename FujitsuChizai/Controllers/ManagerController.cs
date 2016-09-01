@@ -7,9 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FujitsuChizai.Models.Entities;
+using FujitsuChizai.Converters;
 
 namespace FujitsuChizai.Controllers
 {
+    public class MapViewModel
+    {
+        public List<PlaceMark> PlaceMarks { get; set; }
+        public Map Map { get; set; }
+        public List<Edge> Edges { get; set; }
+        public List<string> PathData { get; set; }
+    }
+
     public class ManagerController : Controller
     {
         private ModelContext db = new ModelContext();
@@ -18,6 +27,20 @@ namespace FujitsuChizai.Controllers
         public ActionResult Index()
         {
             return View(db.Maps.ToList());
+        }
+
+        // GET: Manager/Map/5
+        public ActionResult Map(int? id)
+        {
+            var map = db.Maps.Find(id);
+            var edges = db.Edges.Where(x => x.PlaceMark1.Floor == map.Floor).ToList();
+            return View(new MapViewModel()
+            {
+                PlaceMarks = db.PlaceMarks.Where(x => x.Floor == map.Floor).ToList(),
+                Map = map,
+                Edges = edges,
+                PathData = edges.Select(x => x.ToPathData()).ToList()
+            });
         }
 
         // GET: Manager/Details/5

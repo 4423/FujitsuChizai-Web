@@ -301,7 +301,7 @@
     <Content Include="Views\Map\Delete.cshtml" />
     <Content Include="Views\Map\Details.cshtml" />
     <Content Include="Views\Map\Edit.cshtml" />
-    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Manager\Map.cshtml" />
     <Content Include="Views\Manager\Create.cshtml" />
     <Content Include="Views\Manager\Delete.cshtml" />
     <Content Include="Views\Manager\Details.cshtml" />

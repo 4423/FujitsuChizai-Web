@@ -11,13 +11,7 @@ using FujitsuChizai.Converters;
 
 namespace FujitsuChizai.Controllers
 {
-    public class MapControllerResult
-    {
-        public List<PlaceMark> PlaceMarks { get; set; }
-        public List<Map> Maps { get; set; }
-        public List<Edge> Edges { get; set; }
-        public List<string> PathData { get; set; }
-    }
+    
 
     public class MapController : Controller
     {
@@ -26,14 +20,7 @@ namespace FujitsuChizai.Controllers
         // GET: Map
         public ActionResult Index()
         {
-            var edges = db.Edges.ToList();
-            return View(new MapControllerResult()
-            {
-                PlaceMarks = db.PlaceMarks.ToList(),
-                Maps = db.Maps.ToList(),
-                Edges = edges,
-                PathData = edges.Select(x => x.ToPathData()).ToList()
-            });
+            return null;
         }
 
         // GET: Map/Details/5

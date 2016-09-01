@@ -1,14 +1,10 @@
-﻿@model FujitsuChizai.Controllers.MapControllerResult
+﻿@model FujitsuChizai.Controllers.MapViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Map.Floor + "階の照明・場所情報";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>@ViewBag.Title</h2>
 
 <!--外部CSSファイル(MapStyleSheet.css)の読み込み方不明-->
 <div>
@@ -18,9 +14,9 @@
 </div>
 <div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
     <div id="canvas" style="transform: scale(0.5);">
-        <img src="~/Resources/Map/6F.jpg" style="position:absolute;">
+        <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
         <div id="path_canvas" style="position:absolute;">
-            <svg width="3500" height="3700">
+            <svg width="@Model.Map.Width" height="@Model.Map.Height">
                 @for (int i = 0; i < Model.Edges.Count; i++)
                 {
                     // DBへの一切のアクセスがViewからは実行できないっぽいので、はじめにController側で文字列生成しておく
@@ -35,7 +31,7 @@
         </div>
 
         <div id="circle_canvas" style="position:absolute;">
-            <svg width="3500" height="3700">
+            <svg width="@Model.Map.Width" height="@Model.Map.Height">
                 @foreach (var item in Model.PlaceMarks)
                 {
                     <circle cx="@Html.DisplayFor(modelItem => item.X)"
@@ -143,22 +139,18 @@
     }
 </script>
 <script type="text/javascript">
-        var zoomRatio = 0.5;
+    var zoomRatio = 0.5;
 
-        $(function(){
-            setZoomRatio();
-        });
+    function setZoomRatio() {
+        $('#canvas').css('transform', 'scale(' + zoomRatio + ')');
+    }
 
-        function setZoomRatio() {
-            $('#canvas').css('transform', 'scale(' + zoomRatio + ')');
-        }
-
-        function zoomOut() {
-            zoomRatio -= 0.1;
-            setZoomRatio();
-        }
-        function zoomIn() {
-            zoomRatio += 0.1;
-            setZoomRatio();
-        }
+    function zoomOut() {
+        zoomRatio -= 0.1;
+        setZoomRatio();
+    }
+    function zoomIn() {
+        zoomRatio += 0.1;
+        setZoomRatio();
+    }
 </script>
