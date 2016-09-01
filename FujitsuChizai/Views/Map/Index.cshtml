@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FujitsuChizai.Models.Entities.PlaceMark>
+﻿@model FujitsuChizai.Controllers.MapControllerResult
 
 @{
     ViewBag.Title = "Index";
@@ -19,11 +19,24 @@
 <div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
     <div id="canvas" style="transform: scale(0.5);">
         <img src="~/Resources/Map/6F.jpg" style="position:absolute;">
-        <div id="path_canvas" style="position:absolute;"></div>
+        <div id="path_canvas" style="position:absolute;">
+            <svg width="3500" height="3700">
+                @for (int i = 0; i < Model.Edges.Count; i++)
+                {
+                    // DBへの一切のアクセスがViewからは実行できないっぽいので、はじめにController側で文字列生成しておく
+                    // それをEdgesと同時に読みだすためにfor文を使用した
+                    <path d="@Html.DisplayFor(modelItem => Model.PathData[i])"
+                          id1="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId1)"
+                          id2="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId2)"
+                          cost="@Html.DisplayFor(modelItem => Model.Edges[i].Cost)"
+                          stroke="gray" stroke-width="5" />
+                }
+            </svg>
+        </div>
 
         <div id="circle_canvas" style="position:absolute;">
             <svg width="3500" height="3700">
-                @foreach (var item in Model)
+                @foreach (var item in Model.PlaceMarks)
                 {
                     <circle cx="@Html.DisplayFor(modelItem => item.X)"
                             cy="@Html.DisplayFor(modelItem => item.Y)"
@@ -46,12 +59,11 @@
     var circleSvg;
 
     window.onload = function () {
-        pathSvg = d3.select("#path_canvas").append("svg")
-            .attr({ width: 3500, height: 3700 });
-        circleSvg = d3.select("#circle_canvas");
+        pathSvg = d3.select("#path_canvas svg");
+        circleSvg = d3.select("#circle_canvas svg");
 
         // イベントハンドラ設定
-        circleSvg.selectAll('circle')
+        d3.select("#circle_canvas").selectAll('circle')
             .on("click", function (d, i) { mouseclick($(this)); });
     }
 

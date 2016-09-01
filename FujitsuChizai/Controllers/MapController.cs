@@ -7,9 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FujitsuChizai.Models.Entities;
+using FujitsuChizai.Converters;
 
 namespace FujitsuChizai.Controllers
 {
+    public class MapControllerResult
+    {
+        public List<PlaceMark> PlaceMarks { get; set; }
+        public List<Map> Maps { get; set; }
+        public List<Edge> Edges { get; set; }
+        public List<string> PathData { get; set; }
+    }
+
     public class MapController : Controller
     {
         private ModelContext db = new ModelContext();
@@ -17,7 +26,14 @@ namespace FujitsuChizai.Controllers
         // GET: Map
         public ActionResult Index()
         {
-            return View(db.PlaceMarks.ToList());
+            var edges = db.Edges.ToList();
+            return View(new MapControllerResult()
+            {
+                PlaceMarks = db.PlaceMarks.ToList(),
+                Maps = db.Maps.ToList(),
+                Edges = edges,
+                PathData = edges.Select(x => x.ToPathData()).ToList()
+            });
         }
 
         // GET: Map/Details/5

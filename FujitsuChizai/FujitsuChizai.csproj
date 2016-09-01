@@ -213,6 +213,7 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\placesController.cs" />
     <Compile Include="Controllers\usersController.cs" />
+    <Compile Include="Converters\EntityViewConverter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
