@@ -49,8 +49,8 @@ namespace FujitsuChizai.Migrations
             var placeLine1 = new[] { 380, 590, 925, 1340, 1770, 2310, 2740, 3040, 3250 };
             var placeLine4 = new[] { 610, 1040, 1510, 1930, 2260, 2500, 2655, 2810, 2965, 3125, 3280 };
             
-            context.SemiFixedPlaceAdd(placeLine1, 315);
-            context.SemiFixedPlaceAdd(placeLine4, 3295);
+            context.SemiFixedPlaceAdd(placeLine1, 315, PlaceMarkType.Place);
+            context.SemiFixedPlaceAdd(placeLine4, 3295, PlaceMarkType.Place);
             #endregion
         }
 
@@ -84,7 +84,7 @@ namespace FujitsuChizai.Migrations
             });
         }
 
-        public static void SemiFixedPlaceAdd(this ModelContext context, int x, IEnumerable<int> y)
+        public static void SemiFixedPlaceAdd(this ModelContext context, int x, IEnumerable<int> y, PlaceMarkType type = PlaceMarkType.Light)
         {
             context.PlaceMarks.AddOrUpdate(
                 y.Select(t => new PlaceMark()
@@ -93,11 +93,11 @@ namespace FujitsuChizai.Migrations
                     Y = t,
                     Floor = 6,
                     LightId = LightId++,
-                    Type = PlaceMarkType.Light
+                    Type = type
                 }).ToArray());
         }
 
-        public static void SemiFixedPlaceAdd(this ModelContext context, IEnumerable<int> x, int y)
+        public static void SemiFixedPlaceAdd(this ModelContext context, IEnumerable<int> x, int y, PlaceMarkType type = PlaceMarkType.Light)
         {
             context.PlaceMarks.AddOrUpdate(
                 x.Select(t => new PlaceMark()
@@ -106,7 +106,7 @@ namespace FujitsuChizai.Migrations
                     Y = y,
                     Floor = 6,
                     LightId = LightId++,
-                    Type = PlaceMarkType.Light
+                    Type = type
                 }).ToArray());
         }
     }
