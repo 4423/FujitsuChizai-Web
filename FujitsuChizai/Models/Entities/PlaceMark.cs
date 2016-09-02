@@ -14,15 +14,15 @@ namespace FujitsuChizai.Models.Entities
     public class PlaceMark
     {
         /// <summary>
-        /// この PlaceMark のID
+        /// この PlaceMark の場所ID
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// この PlaceMark の位置するY座標
+        /// この PlaceMark の位置するX座標
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// この PlaceMark の位置するX座標
+        /// この PlaceMark の位置するY座標
         /// </summary>
         public int Y { get; set; }
         /// <summary>
@@ -42,6 +42,10 @@ namespace FujitsuChizai.Models.Entities
         /// Type が Light の場合にのみ格納される照明ID
         /// </summary>
         public int? LightId { get; set; }
+        /// <summary>
+        /// Type が Warp の場合にのみ格納される接続ID
+        /// </summary>
+        public int? WarpId { get; set; }
 
         [JsonIgnore]
         [IgnoreDataMember]
@@ -51,6 +55,9 @@ namespace FujitsuChizai.Models.Entities
         public virtual ICollection<History> Histories { get; set; }
     }
 
+    /// <summary>
+    /// PlaceMark の種類を表します。
+    /// </summary>
     public enum PlaceMarkType
     {
         /// <summary>

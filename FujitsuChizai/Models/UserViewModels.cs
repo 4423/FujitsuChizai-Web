@@ -6,6 +6,9 @@ using System.Web;
 
 namespace FujitsuChizai.Models
 {
+    /// <summary>
+    /// 複数のユーザ情報を表します。
+    /// </summary>
     public class UserListViewModel
     {
         /// <summary>

@@ -230,6 +230,7 @@
     <Compile Include="Models\ErrorMessageViewModel.cs" />
     <Compile Include="Models\GeocodeViewModels.cs" />
     <Compile Include="Models\IRouteFinding.cs" />
+    <Compile Include="Models\LightBindingModels.cs" />
     <Compile Include="Models\LightViewModels.cs" />
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />

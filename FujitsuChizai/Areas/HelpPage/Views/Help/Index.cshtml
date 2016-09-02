@@ -6,7 +6,7 @@
 @model Collection<ApiDescription>
 
 @{
-    ViewBag.Title = "ASP.NET Web API Help Page";
+    ViewBag.Title = "Fujitsu-Chizai Web API Help Page";
 
     // Group APIs by controller
     ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
@@ -25,12 +25,36 @@
         <div class="content-wrapper">
             <h2>Introduction</h2>
             <p>
-                Provide a general description of your APIs here.
+                Fujitsu-Chizai Web APIの仕様一覧です。
             </p>
+            <h2>Note</h2>
+            <ul>
+                <li>
+                    lights エンドポイントは、PlaceMarkType が Light の情報のみを扱います。
+                </li>
+                <li>
+                    places エンドポイントは、PlaceMarkType が Light 以外の情報を扱います。
+                    Warp なども返されることに注意してください。
+                </li>
+                <li>
+                    directions エンドポイントが提供する案内経路には、全ての PlaceMarkType の情報が含まれます。
+                </li>
+                <li>
+                    いくつかのエンドポイントで提供される半径 radius パラメータで指定可能な領域は、
+                    処理簡単化のためX座標±radius、Y座標±radiusの正方形となります。
+                </li>
+                <li>
+                    場所IDは、PlaceMarkType に依らず全ての PlaceMark が持つ ID で、一意に固定されています。
+                    場所IDに加えて、任意に設定可能な ID として、照明IDと接続IDが提供されています。
+                    この Help Page 中の説明において、「 照明ID 」と記述されているIDには「 PlaceMark の LightId 」を、
+                    「 接続ID 」と記述されているIDには「 PlaceMark の WarpId 」を指定してください。
+                </li>
+            </ul>
         </div>
     </section>
     <section class="content-wrapper main-content clear-fix">
-        @foreach (var group in apiGroups)
+        @{ var privateApis = new[] { "edges" }; /* 非公開APIはHelpPageに表示しない*/ }
+        @foreach (var group in apiGroups.Where(x => !privateApis.Contains(x.Key.ControllerName)))
         {
             @Html.DisplayFor(m => group, "ApiGroup")
         }
