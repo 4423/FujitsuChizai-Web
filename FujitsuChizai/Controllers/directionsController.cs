@@ -16,9 +16,7 @@ namespace FujitsuChizai.Controllers
     {
         ModelContext db = new ModelContext();
         IRouteFinding rf = new RouteFinding();
-
-        private PlaceViewModel AdaptiveViewModelConverter(PlaceMark place, PlaceMarkType type)
-            => type == PlaceMarkType.Light ? place.ToPlaceViewModelTypeLight() : place.ToPlaceViewModel();
+        
 
         private bool AddHistory(int originId, int? userId)
         {
@@ -63,8 +61,8 @@ namespace FujitsuChizai.Controllers
             var r = new DirectionViewModel()
             {
                 HasRegistered = registered,
-                Origin = AdaptiveViewModelConverter(origin, originType),
-                Destination = AdaptiveViewModelConverter(dest, destinationType),
+                Origin = origin,
+                Destination = dest,
                 Routes = rf.SeekRoutes(origin, dest)
             };
             throw OKResponse(r);
@@ -73,10 +71,10 @@ namespace FujitsuChizai.Controllers
         /// <summary>
         /// 2点間の案内経路を取得します。
         /// </summary>
-        /// <param name="originId">出発点の照明IDまたは場所ID（既定は照明ID）</param>
-        /// <param name="destinationId">到達点の照明IDまたは場所ID（既定は場所ID）</param>
-        /// <param name="originType">出発点の種類</param>
-        /// <param name="destinationType">到達点の種類</param>
+        /// <param name="originId">始点となる照明IDまたは場所ID（既定は照明ID）</param>
+        /// <param name="destinationId">終点となる照明IDまたは場所ID（既定は場所ID）</param>
+        /// <param name="originType">始点の種類</param>
+        /// <param name="destinationType">終点の種類</param>
         /// <returns>2点間の案内経路</returns>
         public DirectionViewModel Get(int originId, int destinationId, PlaceMarkType originType = PlaceMarkType.Light, PlaceMarkType destinationType = PlaceMarkType.Place)
         {
@@ -87,11 +85,11 @@ namespace FujitsuChizai.Controllers
         /// 2点間の案内経路を取得します。
         /// userId を指定した場合、この要求は記録されます。
         /// </summary>
-        /// <param name="originId">出発点の照明光IDまたは場所ID（既定は照明ID）</param>
-        /// <param name="destinationId">到達点の照明光IDまたは場所ID（既定は場所ID）</param>
+        /// <param name="originId">始点となる照明光IDまたは場所ID（既定は照明ID）</param>
+        /// <param name="destinationId">終点となる照明光IDまたは場所ID（既定は場所ID）</param>
         /// <param name="userId">ユーザID</param>
-        /// <param name="originType">出発点の種類</param>
-        /// <param name="destinationType">到達点の種類</param>
+        /// <param name="originType">始点の種類</param>
+        /// <param name="destinationType">終点の種類</param>
         /// <returns>2点間の案内経路</returns>
         public DirectionViewModel Get(int originId, int destinationId, int userId, PlaceMarkType originType = PlaceMarkType.Light, PlaceMarkType destinationType = PlaceMarkType.Place)
         {

@@ -34,8 +34,8 @@ namespace FujitsuChizai.Controllers
 
             var r = new GeocodeViewModel()
             {
-                CeilingLight = cl.ToLightViewModel(),
-                FloorLight = fl.ToLightViewModel(),
+                CeilingLight = cl,
+                FloorLight = fl,
                 Floor = cl.Floor,
                 Angle = Convert.ToInt32(Math.Atan2(fl.Y - cl.Y, fl.X - cl.X) * (180/Math.PI)),
                 X = (cl.X + fl.X) / 2,

@@ -25,7 +25,7 @@ namespace FujitsuChizai.Controllers
 
             var r = new PlaceListViewModel()
             {
-                Places = p.Select(x => x.ToPlaceViewModel())
+                Places = p
             };
             return OKResponse(r);
         }
@@ -113,14 +113,14 @@ namespace FujitsuChizai.Controllers
         /// </summary>
         /// <param name="id">場所ID</param>
         /// <returns>場所IDと一致した場所情報</returns>
-        public PlaceViewModel Get(int id)
+        public PlaceMark Get(int id)
         {
             var p = db.PlaceMarks.Find(id);
             if (p == null || p.Type == PlaceMarkType.Light)
             {
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }
-            throw OKResponse(p.ToPlaceViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace FujitsuChizai.Controllers
         /// </summary>
         /// <param name="value">登録する場所情報</param>
         /// <returns>場所IDが含まれる登録後の場所情報</returns>
-        public PlaceViewModel Post([FromBody]PlaceBindingModel value)
+        public PlaceMark Post([FromBody]PlaceBindingModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -137,7 +137,7 @@ namespace FujitsuChizai.Controllers
             var p = value.ToPlaceMark();
             db.PlaceMarks.Add(p);
             db.SaveChanges();
-            throw OKResponse(p.ToPlaceViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace FujitsuChizai.Controllers
         /// <param name="id">場所ID</param>
         /// <param name="value">更新する場所情報</param>
         /// <returns>更新後の場所情報</returns>
-        public PlaceViewModel Put(int id, [FromBody]PlaceBindingModel value)
+        public PlaceMark Put(int id, [FromBody]PlaceBindingModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -165,7 +165,7 @@ namespace FujitsuChizai.Controllers
             p.Floor = value.Floor;
             p.Type = value.Type;
             db.SaveChanges();
-            throw OKResponse(p.ToPlaceViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>

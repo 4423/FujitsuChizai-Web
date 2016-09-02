@@ -25,7 +25,7 @@ namespace FujitsuChizai.Controllers
 
             var r = new LightListViewModel()
             {
-                Lights = p.Select(x => x.ToLightViewModel())
+                Lights = p
             };
             return OKResponse(r);
         }
@@ -78,14 +78,14 @@ namespace FujitsuChizai.Controllers
         /// </summary>
         /// <param name="id">照明ID</param>
         /// <returns>照明IDと一致した場所情報</returns>
-        public LightViewModel Get(int id)
+        public PlaceMark Get(int id)
         {
             var p = db.PlaceMarks.SingleOrDefault(x => x.LightId == id);
             if (p == null || p.Type != PlaceMarkType.Light)
             {
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }
-            throw OKResponse(p.ToLightViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace FujitsuChizai.Controllers
         /// </summary>
         /// <param name="value">登録する照明情報</param>
         /// <returns>登録後の照明情報</returns>
-        public void Post([FromBody]LightViewModel value)
+        public PlaceMark Post([FromBody]LightBindingModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace FujitsuChizai.Controllers
             var p = value.ToPlaceMark();
             db.PlaceMarks.Add(p);
             db.SaveChanges();
-            throw OKResponse(p.ToLightViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace FujitsuChizai.Controllers
         /// <param name="id">照明ID</param>
         /// <param name="value">更新する照明情報</param>
         /// <returns>更新後の照明情報</returns>
-        public void Put(int id, [FromBody]LightViewModel value)
+        public PlaceMark Put(int id, [FromBody]LightBindingModel value)
         {
             if (!ModelState.IsValid)
             {
@@ -127,10 +127,9 @@ namespace FujitsuChizai.Controllers
             p.X = value.X;
             p.Y = value.Y;
             p.Floor = value.Floor;
-            p.Type = value.Type;
-            p.LightId = value.Id;
+            p.LightId = value.LightId;
             db.SaveChanges();
-            throw OKResponse(p.ToLightViewModel());
+            throw OKResponse(p);
         }
 
         /// <summary>

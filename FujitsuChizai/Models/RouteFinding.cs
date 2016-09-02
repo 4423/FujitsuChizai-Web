@@ -90,8 +90,8 @@ namespace FujitsuChizai.Models
             {
                 steps.Add(new StepViewModel()
                 {
-                    Start = db.PlaceMarks.Find(s).ToPlaceViewModelType(),
-                    End = db.PlaceMarks.Find(g).ToPlaceViewModelType(),
+                    Start = db.PlaceMarks.Find(s),
+                    End = db.PlaceMarks.Find(g),
                     Cost = Dist[s, g]
                 });
                 g = s;
