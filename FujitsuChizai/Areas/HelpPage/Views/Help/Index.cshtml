@@ -1,4 +1,4 @@
-@using System.Web.Http
+﻿@using System.Web.Http
 @using System.Web.Http.Controllers
 @using System.Web.Http.Description
 @using System.Collections.ObjectModel
@@ -25,35 +25,35 @@
         <div class="content-wrapper">
             <h2>Introduction</h2>
             <p>
-                Fujitsu-Chizai Web API�̎d�l�ꗗ�ł��B
+                Fujitsu-Chizai Web APIの仕様一覧です。
             </p>
             <h2>Note</h2>
             <ul>
                 <li>
-                    lights �G���h�|�C���g�́APlaceMarkType �� Light �̏��݂̂������܂��B
+                    lights エンドポイントは、PlaceMarkType が Light の情報のみを扱います。
                 </li>
                 <li>
-                    places �G���h�|�C���g�́APlaceMarkType �� Light �ȊO�̏��������܂��B
-                    Warp �Ȃǂ��Ԃ���邱�Ƃɒ��ӂ��Ă��������B
+                    places エンドポイントは、PlaceMarkType が Light 以外の情報を扱います。
+                    Warp なども返されることに注意してください。
                 </li>
                 <li>
-                    directions �G���h�|�C���g���񋟂���ē��o�H�ɂ́A�S�Ă� PlaceMarkType �̏�񂪊܂܂�܂��B
+                    directions エンドポイントが提供する案内経路には、全ての PlaceMarkType の情報が含まれます。
                 </li>
                 <li>
-                    �������̃G���h�|�C���g�Œ񋟂���锼�a radius �p�����[�^�Ŏw��\�ȗ̈�́A
-                    �����ȒP���̂���X���W�}radius�AY���W�}radius�̐����`�ƂȂ�܂��B
+                    いくつかのエンドポイントで提供される半径 radius パラメータで指定可能な領域は、
+                    処理簡単化のためX座標±radius、Y座標±radiusの正方形となります。
                 </li>
                 <li>
-                    �ꏊID�́APlaceMarkType �Ɉ˂炸�S�Ă� PlaceMark ������ ID �ŁA��ӂɌŒ肳��Ă��܂��B
-                    �ꏊID�ɉ����āA�C�ӂɐݒ�\�� ID �Ƃ��āA�Ɩ�ID�Ɛڑ�ID���񋟂���Ă��܂��B
-                    ���� Help Page ���̐����ɂ����āA�u �Ɩ�ID �v�ƋL�q����Ă���ID�ɂ́u PlaceMark �� LightId �v���A
-                    �u �ڑ�ID �v�ƋL�q����Ă���ID�ɂ́u PlaceMark �� WarpId �v���w�肵�Ă��������B
+                    場所IDは、PlaceMarkType に依らず全ての PlaceMark が持つ ID で、一意に固定されています。
+                    場所IDに加えて、任意に設定可能な ID として、照明IDと接続IDが提供されています。
+                    この Help Page 中の説明において、「 照明ID 」と記述されているIDには「 PlaceMark の LightId 」を、
+                    「 接続ID 」と記述されているIDには「 PlaceMark の WarpId 」を指定してください。
                 </li>
             </ul>
         </div>
     </section>
     <section class="content-wrapper main-content clear-fix">
-        @{ var privateApis = new[] { "edges" }; /* ����JAPI��HelpPage�ɕ\�����Ȃ�*/ }
+        @{ var privateApis = new[] { "edges" }; /* 非公開APIはHelpPageに表示しない*/ }
         @foreach (var group in apiGroups.Where(x => !privateApis.Contains(x.Key.ControllerName)))
         {
             @Html.DisplayFor(m => group, "ApiGroup")
