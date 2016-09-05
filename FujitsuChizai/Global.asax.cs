@@ -21,7 +21,8 @@ namespace FujitsuChizai
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer<Models.Entities.ModelContext>(new Migrations.LightMapInitializer());
+            // データ投入したいときはコメントアウト
+            // Database.SetInitializer<Models.Entities.ModelContext>(new Migrations.LightMapInitializer());
 
             // JSONをLowerCamelCaseで返す
             var config = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
