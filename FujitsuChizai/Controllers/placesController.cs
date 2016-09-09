@@ -81,8 +81,7 @@ namespace FujitsuChizai.Controllers
             var p = db.PlaceMarks
                 .Where(t => t.Type != PlaceMarkType.Light)
                 .Where(t => t.Floor == floor)
-                .Where(t => (x - radius) <= t.X && t.X <= (x + radius))
-                .Where(t => (y - radius) <= t.Y && t.Y <= (y + radius))
+                .Where(t => ((x - t.X) * (x - t.X) + (y - t.Y) * (y - t.Y)) < radius * radius)
                 .ToList();
             throw ResponseCore(p);
         }
