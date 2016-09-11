@@ -1,19 +1,93 @@
 ﻿@model FujitsuChizai.Controllers.MapViewModel
+@using FujitsuChizai.Models.Entities
+
+@section Header{ @Styles.Render("~/Content/MapStyleSheet.css") }
 
 @{
     ViewBag.Title = Model.Map.Floor + "階の照明・場所情報";
+
+    var typeColor = new Dictionary<PlaceMarkType, string>();
+    typeColor.Add(PlaceMarkType.Light, "orange");
+    typeColor.Add(PlaceMarkType.Place, "lightgreen");
+    typeColor.Add(PlaceMarkType.Warp, "orchid");
 }
 
-<h2>@ViewBag.Title</h2>
 
-<!--外部CSSファイル(MapStyleSheet.css)の読み込み方不明-->
-<div>
+<div class="informations">
+    <h1>@(Model.Map.Floor)F Data</h1>
+    <ul>
+        @foreach (var group in Model.PlaceMarks.Where(x => x.Floor == Model.Map.Floor).GroupBy(x => x.Type))
+        {
+            <li>
+                <h2>@group.First().Type</h2>
+                <table>
+                    <tr><td>total count</td><td>@group.Count()</td></tr>
+                    <tr><td>last update</td><td></td></tr>
+                </table>
+            </li>
+        }
+    </ul>
     <input type="button" value="縮小" onClick="zoomOut()" />
     <input type="button" value="拡大" onClick="zoomIn()" />
-    <input type="button" value="登録" onClick="registerPath()" />
 </div>
-<div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
-    <div id="canvas" style="transform: scale(0.5);">
+
+<div class="controls">
+    <h2>Register</h2>
+    <div>
+        <ol>
+            <li>登録するオブジェクトの種類を選択してください。
+                <ul class="list-inline">
+                    @foreach (var dict in typeColor)
+                    {
+                        <li>
+                            <svg width="40" height="40">
+                                <circle cx="20" cy="20" r="20" fill="@dict.Value"></circle>
+                            </svg>
+                            <p style="text-align:center">@dict.Key</p>
+                        </li>
+                    }
+                </ul>
+            </li>
+            <li>オブジェクトを配置したい場所をクリックしてください。</li>
+            <li>
+                情報を確認して登録してください。
+                <div>フォーム</div>
+            </li>
+        </ol>
+    </div>
+
+    <h2>Update</h2>
+    <div>
+        <ol>
+            <li>更新するオブジェクトをマップ上から選択してください。</li>
+            <li>
+                情報を設定して更新してください。
+                <div>フォーム</div>
+            </li>
+        </ol>
+    </div>
+
+    <h2>Connect</h2>
+    <div>
+        <ol>
+            <li>接続したいオブジェクト同士をそれぞれクリックしてください。</li>
+            <li>
+                全ての接続を終了して登録してください。
+                <button>登録</button>
+            </li>
+        </ol>
+    </div>
+
+    <h2>Delete</h2>
+    <div>
+        <ol>
+            <li>削除するオブジェクトをマップ上から選択してください。</li>
+        </ol>
+    </div>
+</div>
+
+<div class="map">
+    <div id="canvas">
         <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
         <div id="path_canvas" style="position:absolute;">
             <svg width="@Model.Map.Width" height="@Model.Map.Height">
@@ -37,7 +111,7 @@
                     <circle cx="@Html.DisplayFor(modelItem => item.X)"
                             cy="@Html.DisplayFor(modelItem => item.Y)"
                             r="20"
-                            fill="lightgreen"
+                            fill="@typeColor[item.Type]"
                             id="@Html.DisplayFor(modelItem => item.Id)"
                             lightId="@Html.DisplayFor(modelItem => item.LightId)"
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
