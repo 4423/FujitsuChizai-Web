@@ -248,7 +248,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Map\connect.js" />
     <Content Include="Content\Map\controls.js" />
+    <Content Include="Content\Map\edge.js" />
     <Content Include="Content\Map\map.js" />
+    <Content Include="Content\Map\placemark.js" />
     <Content Include="Content\Map\zoom.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

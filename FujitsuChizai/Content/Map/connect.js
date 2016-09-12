@@ -19,3 +19,23 @@ function post(id1, id2, cost) {
         }
     });
 }
+
+function asyncPost(url, data, successCallback, errorCallback) {
+    asyncCore(url, "POST", data, successCallback, errorCallback);
+}
+
+function asyncDelete(url, data, successCallback, errorCallback) {
+    asyncCore(url, "DELETE", data, successCallback, errorCallback);
+}
+
+function asyncCore(url, type, data, successCallback, errorCallback) {
+    $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        data: data,
+        timeout: 10000,
+        success: successCallback,
+        error: errorCallback
+    });
+}
