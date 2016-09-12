@@ -1,4 +1,7 @@
-﻿body {
+﻿body, div, p, li, h1, h2, h3, h4 {
+    font-family: 'Titillium Web', '游ゴシック', sans-serif;
+}
+body {
     background-color: black;
 }
 .body-content {
@@ -9,6 +12,7 @@
 }
 .informations {
     float:left;
+    left:30px;
 }
 .controls {
     float:right;
@@ -17,6 +21,23 @@
     position: relative;
     z-index: 5;
     color: white;
+}
+.informations li {
+    list-style-type: none;
+}
+.controls li {
+    font-weight: 500;
+}
+.informations li:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+	display: inline-block;
+	border-radius: 100%;
+	background: #20B97B;
+	position: relative;
+    left: -35px;
+    top: 52px;
 }
 .map {
     position: absolute;
