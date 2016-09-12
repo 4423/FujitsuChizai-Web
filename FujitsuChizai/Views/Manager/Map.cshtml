@@ -9,6 +9,7 @@
     @Scripts.Render("~/Content/Map/map.js")
     @Scripts.Render("~/Content/Map/zoom.js")
     @Scripts.Render("~/Content/Map/connect.js")
+    @Scripts.Render("~/Content/Map/controls.js")
 }
 
 @{
@@ -40,8 +41,8 @@
 </div>
 
 <div class="controls">
-    <h2>Register</h2>
-    <div>
+    <a id="register">Register</a>
+    <div class="slide_box toggle-box" id="register">
         <ol>
             <li>登録するオブジェクトの種類を選択してください。
                 <ul class="list-inline">
@@ -64,8 +65,8 @@
         </ol>
     </div>
 
-    <h2>Update</h2>
-    <div>
+    <a id="update">Update</a>
+    <div class="slide_box toggle-box" id="update">
         <ol>
             <li>更新するオブジェクトをマップ上から選択してください。</li>
             <li>
@@ -75,8 +76,8 @@
         </ol>
     </div>
 
-    <h2>Connect</h2>
-    <div>
+    <a id="connect">Connect</a>
+    <div class="slide_box toggle-box" id="connect">
         <ol>
             <li>接続したいオブジェクト同士をそれぞれクリックしてください。</li>
             <li>
@@ -86,8 +87,8 @@
         </ol>
     </div>
 
-    <h2>Delete</h2>
-    <div>
+    <a id="delete">Delete</a>
+    <div class="slide_box toggle-box" id="delete">
         <ol>
             <li>削除するオブジェクトをマップ上から選択してください。</li>
         </ol>

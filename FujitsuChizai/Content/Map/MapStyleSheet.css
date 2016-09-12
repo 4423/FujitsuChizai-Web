@@ -1,4 +1,4 @@
-﻿body, div, p, li, h1, h2, h3, h4 {
+﻿body, div, p, li, h1, h2, h3, h4, a {
     font-family: 'Titillium Web', '游ゴシック', sans-serif;
 }
 body {
@@ -16,6 +16,7 @@ body {
 }
 .controls {
     float:right;
+    right: 20px;
 }
 .informations, .controls {
     position: relative;
@@ -28,6 +29,14 @@ body {
 .controls li {
     font-weight: 500;
 }
+.controls a {
+    font-size: 30px;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: block;
+    
+}
 .informations li:before {
     content: '';
     width: 20px;
@@ -38,6 +47,9 @@ body {
 	position: relative;
     left: -35px;
     top: 52px;
+}
+.toggle-box {
+    display: none;
 }
 .map {
     position: absolute;
