@@ -25,7 +25,7 @@
 <div class="informations">
     <h1>@(Model.Map.Floor)F Data</h1>
     <ul>
-        @foreach (var group in Model.PlaceMarks.Where(x => x.Floor == Model.Map.Floor).GroupBy(x => x.Type))
+        @foreach (var group in Model.PlaceMarks.Where(x => x.Floor == Model.Map.Floor).OrderBy(x => x.Type).GroupBy(x => x.Type))
         {
             <li>
                 <h2>@group.First().Type</h2>
