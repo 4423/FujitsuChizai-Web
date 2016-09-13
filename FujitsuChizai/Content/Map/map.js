@@ -13,15 +13,42 @@ function circleClick(obj) {
         case "register": return pm.register();
         case "update": return pm.update();
         case "connect": return connectPlacemark(pm);
-        case "delete": return pm.delete(function () { $(pm.dom).remove(); });
+        case "delete": return confirmDelete(pm);
     }
 }
 
 function pathClick(obj) {
     var e = new edge(obj);
     switch (mode) {
-        case "delete": return e.delete(function () { $(e.dom).remove();});
+        case "delete": return confirmDelete(e);
     }
+}
+
+function confirmDelete(obj) {
+    config = {
+        title: "Are you sure?",
+        text: "You will not be able to recover this data!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    };
+    swal(config, function (isConfirm) {
+        if (isConfirm) {
+            obj.delete(function () {
+                $(obj.dom).remove();
+                swal("Deleted", "Data has been deleted.", "success");
+            }, function () {
+                swal("Error", "Data hasn't deleted.", "error");
+            });
+        }
+        else {
+            swal("Cancelled", "Data is safe.", "error");
+        }
+    });
 }
 
 var isConnect = false;

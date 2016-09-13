@@ -289,6 +289,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Content\Map\MapStyleSheet.css" />
+    <Content Include="Scripts\sweetAlert\sweetalert.css" />
+    <Content Include="Scripts\sweetAlert\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
