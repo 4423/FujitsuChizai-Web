@@ -100,22 +100,7 @@
 <div class="map">
     <div id="canvas">
         <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
-        <div id="path_canvas" style="position:absolute;">
-            <svg width="@Model.Map.Width" height="@Model.Map.Height">
-                @for (int i = 0; i < Model.Edges.Count; i++)
-                {
-                    // DBへの一切のアクセスがViewからは実行できないっぽいので、はじめにController側で文字列生成しておく
-                    // それをEdgesと同時に読みだすためにfor文を使用した
-                    <path d="@Html.DisplayFor(modelItem => Model.PathData[i])"
-                          id1="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId1)"
-                          id2="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId2)"
-                          cost="@Html.DisplayFor(modelItem => Model.Edges[i].Cost)"
-                          stroke="gray" stroke-width="5" />
-                }
-            </svg>
-        </div>
-
-        <div id="circle_canvas" style="position:absolute;">
+        <div id="svg_layer" style="position:absolute;">
             <svg width="@Model.Map.Width" height="@Model.Map.Height">
                 @foreach (var item in Model.PlaceMarks)
                 {
@@ -128,6 +113,15 @@
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
                             type="@Html.DisplayFor(modelItem => item.Type)"
                             name="@Html.DisplayFor(modelItem => item.Name)" />
+                }
+                @foreach (var item in Model.Paths)
+                {
+                    <path d="@Html.DisplayFor(modelItem => item.D)"
+                          id1="@Html.DisplayFor(modelItem => item.Edge.PlaceMarkId1)"
+                          id2="@Html.DisplayFor(modelItem => item.Edge.PlaceMarkId2)"
+                          cost="@Html.DisplayFor(modelItem => item.Edge.Cost)"
+                          stroke-dasharray="@Html.DisplayFor(modelItem => item.StrokeDash)"
+                          stroke="gray" stroke-width="5" stroke-dashoffset="0" />
                 }
             </svg>
         </div>

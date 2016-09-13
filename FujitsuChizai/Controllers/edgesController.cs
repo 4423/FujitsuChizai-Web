@@ -102,9 +102,9 @@ namespace FujitsuChizai.Controllers
 
         // DELETE: api/edges/5
         [ResponseType(typeof(Edge))]
-        public IHttpActionResult DeleteEdge(int id)
+        public IHttpActionResult DeleteEdge(int id1, int id2)
         {
-            Edge edge = db.Edges.Find(id);
+            Edge edge = db.Edges.SingleOrDefault(x => x.PlaceMarkId1 == id1 && x.PlaceMarkId2 == id2);
             if (edge == null)
             {
                 return NotFound();

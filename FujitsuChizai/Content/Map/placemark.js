@@ -1,5 +1,8 @@
 ﻿var placemark = (function () {
     var ENDPOINT = "https://fujitsu-chizai.azurewebsites.net/api/places/";
+    if (location.hostname == "localhost") {
+        ENDPOINT = "http://localhost:11943/api/places/";
+    }
 
     // constructor
     var placemark = function (circle) {
@@ -42,9 +45,9 @@
     };
 
     // この placemark を削除
-    pm.delete = function () {
+    pm.delete = function (successCallback, errorCallbak) {
         url = ENDPOINT + this.id;
-        asyncDelete(url, null, function(){ this.dom.remove(); });        
+        asyncDelete(url, null, successCallback, errorCallbak);        
     };
 
     return placemark;

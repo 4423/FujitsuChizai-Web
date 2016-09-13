@@ -1,5 +1,8 @@
 ﻿var edge = (function () {
     var ENDPOINT = "https://fujitsu-chizai.azurewebsites.net/api/edges/";
+    if (location.hostname == "localhost") {
+        ENDPOINT = "http://localhost:11943/api/edges/";
+    }
 
     // constructor
     var edge = function (arg1, arg2, arg3) {
@@ -23,6 +26,11 @@
             path.setAttribute('id1', pm1.id);
             path.setAttribute('id2', pm2.id);
             path.setAttribute('cost', cost);
+
+            // 円に重ならないように調整
+            var len = path.getTotalLength() - 20 * 2;
+            path.setAttribute('stroke-dasharray', '0 20 ' + len + ' 20');
+            path.setAttribute('stroke-dashoffset', 0)
 
             instance.dom = path;
             instance.id1 = pm1.id;
@@ -49,9 +57,9 @@
     };
 
     // この edge を削除
-    e.delete = function () {
-        url = ENDPOINT + this.id;
-        asyncDelete(url, null, function () { this.dom.remove(); });
+    e.delete = function (successCallback, errorCallbak) {
+        url = ENDPOINT + "?id1=" + this.id1 + "&id2=" + this.id2;
+        asyncDelete(url, null, successCallback, errorCallbak);
     };
 
     return edge;

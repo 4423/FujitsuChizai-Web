@@ -15,8 +15,13 @@ namespace FujitsuChizai.Controllers
     {
         public List<PlaceMark> PlaceMarks { get; set; }
         public Map Map { get; set; }
-        public List<Edge> Edges { get; set; }
-        public List<string> PathData { get; set; }
+        public List<PathData> Paths { get; set; }
+        public class PathData
+        {
+            public Edge Edge { get; set; }
+            public string D { get; set; }
+            public string StrokeDash { get; set; }
+        }
     }
 
     public class ManagerController : Controller
@@ -38,8 +43,12 @@ namespace FujitsuChizai.Controllers
             {
                 PlaceMarks = db.PlaceMarks.Where(x => x.Floor == map.Floor).ToList(),
                 Map = map,
-                Edges = edges,
-                PathData = edges.Select(x => x.ToPathData()).ToList()
+                Paths = edges.Select(e => new MapViewModel.PathData()
+                {
+                    Edge = e,
+                    D = e.ToPathD(),
+                    StrokeDash = e.ToStrokeDash()
+                }).ToList()
             });
         }
 
