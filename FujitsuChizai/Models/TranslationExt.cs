@@ -58,7 +58,6 @@ namespace FujitsuChizai.Models
             // 翻訳してキャッシュ
             else
             {
-                Task.Delay(10).Wait(); //TODO 連続でAPIにリクエストを投げると400が返されるような気がする
                 string translatedText = translator.Translate(text, languageCode);
                 translationCache[languageCode].Add(text, translatedText);
                 return translatedText;

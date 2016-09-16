@@ -61,7 +61,7 @@ namespace FujitsuChizai.Properties {
         }
         
         /// <summary>
-        ///   f46f41f2-591e-4d79-a92e-6c6aeaba2748 に類似しているローカライズされた文字列を検索します。
+        ///   fujitsu-chizai に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ClientId {
             get {
@@ -70,7 +70,7 @@ namespace FujitsuChizai.Properties {
         }
         
         /// <summary>
-        ///   qUpGpTfWfqIoYjXgtWZ0mVTj57QC1jV4q5MkH4xMklY に類似しているローカライズされた文字列を検索します。
+        ///   oByaJWE38OxuDtD9lL8vP8K1OQP2f++KQYkdiP+GmLo= に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ClientSecret {
             get {
