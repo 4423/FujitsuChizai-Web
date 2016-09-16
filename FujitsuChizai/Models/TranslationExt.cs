@@ -15,7 +15,7 @@ namespace FujitsuChizai.Models
 
         public static PlaceMark Translate(this PlaceMark source, string languageCode)
         {
-            if (languageCode == "ja")
+            if (source.Name == null || languageCode == "ja")
             {
                 return source;
             }
