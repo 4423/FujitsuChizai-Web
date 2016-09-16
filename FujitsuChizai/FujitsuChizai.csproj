@@ -237,6 +237,7 @@
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
     <Compile Include="Models\RouteFinding.cs" />
+    <Compile Include="Models\TranslationExt.cs" />
     <Compile Include="Models\UserBindingModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
