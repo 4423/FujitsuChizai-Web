@@ -1,4 +1,22 @@
-﻿// 各formごとに、select変更時に入力項目が動的変更されるように設定
+﻿$(function () {
+    // マーカをクリックしてtypeを指定
+    $("#register-type-select li").each(function (i, elem) {
+        $(elem).on("click", function () {
+            var type = $(elem).find("p").text().toLowerCase();
+            $('#form-register [name="type"]').val(type).change();
+        });
+    });
+
+    // マップをクリックして座標指定
+    $("#svg_layer").on('click', function (e) {
+        $('#form-register [name="x"]').val(e.offsetX);
+        $('#form-register [name="y"]').val(e.offsetY);
+        $('#form-register [name="floor"]').val(FLOOR);
+    });
+});
+
+
+// 各formごとに、select変更時に入力項目が動的変更されるように設定
 $(function () {
     $('form').each(function (i, form) {
         $(form).find('select[name="type"]').change(function () {

@@ -37,6 +37,12 @@ body {
     display: block;
     
 }
+.list-inline {
+    margin: 10px 0;
+}
+.list-inline li {
+    margin: 0 10px;
+}
 .informations li:before {
     content: '';
     width: 20px;

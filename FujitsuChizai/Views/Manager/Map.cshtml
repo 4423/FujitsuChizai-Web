@@ -16,6 +16,10 @@
     @Scripts.Render("~/Content/Map/placemark.js")
     @Scripts.Render("~/Content/Map/edge.js")
     @Scripts.Render("~/Content/Map/form.js")
+
+    <script>
+        var FLOOR = @(Model.Map.Floor);
+    </script>
 }
 
 @{
@@ -51,7 +55,7 @@
     <div class="slide_box toggle-box" id="register">
         <ol>
             <li>登録するオブジェクトの種類を選択してください。
-                <ul class="list-inline">
+                <ul class="list-inline" id="register-type-select">
                     @foreach (var dict in typeColor)
                     {
                         <li>
