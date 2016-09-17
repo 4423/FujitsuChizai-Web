@@ -15,6 +15,7 @@
     @Scripts.Render("~/Content/Map/controls.js")
     @Scripts.Render("~/Content/Map/placemark.js")
     @Scripts.Render("~/Content/Map/edge.js")
+    @Scripts.Render("~/Content/Map/form.js")
 }
 
 @{
@@ -65,7 +66,65 @@
             <li>オブジェクトを配置したい場所をクリックしてください。</li>
             <li>
                 情報を確認して登録してください。
-                <div>フォーム</div>
+                <form class="form-horizontal" id="form-register" action="/api/places/" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">type</label>
+                        <div class="col-xs-5">
+                            <select name="type" class="form-control">
+                                <option value="place">place</option>
+                                <option value="light">light</option>
+                                <option value="warp">warp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label class="control-label col-xs-2">id</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">x</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="x" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">y</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="y" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">floor</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="floor" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-place-warp">
+                        <label class="control-label col-xs-2">name</label>
+                        <div class="col-xs-5">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-light" style="display:none;">
+                        <label class="control-label col-xs-2">lightId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="lightId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-warp" style="display:none;">
+                        <label class="control-label col-xs-2">warpId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="warpId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-default">登録</button>
+                        </div>
+                    </div>
+                </form>
             </li>
         </ol>
     </div>
@@ -76,7 +135,65 @@
             <li>更新するオブジェクトをマップ上から選択してください。</li>
             <li>
                 情報を設定して更新してください。
-                <div>フォーム</div>
+                <form class="form-horizontal" id="form-update" action="/api/places/" method="put">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">type</label>
+                        <div class="col-xs-5">
+                            <select name="type" class="form-control">
+                                <option value="place">place</option>
+                                <option value="light">light</option>
+                                <option value="warp">warp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label class="control-label col-xs-2">id</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">x</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="x" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">y</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="y" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">floor</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="floor" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-place-warp">
+                        <label class="control-label col-xs-2">name</label>
+                        <div class="col-xs-5">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-light" style="display:none;">
+                        <label class="control-label col-xs-2">lightId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="lightId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-warp" style="display:none;">
+                        <label class="control-label col-xs-2">warpId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="warpId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-default">更新</button>
+                        </div>
+                    </div>
+                </form>
             </li>
         </ol>
     </div>
@@ -84,7 +201,7 @@
     <a id="connect">Connect</a>
     <div class="slide_box toggle-box" id="connect">
         <ol>
-            <li>接続したいオブジェクト同士をそれぞれクリックしてください。</li>
+            <li>接続するオブジェクト同士をそれぞれクリックしてください。</li>
             <li>
                 全ての接続を終了して登録してください。
                 <input type="button" value="登録" onClick="confirmConnect()" />

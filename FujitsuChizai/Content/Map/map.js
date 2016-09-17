@@ -11,7 +11,7 @@ function circleClick(obj) {
     var pm = new placemark(obj);
     switch (mode) {
         case "register": return pm.register();
-        case "update": return pm.update();
+        case "update": return updatePlacemark(pm);
         case "connect": return connectPlacemark(pm);
         case "delete": return confirmDelete(pm);
     }
@@ -22,6 +22,21 @@ function pathClick(obj) {
     switch (mode) {
         case "delete": return confirmDelete(e);
     }
+}
+
+function updatePlacemark(pm) {
+    setForm("#form-update ", pm);
+}
+
+function setForm(formid, pm) {
+    $(formid + '[name="id"]').val(pm.id);
+    $(formid + '[name="x"]').val(pm.x);
+    $(formid + '[name="y"]').val(pm.y);
+    $(formid + '[name="floor"]').val(pm.floor);
+    $(formid + '[name="type"]').val(pm.type.toLowerCase()).change();
+    $(formid + '[name="name"]').val(pm.name);
+    $(formid + '[name="lightId"]').val(pm.lightId);
+    $(formid + '[name="warpId"]').val(pm.warpId);
 }
 
 function confirmDelete(obj) {

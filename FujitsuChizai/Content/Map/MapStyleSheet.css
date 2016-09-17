@@ -87,3 +87,6 @@ body {
 hr, footer {
     display: none;
 }
+.form-horizontal {
+    margin: 20px 0;
+}
