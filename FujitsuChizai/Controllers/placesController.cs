@@ -15,6 +15,7 @@ namespace FujitsuChizai.Controllers
     public class placesController : ErrorHandleableApiController
     {
         private ModelContext db = new ModelContext();
+        private string acceptLanguage => Request.Headers.AcceptLanguage.First().Value;
 
         private HttpResponseException ResponseCore(List<PlaceMark> p)
         {
@@ -36,7 +37,10 @@ namespace FujitsuChizai.Controllers
         /// <returns>すべての場所情報</returns>
         public PlaceListViewModel Get()
         {
-            var p = db.PlaceMarks.Where(x => x.Type != PlaceMarkType.Light).ToList();
+            var p = db.PlaceMarks
+                .Where(x => x.Type != PlaceMarkType.Light)
+                .ToList()
+                .Translate(acceptLanguage);
             throw ResponseCore(p);
         }
 
@@ -48,7 +52,9 @@ namespace FujitsuChizai.Controllers
         public PlaceListViewModel Get(string keyword)
         {
             var p = db.PlaceMarks
-                .Where(t => t.Type != PlaceMarkType.Light)
+                .Where(t => t.Type != PlaceMarkType.Light)                
+                .ToList()
+                .Translate(acceptLanguage)  // 日本語以外の keyword でも検索したい
                 .Where(t => t.Name.Contains(keyword))
                 .ToList();
             throw ResponseCore(p);
@@ -64,7 +70,8 @@ namespace FujitsuChizai.Controllers
             var p = db.PlaceMarks
                 .Where(t => t.Type != PlaceMarkType.Light)
                 .Where(t => t.Floor == floor)
-                .ToList();
+                .ToList()
+                .Translate(acceptLanguage);
             throw ResponseCore(p);
         }
 
@@ -82,7 +89,8 @@ namespace FujitsuChizai.Controllers
                 .Where(t => t.Type != PlaceMarkType.Light)
                 .Where(t => t.Floor == floor)
                 .Where(t => ((x - t.X) * (x - t.X) + (y - t.Y) * (y - t.Y)) < radius * radius)
-                .ToList();
+                .ToList()
+                .Translate(acceptLanguage);
             throw ResponseCore(p);
         }
 
@@ -98,11 +106,13 @@ namespace FujitsuChizai.Controllers
         public PlaceListViewModel Get(string keyword, int x, int y, int floor, int radius = 10)
         {
             var p = db.PlaceMarks
-                .Where(t => t.Name.Contains(keyword))
                 .Where(t => t.Type != PlaceMarkType.Light)
                 .Where(t => t.Floor == floor)
                 .Where(t => (x - radius) <= t.X && t.X <= (x + radius))
                 .Where(t => (y - radius) <= t.Y && t.Y <= (y + radius))
+                .ToList()
+                .Translate(acceptLanguage)
+                .Where(t => t.Name.Contains(keyword))
                 .ToList();
             throw ResponseCore(p);
         }
@@ -119,7 +129,7 @@ namespace FujitsuChizai.Controllers
             {
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }
-            throw OKResponse(p);
+            throw OKResponse(p.Translate(acceptLanguage));
         }
 
         /// <summary>

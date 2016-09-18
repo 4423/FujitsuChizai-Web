@@ -1044,5 +1044,31 @@
             ユーザ情報の配列
             </summary>
         </member>
+        <member name="T:FujitsuChizai.Properties.Resources">
+            <summary>
+              ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Properties.Resources.ResourceManager">
+            <summary>
+              このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Properties.Resources.Culture">
+            <summary>
+              厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+              現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Properties.Resources.ClientId">
+            <summary>
+              fujitsu-chizai に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:FujitsuChizai.Properties.Resources.ClientSecret">
+            <summary>
+              oByaJWE38OxuDtD9lL8vP8K1OQP2f++KQYkdiP+GmLo= に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
     </members>
 </doc>
