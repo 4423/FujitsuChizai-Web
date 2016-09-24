@@ -999,6 +999,11 @@
             接続ID
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.PlaceBindingModel.LightId">
+            <summary>
+            照明ID
+            </summary>
+        </member>
         <member name="T:FujitsuChizai.Models.PlaceListViewModel">
             <summary>
             複数の場所情報を表します。

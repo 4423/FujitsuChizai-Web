@@ -184,7 +184,7 @@ namespace FujitsuChizai.Controllers
         public void Delete(int id)
         {
             var p = db.PlaceMarks.Find(id);
-            if (p == null || p.Type == PlaceMarkType.Light)
+            if (p == null)
             {
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }

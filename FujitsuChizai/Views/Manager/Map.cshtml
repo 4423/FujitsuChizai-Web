@@ -1,48 +1,259 @@
 ﻿@model FujitsuChizai.Controllers.MapViewModel
+@using FujitsuChizai.Models.Entities
+
+@section Header
+{ 
+    @Scripts.Render("~/Scripts/sweetAlert/sweetalert.min.js")
+    @Styles.Render("~/Scripts/sweetAlert/sweetalert.css")
+
+    <link href="http://fonts.googleapis.com/earlyaccess/notosansjp.css" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    @Styles.Render("~/Content/Map/MapStyleSheet.css")
+    @Scripts.Render("~/Content/Map/map.js")
+    @Scripts.Render("~/Content/Map/zoom.js")
+    @Scripts.Render("~/Content/Map/http.js")
+    @Scripts.Render("~/Content/Map/controls.js")
+    @Scripts.Render("~/Content/Map/placemark.js")
+    @Scripts.Render("~/Content/Map/edge.js")
+    @Scripts.Render("~/Content/Map/form.js")
+    @Scripts.Render("~/Content/Map/binder.js")
+
+    <script>
+        var FLOOR = @(Model.Map.Floor);
+    </script>
+}
 
 @{
     ViewBag.Title = Model.Map.Floor + "階の照明・場所情報";
+
+    var typeColor = new Dictionary<PlaceMarkType, string>();
+    typeColor.Add(PlaceMarkType.Light, "orange");
+    typeColor.Add(PlaceMarkType.Place, "lightgreen");
+    typeColor.Add(PlaceMarkType.Warp, "orchid");
+    <script>
+        var typeColor = {};
+        typeColor["Light"] = "orange";
+        typeColor["Place"] = "lightgreen";
+        typeColor["Warp"] = "orchid";
+    </script>
 }
 
-<h2>@ViewBag.Title</h2>
 
-<!--外部CSSファイル(MapStyleSheet.css)の読み込み方不明-->
-<div>
+<div class="informations">
+    <h1>@(Model.Map.Floor)F Data</h1>
+    <ul>
+        @foreach (var group in Model.PlaceMarks.Where(x => x.Floor == Model.Map.Floor).OrderBy(x => x.Type).GroupBy(x => x.Type))
+        {
+            <li>
+                <h2>@group.First().Type</h2>
+                <table>
+                    <tr><td>total count</td><td>@group.Count()</td></tr>
+                    <tr><td>last update</td><td></td></tr>
+                </table>
+            </li>
+        }
+    </ul>
     <input type="button" value="縮小" onClick="zoomOut()" />
     <input type="button" value="拡大" onClick="zoomIn()" />
-    <input type="button" value="登録" onClick="registerPath()" />
 </div>
-<div style="overflow: scroll; width:1000px; height:800px; border: solid 1px lightgray;">
-    <div id="canvas" style="transform: scale(0.5);">
-        <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
-        <div id="path_canvas" style="position:absolute;">
-            <svg width="@Model.Map.Width" height="@Model.Map.Height">
-                @for (int i = 0; i < Model.Edges.Count; i++)
-                {
-                    // DBへの一切のアクセスがViewからは実行できないっぽいので、はじめにController側で文字列生成しておく
-                    // それをEdgesと同時に読みだすためにfor文を使用した
-                    <path d="@Html.DisplayFor(modelItem => Model.PathData[i])"
-                          id1="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId1)"
-                          id2="@Html.DisplayFor(modelItem => Model.Edges[i].PlaceMarkId2)"
-                          cost="@Html.DisplayFor(modelItem => Model.Edges[i].Cost)"
-                          stroke="gray" stroke-width="5" />
-                }
-            </svg>
-        </div>
 
-        <div id="circle_canvas" style="position:absolute;">
+<div class="controls">
+    <a id="register">Register</a>
+    <div class="slide_box toggle-box" id="register">
+        <ol>
+            <li>登録するオブジェクトの種類を選択してください。
+                <ul class="list-inline" id="register-type-select">
+                    @foreach (var dict in typeColor)
+                    {
+                        <li>
+                            <svg width="40" height="40">
+                                <circle cx="20" cy="20" r="20" fill="@dict.Value"></circle>
+                            </svg>
+                            <p style="text-align:center">@dict.Key</p>
+                        </li>
+                    }
+                </ul>
+            </li>
+            <li>オブジェクトを配置したい場所をクリックしてください。</li>
+            <li>
+                情報を確認して登録してください。
+                <form class="form-horizontal" id="form-register" action="/api/places/" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">type</label>
+                        <div class="col-xs-5">
+                            <select name="type" class="form-control">
+                                <option value="Place">Place</option>
+                                <option value="Light">Light</option>
+                                <option value="Warp">Warp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label class="control-label col-xs-2">id</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">x</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="x" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">y</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="y" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">floor</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="floor" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-place-warp">
+                        <label class="control-label col-xs-2">name</label>
+                        <div class="col-xs-5">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-light" style="display:none;">
+                        <label class="control-label col-xs-2">lightId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="lightId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-warp" style="display:none;">
+                        <label class="control-label col-xs-2">warpId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="warpId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-default">登録</button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ol>
+    </div>
+
+    <a id="update">Update</a>
+    <div class="slide_box toggle-box" id="update">
+        <ol>
+            <li>更新するオブジェクトをマップ上から選択してください。</li>
+            <li>
+                情報を設定して更新してください。
+                <form class="form-horizontal" id="form-update" action="/api/places/" method="put">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">type</label>
+                        <div class="col-xs-5">
+                            <select name="type" class="form-control">
+                                <option value="Place">Place</option>
+                                <option value="Light">Light</option>
+                                <option value="Warp">Warp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label class="control-label col-xs-2">id</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="id" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">x</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="x" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">y</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="y" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">floor</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="floor" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-place-warp">
+                        <label class="control-label col-xs-2">name</label>
+                        <div class="col-xs-5">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-light" style="display:none;">
+                        <label class="control-label col-xs-2">lightId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="lightId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" id="type-warp" style="display:none;">
+                        <label class="control-label col-xs-2">warpId</label>
+                        <div class="col-xs-5">
+                            <input type="number" name="warpId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="submit" class="btn btn-default">更新</button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ol>
+    </div>
+
+    <a id="connect">Connect</a>
+    <div class="slide_box toggle-box" id="connect">
+        <ol>
+            <li>接続するオブジェクト同士をそれぞれクリックしてください。</li>
+            <li>
+                全ての接続を終了して登録してください。
+                <input type="button" value="登録" onClick="confirmConnect()" />
+            </li>
+        </ol>
+    </div>
+
+    <a id="delete">Delete</a>
+    <div class="slide_box toggle-box" id="delete">
+        <ol>
+            <li>削除するオブジェクトをマップ上から選択してください。</li>
+        </ol>
+    </div>
+</div>
+
+<div class="map">
+    <div id="canvas">
+        <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
+        <div id="svg_layer" style="position:absolute;">
             <svg width="@Model.Map.Width" height="@Model.Map.Height">
                 @foreach (var item in Model.PlaceMarks)
                 {
                     <circle cx="@Html.DisplayFor(modelItem => item.X)"
                             cy="@Html.DisplayFor(modelItem => item.Y)"
                             r="20"
-                            fill="lightgreen"
+                            fill="@typeColor[item.Type]"
                             id="@Html.DisplayFor(modelItem => item.Id)"
                             lightId="@Html.DisplayFor(modelItem => item.LightId)"
+                            warpId="@Html.DisplayFor(modelItem => item.WarpId)"
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
                             type="@Html.DisplayFor(modelItem => item.Type)"
                             name="@Html.DisplayFor(modelItem => item.Name)" />
+                }
+                @foreach (var item in Model.Paths)
+                {
+                    <path d="@Html.DisplayFor(modelItem => item.D)"
+                          id1="@Html.DisplayFor(modelItem => item.Edge.PlaceMarkId1)"
+                          id2="@Html.DisplayFor(modelItem => item.Edge.PlaceMarkId2)"
+                          cost="@Html.DisplayFor(modelItem => item.Edge.Cost)"
+                          stroke-dasharray="@Html.DisplayFor(modelItem => item.StrokeDash)"
+                          stroke="gray" stroke-width="5" stroke-dashoffset="0" />
                 }
             </svg>
         </div>
@@ -50,107 +261,3 @@
 </div>
 
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script type="text/javascript">
-    var pathSvg;
-    var circleSvg;
-
-    window.onload = function () {
-        pathSvg = d3.select("#path_canvas svg");
-        circleSvg = d3.select("#circle_canvas svg");
-
-        // イベントハンドラ設定
-        d3.select("#circle_canvas").selectAll('circle')
-            .on("click", function (d, i) { mouseclick($(this)); });
-    }
-
-    var isConnect = false;
-    var startNode;
-    function mouseclick(node) {
-        if (!isConnect) {
-            isConnect = true;
-            startNode = node;
-        }
-        else {
-            if (startNode.attr('id') == node.attr('id')) {
-                return; // 自身同士は接続させない
-            }
-            isConnect = false;
-            drawConnection(startNode, node);
-        }
-    }
-
-    // 属性から[x,y]配列を取得
-    function getPoint(obj) {
-        return [obj.attr('cx'), obj.attr('cy')];
-    }
-
-    // 2点間の距離を1/10した値(切り上げ)
-    function getCost(pos) {
-        return Math.ceil(0.1 * Math.sqrt(
-            Math.pow(Math.abs(pos[0][0] - pos[1][0]), 2) //x^2
-            + Math.pow(Math.abs(pos[0][1] - pos[1][1]), 2) //y^2
-        ));
-    }
-
-    // 照明同士かどうか
-    function isLightEach(obj1, obj2) {
-        return obj1.attr('type') == "Light" && obj2.attr('type') == "Light";
-    }
-
-    // 線を描画
-    function drawConnection(node1, node2) {
-        var line = d3.svg.line()
-            .x(function (d) { return d[0]; })
-            .y(function (d) { return d[1]; });
-        var pos = [getPoint(node1), getPoint(node2)];
-        pathSvg.append("path")
-            .attr({
-                'd': line(pos),
-                'stroke': 'gray',
-                'stroke-width': 5,
-                'id1': node1.attr('id'),
-                'id2': node2.attr('id'),
-                // 照明-場所などのコストは0
-                'cost': isLightEach(node1, node2) ? getCost(pos) : 0
-            });
-    }
-</script>
-<script type="text/javascript">
-    function registerPath() {
-        $('path').each(function (i, e) {
-            post($(e).attr('id1'), $(e).attr('id2'), $(e).attr('cost'));
-        });
-    }
-
-    function post(id1, id2, cost) {
-        jQuery.ajax({
-            url: '@Request.Url.AbsoluteUri.Replace(Request.RawUrl, "")/api/edges',
-            type: 'POST',
-            dataType: 'json',
-            data: { placeMarkId1: id1, placeMarkId2: id2, cost: cost },
-            timeout: 10000,
-            success: function (data) {
-                alert("ok");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("error");
-            }
-        });
-    }
-</script>
-<script type="text/javascript">
-    var zoomRatio = 0.5;
-
-    function setZoomRatio() {
-        $('#canvas').css('transform', 'scale(' + zoomRatio + ')');
-    }
-
-    function zoomOut() {
-        zoomRatio -= 0.1;
-        setZoomRatio();
-    }
-    function zoomIn() {
-        zoomRatio += 0.1;
-        setZoomRatio();
-    }
-</script>

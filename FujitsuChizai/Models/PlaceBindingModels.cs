@@ -38,12 +38,31 @@ namespace FujitsuChizai.Models
         /// 接続ID
         /// </summary>
         public int? WarpId { get; set; }
+        /// <summary>
+        /// 照明ID
+        /// </summary>
+        public int? LightId { get; set; }
     }
 
     public static class PlaceBindingExt
     {
         public static PlaceMark ToPlaceMark(this PlaceBindingModel p)
         {
+            // 不正な入力防止
+            switch (p.Type)
+            {
+                case PlaceMarkType.Light:
+                    p.Name = null;
+                    p.WarpId = null;
+                    break;
+                case PlaceMarkType.Place:
+                    p.WarpId = null;
+                    p.LightId = null;
+                    break;
+                case PlaceMarkType.Warp:
+                    p.LightId = null;
+                    break;
+            }
             return new PlaceMark()
             {
                 X = p.X,
@@ -51,7 +70,8 @@ namespace FujitsuChizai.Models
                 Name = p.Name,
                 Floor = p.Floor,
                 Type = p.Type,
-                WarpId = p.WarpId
+                WarpId = p.WarpId,
+                LightId = p.LightId
             };
         }
     }

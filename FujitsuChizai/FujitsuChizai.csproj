@@ -254,6 +254,14 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Map\binder.js" />
+    <Content Include="Content\Map\http.js" />
+    <Content Include="Content\Map\controls.js" />
+    <Content Include="Content\Map\edge.js" />
+    <Content Include="Content\Map\form.js" />
+    <Content Include="Content\Map\map.js" />
+    <Content Include="Content\Map\placemark.js" />
+    <Content Include="Content\Map\zoom.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -290,7 +298,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Views\Map\MapStyleSheet.css" />
+    <Content Include="Content\Map\MapStyleSheet.css" />
+    <Content Include="Scripts\sweetAlert\sweetalert.css" />
+    <Content Include="Scripts\sweetAlert\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
