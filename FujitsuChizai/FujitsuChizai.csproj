@@ -246,7 +246,8 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Map\connect.js" />
+    <Content Include="Content\Map\binder.js" />
+    <Content Include="Content\Map\http.js" />
     <Content Include="Content\Map\controls.js" />
     <Content Include="Content\Map\edge.js" />
     <Content Include="Content\Map\form.js" />

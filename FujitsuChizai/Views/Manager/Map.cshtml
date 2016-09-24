@@ -11,11 +11,12 @@
     @Styles.Render("~/Content/Map/MapStyleSheet.css")
     @Scripts.Render("~/Content/Map/map.js")
     @Scripts.Render("~/Content/Map/zoom.js")
-    @Scripts.Render("~/Content/Map/connect.js")
+    @Scripts.Render("~/Content/Map/http.js")
     @Scripts.Render("~/Content/Map/controls.js")
     @Scripts.Render("~/Content/Map/placemark.js")
     @Scripts.Render("~/Content/Map/edge.js")
     @Scripts.Render("~/Content/Map/form.js")
+    @Scripts.Render("~/Content/Map/binder.js")
 
     <script>
         var FLOOR = @(Model.Map.Floor);
@@ -29,6 +30,12 @@
     typeColor.Add(PlaceMarkType.Light, "orange");
     typeColor.Add(PlaceMarkType.Place, "lightgreen");
     typeColor.Add(PlaceMarkType.Warp, "orchid");
+    <script>
+        var typeColor = {};
+        typeColor["Light"] = "orange";
+        typeColor["Place"] = "lightgreen";
+        typeColor["Warp"] = "orchid";
+    </script>
 }
 
 
@@ -75,9 +82,9 @@
                         <label class="control-label col-xs-2">type</label>
                         <div class="col-xs-5">
                             <select name="type" class="form-control">
-                                <option value="place">place</option>
-                                <option value="light">light</option>
-                                <option value="warp">warp</option>
+                                <option value="Place">Place</option>
+                                <option value="Light">Light</option>
+                                <option value="Warp">Warp</option>
                             </select>
                         </div>
                     </div>
@@ -144,9 +151,9 @@
                         <label class="control-label col-xs-2">type</label>
                         <div class="col-xs-5">
                             <select name="type" class="form-control">
-                                <option value="place">place</option>
-                                <option value="light">light</option>
-                                <option value="warp">warp</option>
+                                <option value="Place">Place</option>
+                                <option value="Light">Light</option>
+                                <option value="Warp">Warp</option>
                             </select>
                         </div>
                     </div>
@@ -234,6 +241,7 @@
                             fill="@typeColor[item.Type]"
                             id="@Html.DisplayFor(modelItem => item.Id)"
                             lightId="@Html.DisplayFor(modelItem => item.LightId)"
+                            warpId="@Html.DisplayFor(modelItem => item.WarpId)"
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
                             type="@Html.DisplayFor(modelItem => item.Type)"
                             name="@Html.DisplayFor(modelItem => item.Name)" />

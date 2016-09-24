@@ -8,7 +8,7 @@
     var edge = function (arg1, arg2, arg3) {
         // overload 1
         var edge1 = function (instance, path) {
-            instance.dom = path;
+            instance.$dom = $(path);
             instance.id1 = path.attr("id1");
             instance.id2 = path.attr("id2");
             instance.cost = path.attr("cost");
@@ -32,7 +32,7 @@
             path.setAttribute('stroke-dasharray', '0 20 ' + len + ' 20');
             path.setAttribute('stroke-dashoffset', 0)
 
-            instance.dom = path;
+            instance.$dom = $(path);
             instance.id1 = pm1.id;
             instance.id2 = pm2.id;
             instance.cost = cost;
@@ -53,13 +53,13 @@
             placeMarkId2: this.id2,
             cost: this.cost
         };
-        asyncPost(ENDPOINT, data, successCallback, errorCallbak);
+        Http.asyncPost(ENDPOINT, data, successCallback, errorCallbak);
     };
 
     // この edge を削除
     e.delete = function (successCallback, errorCallbak) {
         url = ENDPOINT + "?id1=" + this.id1 + "&id2=" + this.id2;
-        asyncDelete(url, null, successCallback, errorCallbak);
+        Http.asyncDelete(url, null, successCallback, errorCallbak);
     };
 
     return edge;

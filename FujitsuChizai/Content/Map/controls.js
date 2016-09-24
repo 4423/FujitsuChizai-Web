@@ -1,9 +1,18 @@
-﻿var mode = null;
+﻿var ControlMode = {
+    NONE: "none",
+    REGISTER: "register",
+    UPDATE: "update",
+    CONNECT: "connect",
+    DELETE: "delete"
+};
+
+// いま展開されているスライドボックスの種類
+var mode = ControlMode.NONE;
 
 $(function () {
     $(".controls a").click(function () {
         // 閉じる
-        if (mode != null) {
+        if (mode != ControlMode.NONE) {
             $(".slide_box#" + mode).slideToggle("fast");
             // 閉じて別のを開く
             currMode = $(this).attr("id");
@@ -13,7 +22,7 @@ $(function () {
             }
             // 閉じるだけ
             else {
-                mode = null;
+                mode = ControlMode.NONE;
             }
         }
         // 開ける

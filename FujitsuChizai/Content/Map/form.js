@@ -1,88 +1,124 @@
-﻿$(function () {
-    // マーカをクリックしてtypeを指定
-    $("#register-type-select li").each(function (i, elem) {
-        $(elem).on("click", function () {
-            var type = $(elem).find("p").text().toLowerCase();
-            $('#form-register [name="type"]').val(type).change();
+﻿class Form {
+
+    constructor($form, mode) {
+        this._$form = $form;
+        this._mode = mode;
+
+        var that = this;
+
+        // 選択肢更新時には表示を更新
+        this._$form.find("select").change(function () {
+            that.updateFormDisplay(that._$form);
         });
-    });
 
-    // マップをクリックして座標指定
-    $("#svg_layer").on('click', function (e) {
-        $('#form-register [name="x"]').val(e.offsetX);
-        $('#form-register [name="y"]').val(e.offsetY);
-        $('#form-register [name="floor"]').val(FLOOR);
-    });
-});
-
-
-// 各formごとに、select変更時に入力項目が動的変更されるように設定
-$(function () {
-    $('form').each(function (i, form) {
-        $(form).find('select[name="type"]').change(function () {
-            // 一度全て非表示に
-            $(form).find('#type-warp').css('display', 'none');
-            $(form).find('#type-light').css('display', 'none');
-            $(form).find('#type-place-warp').css('display', 'none');
-
-            // 必要な項目のみ表示
-            var selected = $(form).find('select[name="type"] option:selected').val();
-            switch (selected) {
-                case "place":
-                    $(form).find('#type-place-warp').css('display', 'inherit');
-                    break;
-                case "light":
-                    $(form).find('#type-light').css('display', 'inherit');
-                    break;
-                case "warp":
-                    $(form).find('#type-warp').css('display', 'inherit');
-                    $(form).find('#type-place-warp').css('display', 'inherit');
-                    break;
-            }
-        })
-    });
-});
-
-$(function () {
-    $('form').submit(function (event) {
-        event.preventDefault();
-        var $form = $(this);
-        var $button = $form.find('button');
-
-        // 送信
-        $.ajax({
-            url: $form.attr('action') + $form.find('input[name="id"]').val(),
-            type: $form.attr('method'),
-            dataType: 'json',
-            data: $form.serialize(),
-            timeout: 10000,
-
-            // 送信前
-            beforeSend: function (xhr, settings) {
-                // ボタンを無効化し、二重送信を防止
-                $button.attr('disabled', true);
-            },
-            // 応答後
-            complete: function (xhr, textStatus) {
-                // ボタンを有効化し、再送信を許可
-                $button.attr('disabled', false);
-            },
-
-            // 通信成功時の処理
-            success: function (result, textStatus, xhr) {
-                if (mode == "update")
-                    swal("Updated", "Data has been updated.", "success");
-                else if (mode == "register")
-                    swal("Registered", "Data has been registered.", "success");
-            },
-
-            // 通信失敗時の処理
-            error: function (xhr, textStatus, error) {
-                if (mode == "update")
-                    swal("Error", "Data was not updated.", "error");
-                else if (mode == "register")
-                    swal("Error", "Data was not registered.", "error");
-            }
+        // フォーム内全ての変更イベント
+        this._$form.change(function () {
+            that._sync();
+            that.onChanged();
         });
-    });
-});
+
+        // フォームのsubmitを乗っ取る
+        this._$form.submit(function (event) {
+            event.preventDefault();
+            that.submit(that._mode, that.successCallback, that.errorCallback, that.confirmDialog);
+        });
+    }
+
+
+    // フォームの値を自身に設定
+    _sync() {
+        this._id = this._getFormInput("id");
+        this._x = this._getFormInput("x");
+        this._y = this._getFormInput("y");
+        this._floor = this._getFormInput("floor");
+        this._type = this._getFormInput("type");
+        this._name = this._getFormInput("name");
+        this._lightId = this._getFormInput("lightId");
+        this._warpId = this._getFormInput("warpId");
+    }
+
+    _getFormInput(key) {
+        if (this._$form != null) {
+            return this._$form.find('[name="' + key + '"]').val();
+        }
+    }
+
+    _setFormInput(key, value) {
+        if (this._$form != null) {
+            this._$form.find('[name="' + key + '"]').val(value);
+            //.change()するとeventがループしてplacemarkもformも共倒れ('A`)
+        }
+    }
+
+
+    // Properties
+    get id() { return this._id; }
+    set id(id) {
+        this._id = id;
+        this._setFormInput("id", this._id);
+    }
+
+    get x() { return this._x; }
+    set x(x) {
+        this._x = x;
+        this._setFormInput("x", this._x);
+    }
+
+    get y() { return this._y; }
+    set y(y) {
+        this._y = y;
+        this._setFormInput("y", this._y);
+    }
+
+    get floor() { return this._floor; }
+    set floor(floor) {
+        this._floor = floor;
+        this._setFormInput("floor", this._floor);
+    }
+
+    get type() { return this._type; }
+    set type(type) {
+        this._type = type;
+        this._setFormInput("type", this._type);
+    }
+
+    get name() { return this._name; }
+    set name(name) {
+        this._name = name;
+        this._setFormInput("name", this._name);
+    }
+
+    get lightId() { return this._lightId; }
+    set lightId(lightId) {
+        this._lightId = lightId;
+        this._setFormInput("lightId", this._lightId);
+    }
+
+    get warpId() { return this._warpId; }
+    set warpId(warpId) {
+        this._warpId = warpId;
+        this._setFormInput("warpId", this._warpId);
+    }
+
+    get onChanged() { return this._onChanged; }
+    set onChanged(onChanged) { this._onChanged = onChanged; }
+
+    get updateFormDisplay() { return this._updateFormDisplay; }
+    set updateFormDisplay(updateFormDisplay) { this._updateFormDisplay = updateFormDisplay; }
+
+    get submit() { return this._submit; }
+    set submit(submit) { this._submit = submit; }
+
+    get confirmDialog() { return this._confirmDialog; }
+    set confirmDialog(confirmDialog) { this._confirmDialog = confirmDialog; }
+
+    get successCallback() { return this._successCallback; }
+    set successCallback(successCallback) { this._successCallback = successCallback; }
+
+    get errorCallback() { return this._errorCallback; }
+    set errorCallback(errorCallback) { this._errorCallback = errorCallback; }
+
+    get $form() { return this._$form; }
+
+    get mode() { return this._mode; }
+}
