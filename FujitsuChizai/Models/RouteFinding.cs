@@ -76,6 +76,25 @@ namespace FujitsuChizai.Models
                 Pred[e.Id2, e.Id1] = e.Id2;
             }
 
+            // 同じ WarpId を持つ Warp 同士を接続する
+            var group = db.PlaceMarks.Where(x => x.Type == PlaceMarkType.Warp).GroupBy(x => x.WarpId);
+            foreach (var pair in group)
+            {
+                int n = pair.Count();
+                for (int i = 0; i < n; i++)
+                {
+                    var w1 = pair.ElementAt(i);
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (i == j) continue;
+                        var w2 = pair.ElementAt(j);
+                        Dist[w1.Id, w2.Id] = Dist[w2.Id, w1.Id] = 0;
+                        Pred[w1.Id, w2.Id] = w1.Id;
+                        Pred[w2.Id, w1.Id] = w2.Id;
+                    }
+                }
+            }
+
             // 計算
             WarshallFloyd(v);
         }
