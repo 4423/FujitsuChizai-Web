@@ -55,7 +55,7 @@ namespace FujitsuChizai.Controllers
                 .Where(t => t.Type != PlaceMarkType.Light)                
                 .ToList()
                 .Translate(acceptLanguage)  // 日本語以外の keyword でも検索したい
-                .Where(t => t.Name.Contains(keyword))
+                .Where(t => t.Name?.Contains(keyword) ?? false)
                 .ToList();
             throw ResponseCore(p);
         }
@@ -112,7 +112,7 @@ namespace FujitsuChizai.Controllers
                 .Where(t => (y - radius) <= t.Y && t.Y <= (y + radius))
                 .ToList()
                 .Translate(acceptLanguage)
-                .Where(t => t.Name.Contains(keyword))
+                .Where(t => t.Name?.Contains(keyword) ?? false)
                 .ToList();
             throw ResponseCore(p);
         }
