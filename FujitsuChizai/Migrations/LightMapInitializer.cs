@@ -12,6 +12,7 @@ namespace FujitsuChizai.Migrations
     {
         protected override void Seed(ModelContext context)
         {
+            return;
             #region 地図画像の登録
             context.Maps.AddOrUpdate(
                 new Map()
@@ -70,7 +71,8 @@ namespace FujitsuChizai.Migrations
 
     public static class PlaceMarkSeedHelper
     {
-        private static int LightId = 601;
+        private static int LightId = 501;
+        private static int F = 5;
 
         public static void FixedPlaceAdd(this ModelContext context, int x, int y)
         {
@@ -78,7 +80,7 @@ namespace FujitsuChizai.Migrations
             {
                 X = x,
                 Y = y,
-                Floor = 6,
+                Floor = F,
                 LightId = LightId++,
                 Type = PlaceMarkType.Light
             });
@@ -91,7 +93,7 @@ namespace FujitsuChizai.Migrations
                 {
                     X = x,
                     Y = t,
-                    Floor = 6,
+                    Floor = F,
                     LightId = LightId++,
                     Type = type
                 }).ToArray());
@@ -104,7 +106,7 @@ namespace FujitsuChizai.Migrations
                 {
                     X = t,
                     Y = y,
-                    Floor = 6,
+                    Floor = F,
                     LightId = LightId++,
                     Type = type
                 }).ToArray());
