@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using FujitsuChizai.Models.Entities;
 using FujitsuChizai.Converters;
+using System.IO;
+using System.Drawing;
+using FujitsuChizai.Models;
 
 namespace FujitsuChizai.Controllers
 {
@@ -23,7 +26,7 @@ namespace FujitsuChizai.Controllers
             public string StrokeDash { get; set; }
         }
     }
-
+    
     public class ManagerController : Controller
     {
         private ModelContext db = new ModelContext();
@@ -78,16 +81,43 @@ namespace FujitsuChizai.Controllers
         // 詳細については、http://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Floor,Description,MapImageFilePath,Width,Height")] Map map)
+        public ActionResult Create([Bind(Include = "Floor,Description,Picture")] MapBindingModel input)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && (input.Picture?.ContentType.Contains("image") ?? false))
             {
-                db.Maps.Add(map);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var destinationFolder = Server.MapPath("~/Resources/Map");
+                if (!Directory.Exists(destinationFolder))
+                {
+                    Directory.CreateDirectory(destinationFolder);
+                }
+
+                var uploadedPict = input.Picture;
+                if (uploadedPict.ContentLength > 0)
+                {
+                    // ファイル保存
+                    var fileName = Path.GetFileName(uploadedPict.FileName);
+                    var path = Path.Combine(destinationFolder, fileName);
+                    uploadedPict.SaveAs(path);
+
+                    // 画像化
+                    var image = Image.FromStream(uploadedPict.InputStream);
+
+                    // DB保存
+                    var m = new Map()
+                    {
+                        Floor = input.Floor,
+                        Description = input.Description,
+                        MapImageFilePath = fileName,
+                        Width = image.Width,
+                        Height = image.Height
+                    };
+                    db.Maps.Add(m);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
-            return View(map);
+            return View(input);
         }
 
         // GET: Manager/Edit/5
