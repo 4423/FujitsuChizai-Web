@@ -13,7 +13,6 @@ namespace FujitsuChizai.Models
         [Required]
         public string Description { get; set; }
         [Required]
-        [FileExtensions]
         public HttpPostedFileBase Picture { get; set; }
     }
 }
