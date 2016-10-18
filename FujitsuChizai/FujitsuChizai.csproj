@@ -234,6 +234,7 @@
     <Compile Include="Models\LightBindingModels.cs" />
     <Compile Include="Models\LightViewModels.cs" />
     <Compile Include="Models\MapBindingModels.cs" />
+    <Compile Include="Models\MapViewModels.cs" />
     <Compile Include="Models\MicrosoftTranslator.cs" />
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
