@@ -16,7 +16,7 @@ namespace FujitsuChizai.Controllers
     {
         ModelContext db = new ModelContext();
         IRouteFinding rf = new RouteFinding();
-        
+        private string acceptLanguage => Request.Headers.AcceptLanguage.First().Value;
 
         private bool AddHistory(int originId, int? userId)
         {
@@ -57,6 +57,9 @@ namespace FujitsuChizai.Controllers
             }
 
             var registered = AddHistory(origin.Id, userId);
+
+            origin = origin.Translate(acceptLanguage);
+            dest = dest.Translate(acceptLanguage);
 
             var r = new DirectionViewModel()
             {
