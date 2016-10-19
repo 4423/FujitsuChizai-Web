@@ -17,6 +17,7 @@ namespace FujitsuChizai.Migrations
 
         protected override void Seed(FujitsuChizai.Models.Entities.ModelContext context)
         {
+            return;
             #region 照明位置のプロット
             // 照明位置の等差数列
             var horizontalLine = GetArithmeticProgression(310, 145, 21);

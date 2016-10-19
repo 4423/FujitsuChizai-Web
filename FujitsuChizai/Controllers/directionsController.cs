@@ -18,7 +18,7 @@ namespace FujitsuChizai.Controllers
         IRouteFinding rf = new RouteFinding();
         private string acceptLanguage => Request.Headers.AcceptLanguage.First().Value;
 
-        private bool AddHistory(int originId, int? userId)
+        private bool AddHistory(int originId, int destId, int? userId)
         {
             if (userId == null)
             {
@@ -33,7 +33,8 @@ namespace FujitsuChizai.Controllers
 
             db.Histories.Add(new History()
             {
-                PlaceMarkId = originId,
+                OriginId = originId,
+                DestId = destId,
                 UserId = (int)userId,
                 Timestamp = DateTime.Now
             });
@@ -56,7 +57,7 @@ namespace FujitsuChizai.Controllers
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }
 
-            var registered = AddHistory(origin.Id, userId);
+            var registered = AddHistory(origin.Id, dest.Id, userId);
 
             origin = origin.Translate(acceptLanguage);
             dest = dest.Translate(acceptLanguage);
