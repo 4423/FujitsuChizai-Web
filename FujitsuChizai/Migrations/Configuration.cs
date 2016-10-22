@@ -17,17 +17,18 @@ namespace FujitsuChizai.Migrations
 
         protected override void Seed(FujitsuChizai.Models.Entities.ModelContext context)
         {
+            //Seed3F(context);
             return;
             #region è∆ñæà íuÇÃÉvÉçÉbÉg
             // è∆ñæà íuÇÃìôç∑êîóÒ
-            var horizontalLine = GetArithmeticProgression(310, 145, 21);
+            var horizontalLine = GetArithmeticProgression(1370, 145, 25);
             var verticalLine = GetArithmeticProgression(1012, 145, 12);
             var verticalLineEV1 = GetArithmeticProgression(680, 100, 3);
             var verticalLineEV2 = GetArithmeticProgression(2740, 100, 3);
 
             // è„òLâ∫
-            context.FixedPlaceAdd(210, 558);
-            context.SemiFixedPlaceAdd(horizontalLine, 558);
+            //context.FixedPlaceAdd(210, 558);
+            context.SemiFixedPlaceAdd(horizontalLine, 588);
 
             // â∫òLâ∫
             context.FixedPlaceAdd(210, 3065);
@@ -59,6 +60,21 @@ namespace FujitsuChizai.Migrations
             {
                 yield return start + (i - 1) * difference;
             }
+        }
+
+        private void Seed3F(ModelContext context)
+        {
+            PlaceMarkSeedHelper.Floor = 3;
+            PlaceMarkSeedHelper.LightId = 301;
+
+            // è„òLâ∫
+            context.SemiFixedPlaceAdd(GetArithmeticProgression(1370, 145, 27), 588);
+            // â∫òLâ∫
+            context.SemiFixedPlaceAdd(GetArithmeticProgression(1370, 145, 27), 3080);
+            // ç∂òLâ∫
+            context.SemiFixedPlaceAdd(1370, GetArithmeticProgression(746, 145, 16));
+            // âEòLâ∫ (EVïîï™Çç◊Ç©Ç≠ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢Ç©Ç‡)
+            context.SemiFixedPlaceAdd(4025, GetArithmeticProgression(746, 145, 16));            
         }
     }
 }

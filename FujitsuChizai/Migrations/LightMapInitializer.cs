@@ -71,8 +71,8 @@ namespace FujitsuChizai.Migrations
 
     public static class PlaceMarkSeedHelper
     {
-        private static int LightId = 501;
-        private static int F = 5;
+        public static int LightId { get; set; }
+        public static int Floor { get; set; }
 
         public static void FixedPlaceAdd(this ModelContext context, int x, int y)
         {
@@ -80,7 +80,7 @@ namespace FujitsuChizai.Migrations
             {
                 X = x,
                 Y = y,
-                Floor = F,
+                Floor = Floor,
                 LightId = LightId++,
                 Type = PlaceMarkType.Light
             });
@@ -93,7 +93,7 @@ namespace FujitsuChizai.Migrations
                 {
                     X = x,
                     Y = t,
-                    Floor = F,
+                    Floor = Floor,
                     LightId = LightId++,
                     Type = type
                 }).ToArray());
@@ -106,7 +106,7 @@ namespace FujitsuChizai.Migrations
                 {
                     X = t,
                     Y = y,
-                    Floor = F,
+                    Floor = Floor,
                     LightId = LightId++,
                     Type = type
                 }).ToArray());
