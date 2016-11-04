@@ -71,6 +71,11 @@
         Http.asyncDelete(url, null, successCallback, errorCallback);        
     }
 
+    dispose() {
+        if (this._$circle != null) {
+            this._$circle.remove();
+        }
+    }
 
     _setCircleAttr(key, value) {
         if (this._$circle != null) {

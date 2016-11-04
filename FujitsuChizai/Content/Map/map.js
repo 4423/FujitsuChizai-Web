@@ -199,7 +199,7 @@ $(function () {
 
 
 
-function confirmDelete(obj) {
+function confirmDelete(pm) {
     config = {
         title: "Are you sure?",
         text: "You will not be able to recover this data!",
@@ -213,12 +213,13 @@ function confirmDelete(obj) {
     };
     swal(config, function (isConfirm) {
         if (isConfirm) {
-            obj.delete(function () {
-                obj.$dom.remove();
+            pm.delete(function () {
+                pm.dispose();
                 swal("Deleted", "Data has been deleted.", "success");
             }, function () {
                 swal("Error", "Data was not deleted.", "error");
             });
+            delete pm;
         }
         else {
             swal("Cancelled", "Data is safe.", "error");
