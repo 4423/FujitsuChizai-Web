@@ -13,10 +13,27 @@ body {
 .informations {
     float:left;
     left:30px;
+    opacity: 0.95;
+    background: #191919;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    padding: 15px;
+    padding-top: 0px;
+    margin-top: 15px;
+    margin-left: -15px;
 }
 .controls {
     float:right;
     right: 20px;
+    opacity: 0.95;
+    background: #191919;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    margin-top: 15px;
+    margin-right: -8px;
 }
 .informations, .controls {
     position: relative;
@@ -25,6 +42,12 @@ body {
 }
 .informations li {
     list-style-type: none;
+}
+.zoombtns {
+    margin-top: 35px;
+}
+.zoombtns #zoomin {
+    float:right;
 }
 .controls li {
     font-weight: 500;
@@ -98,4 +121,7 @@ hr, footer {
 }
 #register-type-select li:hover {
     filter: brightness(115%);
+}
+#cancel {
+    margin-left: 10px;
 }
