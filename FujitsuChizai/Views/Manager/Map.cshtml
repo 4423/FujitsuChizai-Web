@@ -44,11 +44,11 @@
     <ul>
         @foreach (var group in Model.PlaceMarks.Where(x => x.Floor == Model.Map.Floor).OrderBy(x => x.Type).GroupBy(x => x.Type))
         {
-            <li>
-                <h2>@group.First().Type</h2>
+            var type = group.First().Type;
+            <li id="@type">
+                <h2>@type</h2>
                 <table>
                     <tr><td>total count</td><td>@group.Count()</td></tr>
-                    <tr><td>last update</td><td></td></tr>
                 </table>
             </li>
         }
