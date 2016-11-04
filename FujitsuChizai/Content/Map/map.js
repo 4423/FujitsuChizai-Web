@@ -188,7 +188,7 @@ $(function () {
             $circle.attr('floor', FLOOR);
             $circle.on("click", function (d, i) { circleClick($(this)); });
 
-            $("div#register").find("#slide-2").slideDown("slow");
+            $("div#register").find("#slide-2").slideDown("fast");
         }
         // まだmapをクリックしていない場合はtype変更可能
         if (pm == null) {
