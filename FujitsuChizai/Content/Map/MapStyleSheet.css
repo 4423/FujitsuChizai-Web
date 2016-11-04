@@ -96,3 +96,6 @@ hr, footer {
 .form-horizontal {
     margin: 20px 0;
 }
+#register-type-select li:hover {
+    filter: brightness(115%);
+}
