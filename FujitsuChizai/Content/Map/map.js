@@ -109,6 +109,19 @@ window.onload = function () {
 
     updateBinder = new Binder();
     updateBinder.form = updateForm;
+
+    $("div#update").find("button[type='reset']").click(function () {
+        $("div#update").find("#slide-2").slideUp("fast");        
+    });
+
+
+    // connect 関連
+    $("div#connect").find("button[type='submit']").click(function () {
+        confirmConnect();
+    });
+    $("div#connect").find("button[type='reset']").click(function () {
+        clearConnect();
+    });
 }
 
 
@@ -150,8 +163,20 @@ $(function () {
     $("#svg_layer").on('click', function (e) { clickMap(e.offsetX, e.offsetY); });
 
     // 登録したら再びplacemark配置可能
-    $("#form-register").submit(function () { $circle = pm = null; });
+    $("#form-register").submit(function () { reset(); });
 
+    // キャンセルクリック
+    $("div#register").find("button[type='reset']").click(function () {
+        $("div#register").find("#slide-3").slideUp("fast");
+        $("div#register").find("#slide-2").slideUp("fast");
+        pm.dispose();
+        delete pm;
+        reset();
+    });
+
+    function reset() {
+        $circle = pm = null;
+    }
 
     var pm = null;
     var $circle = null;
@@ -278,7 +303,8 @@ function confirmConnect() {
                     alertAlready = true;
                     swal("Error", "Some of the connector was not registered.", "error");
                 }
-                edge.$dom.remove();
+                edge.dispose();
+                delete edge;
             };
 
             // 登録実行
@@ -292,4 +318,13 @@ function confirmConnect() {
             swal("Cancelled", "All connectors were not registered.", "error");
         }
     });
+}
+
+function clearConnect() {
+    $("div#connect").find("#slide-2").slideUp("fast");
+    $.each(edgeList, function (i, edge) {
+        edge.dispose();
+        delete edge;
+    });
+    edgeList = [];
 }

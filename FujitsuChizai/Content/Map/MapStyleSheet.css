@@ -99,3 +99,6 @@ hr, footer {
 #register-type-select li:hover {
     filter: brightness(115%);
 }
+#cancel {
+    margin-left: 10px;
+}

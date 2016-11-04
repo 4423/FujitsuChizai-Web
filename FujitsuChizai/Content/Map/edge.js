@@ -62,5 +62,9 @@
         Http.asyncDelete(url, null, successCallback, errorCallbak);
     };
 
+    e.dispose = function () {
+        this.$dom.remove();
+    };
+
     return edge;
 })();
