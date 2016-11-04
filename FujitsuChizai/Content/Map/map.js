@@ -84,7 +84,11 @@ window.onload = function () {
 
     // register 関連
     registrationForm = new Form($("#form-register"), ControlMode.REGISTER);
-    registrationForm.successCallback = function () { swal("Registered", "This data has been registered.", "success"); };
+    registrationForm.successCallback = function () {
+        swal("Registered", "This data has been registered.", "success");
+        $("div#register").find("#slide-3").slideUp("fast");
+        $("div#register").find("#slide-2").slideUp("fast");
+    };
     registrationForm.errorCallback = function () { swal("Error", "This data was not registered.", "error"); };
     registrationForm.confirmDialog = registrationConfirmDialog;
     registrationForm.updateFormDisplay = updateFormDisplay;
@@ -95,7 +99,10 @@ window.onload = function () {
 
     // update 関連
     updateForm = new Form($("#form-update"), ControlMode.UPDATE);
-    updateForm.successCallback = function () { swal("Updated", "This data has been updated.", "success"); };
+    updateForm.successCallback = function () {
+        swal("Updated", "This data has been updated.", "success");
+        $("div#update").find("#slide-2").slideUp("fast");
+    };
     updateForm.errorCallback = function () { swal("Error", "This data was not updated.", "error"); };
     updateForm.confirmDialog = updateConfirmDialog;
     updateForm.updateFormDisplay = updateFormDisplay;
@@ -111,6 +118,7 @@ function circleClick($circle) {
         case ControlMode.UPDATE:
             updateBinder.placemark = pm;
             updateBinder.updateForm();
+            $("div#update").find("#slide-2").slideDown("slow");
             break;
 
         case ControlMode.CONNECT:
@@ -154,6 +162,8 @@ $(function () {
             $circle.attr('r', 20);
             $circle.attr('floor', FLOOR);
             $circle.on("click", function (d, i) { circleClick($(this)); });
+
+            $("div#register").find("#slide-2").slideDown("slow");
         }
         // まだmapをクリックしていない場合はtype変更可能
         if (pm == null) {
@@ -173,6 +183,8 @@ $(function () {
             $("#svg_layer svg").append($circle);
 
             pm = new PlaceMark($circle);
+
+            $("div#register").find("#slide-3").slideDown("slow");
         }
         // 以降は座標のみ変更
         else {
@@ -187,7 +199,7 @@ $(function () {
 
 
 
-function confirmDelete(obj) {
+function confirmDelete(pm) {
     config = {
         title: "Are you sure?",
         text: "You will not be able to recover this data!",
@@ -201,12 +213,13 @@ function confirmDelete(obj) {
     };
     swal(config, function (isConfirm) {
         if (isConfirm) {
-            obj.delete(function () {
-                obj.$dom.remove();
+            pm.delete(function () {
+                pm.dispose();
                 swal("Deleted", "Data has been deleted.", "success");
             }, function () {
                 swal("Error", "Data was not deleted.", "error");
             });
+            delete pm;
         }
         else {
             swal("Cancelled", "Data is safe.", "error");
@@ -227,6 +240,8 @@ function connectPlacemark(pm) {
         edge.$dom.on("click", function (d, i) { pathClick($(this)); });
         edgeList.push(edge);
         $('#svg_layer svg').append(edge.$dom);
+
+        $("div#connect").find("#slide-2").slideDown();
     }
 }
 
@@ -252,6 +267,7 @@ function confirmConnect() {
                 successCount++;
                 if (successCount == total) {
                     swal("Registered", "All connectors have been registered.", "success");
+                    $("div#connect").find("#slide-2").slideUp("fast");
                 }
             };
 

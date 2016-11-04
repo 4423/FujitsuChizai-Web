@@ -53,13 +53,13 @@ body {
     left: -35px;
     top: 52px;
 }
-.informations li:nth-child(1):before {
+.informations #Light:before {
     background-color: orange;
 }
-.informations li:nth-child(2):before {
+.informations #Place:before {
     background-color: lightgreen;
 }
-.informations li:nth-child(3):before {
+.informations #Warp:before {
     background-color: orchid;
 }
 .toggle-box {
@@ -95,4 +95,7 @@ hr, footer {
 }
 .form-horizontal {
     margin: 20px 0;
+}
+#register-type-select li:hover {
+    filter: brightness(115%);
 }

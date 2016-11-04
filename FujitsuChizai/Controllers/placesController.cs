@@ -163,7 +163,7 @@ namespace FujitsuChizai.Controllers
             }
 
             var p = db.PlaceMarks.Find(id);
-            if (p == null || p.Type == PlaceMarkType.Light)
+            if (p == null)
             {
                 throw ErrorResponse(HttpStatusCode.NotFound);
             }
@@ -173,6 +173,8 @@ namespace FujitsuChizai.Controllers
             p.Name = value.Name;
             p.Floor = value.Floor;
             p.Type = value.Type;
+            p.WarpId = value.WarpId;
+            p.LightId = value.LightId;
             db.SaveChanges();
             throw OKResponse(p);
         }
