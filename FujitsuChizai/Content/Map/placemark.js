@@ -38,7 +38,12 @@
 
     // この placemark をサーバに登録
     register(successCallback, errorCallback) {
-        Http.asyncPost(this.ENDPOINT, this.serialize(), successCallback, errorCallback);
+        var that = this;
+        var callback = function (json) {
+            successCallback();
+            that.id = json.id; // 割り当てられたIDを反映
+        };
+        Http.asyncPost(this.ENDPOINT, this.serialize(), callback, errorCallback);
     }
 
     // この placemark をサーバに更新
