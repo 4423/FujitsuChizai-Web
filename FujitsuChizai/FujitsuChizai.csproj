@@ -247,6 +247,7 @@
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
     <Compile Include="Models\RouteFinding.cs" />
+    <Compile Include="Models\StatisticsViewModels.cs" />
     <Compile Include="Models\TranslationExt.cs" />
     <Compile Include="Models\UserBindingModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
@@ -258,7 +259,7 @@
     </Compile>
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\StatisticsController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\XmlDocument.xml" />
@@ -343,6 +344,7 @@
     <Content Include="Views\Statistics\Details.cshtml" />
     <Content Include="Views\Statistics\Edit.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\Statistics\_PartialStat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Providers\" />

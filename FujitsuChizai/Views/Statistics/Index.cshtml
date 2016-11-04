@@ -1,51 +1,292 @@
-﻿@model IEnumerable<FujitsuChizai.Models.Entities.History>
+﻿@model FujitsuChizai.Models.StatisticsViewModel
+
+@section Header
+{
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+    <style type="text/css">
+        .chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+
+        .map {
+            position: relative;
+        }
+        .map img, .map div {
+            position: absolute;
+            width: 100%;
+        }
+
+        form {
+            margin: 30px 0;
+        }
+    </style>
+}
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Statistics";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Dest.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Origin.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Timestamp)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Dest.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Origin.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Timestamp)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@using (Html.BeginForm("Index", "Statistics", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="mapId">階</label>
+        <select class="form-control" id="mapId" name="mapId">
+            <option value="-1">全て</option>
+            @foreach (var map in Model.Maps.OrderBy(x => x.Floor))
+            {
+                <option value="@map.Id">@map.Description</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="daterange">期間</label>
+        <input class="form-control" type="text" id="daterange" name="daterange" value="10/20/2016 - 11/10/2016" />
+    </div>
+    <button class="btn btn-primary" type="submit">表示</button>
 }
 
-</table>
+<script type="text/javascript">
+    $(function () {
+        $('input[id="daterange"]').daterangepicker();
+    });
+</script>
+
+@if (Model.Data == null)
+{
+    if (Model.MapId != -2)
+    {
+        <p>表示できるデータがありません。</p>
+    }
+    /*else 初期表示*/
+}
+else
+{
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">利用者</a></li>
+    <li><a href="#tab2" data-toggle="tab">出発地</a></li>
+    <li><a href="#tab3" data-toggle="tab">目的地</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <h4>性別</h4>
+        <div class="chartdiv" id="sex"></div>
+
+        <h4>出身国</h4>
+        <div class="chartdiv" id="country"></div>
+
+        <h4>年代</h4>
+        <div class="chartdiv" id="age"></div>
+    </div>
+
+    <div class="tab-pane fade" id="tab2">
+        <table class="table">
+            <tr>
+                <th>出発地</th>
+                <th>案内回数</th>
+            </tr>
+
+            @foreach (var item in Model.Data.Origin)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.PlaceMark.Name, "Details", "Map", new { id = item.PlaceMark.Id }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="map">
+            <div id="canvas">
+                @{ var selectedMap = Model.Maps.Single(x => x.Id == Model.MapId); }
+                <img src="~/Resources/Map/@selectedMap.MapImageFilePath">
+                <div id="svg_layer">
+                    <svg width="100%" height="100%" viewBox="0 0 @selectedMap.Width @selectedMap.Height">
+                        @{ var maximum = Model.Data.Origin.Max(x => x.Count); }
+                        @foreach (var item in Model.Data.Origin)
+                        {
+                            int r = item.Count / maximum * 40;
+                            <circle cx="@Html.DisplayFor(modelItem => item.PlaceMark.X)"
+                                    cy="@Html.DisplayFor(modelItem => item.PlaceMark.Y)"
+                                    r="@Html.DisplayFor(modelItem => r)"
+                                    fill="orange" />
+                        }
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="tab3">
+        <table class="table">
+            <tr>
+                <th>目的地</th>
+                <th>案内回数</th>
+            </tr>
+
+            @foreach (var item in Model.Data.Dest)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.PlaceMark.Name, "Details", "Map", new { id = item.PlaceMark.Id }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="map">
+            <div id="canvas">
+                <img src="~/Resources/Map/@selectedMap.MapImageFilePath">
+                <div id="svg_layer">
+                    <svg width="100%" height="100%" viewBox="0 0 @selectedMap.Width @selectedMap.Height">
+                        @{ maximum = Model.Data.Dest.Max(x => x.Count); }
+                        @foreach (var item in Model.Data.Dest)
+                        {
+                            int r = item.Count / maximum * 40;
+                            <circle cx="@Html.DisplayFor(modelItem => item.PlaceMark.X)"
+                                    cy="@Html.DisplayFor(modelItem => item.PlaceMark.Y)"
+                                    r="@Html.DisplayFor(modelItem => r)"
+                                    fill="orange" />
+                        }
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var chartSex = AmCharts.makeChart("sex", {
+        "type": "pie",
+        "theme": "none",
+        "dataProvider": [{
+            "sex": "Male",
+            "count": 420
+        }, {
+            "sex": "Female",
+            "count": 650
+        }, {
+            "sex": "NotApplicable",
+            "count": 13
+        }],
+        "valueField": "count",
+        "titleField": "sex",
+        "balloon": {
+            "fixedPosition": true
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+
+    var chartSex = AmCharts.makeChart("country", {
+        "type": "pie",
+        "theme": "none",
+        "dataProvider": [{
+            "country": "Japan",
+            "count": 584
+        }, {
+            "country": "Chine",
+            "count": 123
+        }, {
+            "country": "America",
+            "count": 89
+        }, {
+            "country": "Australia",
+            "count": 31
+        }, {
+            "country": "Other",
+            "count": 13
+        }],
+        "valueField": "count",
+        "titleField": "country",
+        "balloon": {
+            "fixedPosition": true
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+
+    var chartAge = AmCharts.makeChart("age", {
+        "type": "serial",
+        "theme": "light",
+        "dataProvider": [{
+            "bins": "10~19",
+            "value": 31
+        }, {
+            "bins": "20~29",
+            "value": 52
+        }, {
+            "bins": "30~39",
+            "value": 29
+        }, {
+            "bins": "40~49",
+            "value": 18
+        }, {
+            "bins": "50~59",
+            "value": 20
+        }, {
+            "bins": "60~69",
+            "value": 3
+        }, {
+            "bins": "70~79",
+            "value": 0
+        }, {
+            "bins": "80~89",
+            "value": 1
+        }],
+        "valueAxes": [{
+            "gridColor": "#FFFFFF",
+            "gridAlpha": 0.2,
+            "dashLength": 0
+        }],
+        "gridAboveGraphs": true,
+        "startDuration": 1,
+        "graphs": [{
+            "balloonText": "[[category]]: <b>[[value]]</b>",
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "value"
+        }],
+        "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "bins",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 20
+        },
+        "export": {
+            "enabled": true
+        }
+
+    });
+</script>
+
+}
