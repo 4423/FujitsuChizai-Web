@@ -28,8 +28,8 @@ namespace FujitsuChizai.Controllers
 
             return new StatisticsData()
             {
-                Origin = q.Where(x => x.Origin.Floor == floor).GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).ToList(),
-                Dest = q.Where(x => x.Dest.Floor == floor).GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).ToList(),
+                Origin = q.Where(x => x.Origin.Floor == floor).GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
+                Dest = q.Where(x => x.Dest.Floor == floor).GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
                 Age = q.Select(x => DateTime.Now.Year - x.User.BornIn).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
                 Sex = q.Select(x => x.User.Sex).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
                 Country = q.Select(x => x.User.Country).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList()
@@ -47,8 +47,8 @@ namespace FujitsuChizai.Controllers
 
             return new StatisticsData()
             {
-                Origin = q.GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).ToList(),
-                Dest = q.GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).ToList(),
+                Origin = q.GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
+                Dest = q.GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
                 Age = q.Select(x => DateTime.Now.Year - x.User.BornIn).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
                 Sex = q.Select(x => x.User.Sex).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
                 Country = q.Select(x => x.User.Country).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList()
