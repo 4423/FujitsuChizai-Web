@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using FujitsuChizai.Models.Entities;
+using System.Runtime.Serialization;
 
 namespace FujitsuChizai.Models
 {
@@ -15,9 +16,12 @@ namespace FujitsuChizai.Models
         public StatisticsData Data { get; set; }
     }
 
+    [DataContract]
     public class DataProvider
     {
+        [DataMember]
         public string Key { get; set; }
+        [DataMember]
         public int Value { get; set; }
     }
 
