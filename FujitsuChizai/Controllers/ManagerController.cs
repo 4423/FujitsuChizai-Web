@@ -63,6 +63,29 @@ namespace FujitsuChizai.Controllers
             return View();
         }
 
+
+        private bool IsMapBindingModelValid(MapBindingModel map)
+            => ModelState.IsValid
+            && map.Picture != null
+            && map.Picture.ContentType.Contains("image")
+            && map.Picture.ContentLength > 0;
+
+        private Image SaveImage(string fileName, HttpPostedFileBase uploadedPict)
+        {
+            var destinationFolder = Server.MapPath("~/Resources/Map");
+            if (!Directory.Exists(destinationFolder))
+            {
+                Directory.CreateDirectory(destinationFolder);
+            }
+
+            // ファイル保存
+            var path = Path.Combine(destinationFolder, fileName);
+            uploadedPict.SaveAs(path);
+
+            // 画像化
+            return Image.FromStream(uploadedPict.InputStream);
+        }
+
         // POST: Manager/Create
         // 過多ポスティング攻撃を防止するには、バインド先とする特定のプロパティを有効にしてください。
         // 詳細については、http://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
@@ -70,40 +93,24 @@ namespace FujitsuChizai.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Floor,Description,Picture")] MapBindingModel input)
         {
-            if (ModelState.IsValid && (input.Picture?.ContentType.Contains("image") ?? false))
+            if (IsMapBindingModelValid(input))
             {
-                var destinationFolder = Server.MapPath("~/Resources/Map");
-                if (!Directory.Exists(destinationFolder))
+                var fileName = Path.GetFileName(input.Picture.FileName);
+                var image = SaveImage(fileName, input.Picture);
+
+                // DB保存
+                var m = new Map()
                 {
-                    Directory.CreateDirectory(destinationFolder);
-                }
-
-                var uploadedPict = input.Picture;
-                if (uploadedPict.ContentLength > 0)
-                {
-                    // ファイル保存
-                    var fileName = Path.GetFileName(uploadedPict.FileName);
-                    var path = Path.Combine(destinationFolder, fileName);
-                    uploadedPict.SaveAs(path);
-
-                    // 画像化
-                    var image = Image.FromStream(uploadedPict.InputStream);
-
-                    // DB保存
-                    var m = new Map()
-                    {
-                        Floor = input.Floor,
-                        Description = input.Description,
-                        MapImageFilePath = fileName,
-                        Width = image.Width,
-                        Height = image.Height
-                    };
-                    db.Maps.Add(m);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                    Floor = input.Floor,
+                    Description = input.Description,
+                    MapImageFilePath = fileName,
+                    Width = image.Width,
+                    Height = image.Height
+                };
+                db.Maps.Add(m);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
             return View(input);
         }
 
@@ -119,7 +126,7 @@ namespace FujitsuChizai.Controllers
             {
                 return HttpNotFound();
             }
-            return View(map);
+            return View(new MapBindingModel() { Description = map.Description, Floor = map.Floor });
         }
 
         // POST: Manager/Edit/5
@@ -127,15 +134,26 @@ namespace FujitsuChizai.Controllers
         // 詳細については、http://go.microsoft.com/fwlink/?LinkId=317598 を参照してください。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Floor,Description,MapImageFilePath,Width,Height")] Map map)
+        public ActionResult Edit(int id, [Bind(Include = "Floor,Description,Picture")] MapBindingModel input)
         {
-            if (ModelState.IsValid)
+            if (IsMapBindingModelValid(input))
             {
+                var fileName = Path.GetFileName(input.Picture.FileName);
+                var image = SaveImage(fileName, input.Picture);
+
+                // DB保存
+                var map = db.Maps.Find(id);
+                map.Floor = input.Floor;
+                map.Description = input.Description;
+                map.MapImageFilePath = fileName;
+                map.Width = image.Width;
+                map.Height = image.Height;
+
                 db.Entry(map).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(map);
+            return View(input);
         }
 
         // GET: Manager/Delete/5
