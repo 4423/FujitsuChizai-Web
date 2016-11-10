@@ -276,6 +276,7 @@
     <Content Include="Content\Map\map.js" />
     <Content Include="Content\Map\placemark.js" />
     <Content Include="Content\Map\zoom.js" />
+    <Content Include="Content\Statistics\StyleSheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
