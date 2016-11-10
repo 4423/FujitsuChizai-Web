@@ -1,0 +1,77 @@
+﻿@model FujitsuChizai.Models.StatisticsData
+@using FujitsuChizai.Models
+
+<h4>性別</h4>
+<div class="chartdiv" id="sex"></div>
+
+<h4>出身国</h4>
+<div class="chartdiv" id="country"></div>
+
+<h4>年代</h4>
+<div class="chartdiv" id="age"></div>
+
+<script type="text/javascript">
+    var chartSex = AmCharts.makeChart("sex", {
+        "type": "pie",
+        "theme": "none",
+        "dataProvider": @Html.Raw(Model.Sex.ToJson()),
+        "valueField": "Value",
+        "titleField": "Key",
+        "balloon": {
+            "fixedPosition": true
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+
+    var chartSex = AmCharts.makeChart("country", {
+        "type": "pie",
+        "theme": "none",
+        "dataProvider": @Html.Raw(Model.Country.ToJson()),
+        "valueField": "Value",
+        "titleField": "Key",
+        "balloon": {
+            "fixedPosition": true
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+
+    var chartAge = AmCharts.makeChart("age", {
+        "type": "serial",
+        "theme": "light",
+        "dataProvider": @Html.Raw(Model.Age.ToJson()),
+        "valueAxes": [{
+            "gridColor": "#FFFFFF",
+            "gridAlpha": 0.2,
+            "dashLength": 0
+        }],
+        "gridAboveGraphs": true,
+        "startDuration": 1,
+        "graphs": [{
+            "balloonText": "[[category]]: <b>[[value]]</b>",
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "Value"
+        }],
+        "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "Key",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 20
+        },
+        "export": {
+            "enabled": true
+        }
+
+    });
+</script>

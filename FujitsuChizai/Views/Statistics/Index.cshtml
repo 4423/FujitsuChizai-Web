@@ -1,5 +1,5 @@
 ﻿@model FujitsuChizai.Models.StatisticsViewModel
-@using FujitsuChizai.Models
+
 
 @section Header
 {
@@ -78,9 +78,9 @@
     });
 </script>
 
-@if (Model.Data == null)
+@if (Model.HasNoContent)
 {
-    if (Model.MapId != -2)
+    if (Model.RequestedMap != null)
     {
         <p>表示できるデータがありません。</p>
     }
@@ -95,168 +95,44 @@ else
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade in active" id="tab1">
-        <h4>性別</h4>
-        <div class="chartdiv" id="sex"></div>
-
-        <h4>出身国</h4>
-        <div class="chartdiv" id="country"></div>
-
-        <h4>年代</h4>
-        <div class="chartdiv" id="age"></div>
+        @if (Model.Data.Sex.Count == 0)
+        {
+            <p>表示できるデータがありません。</p>
+        }
+        else
+        {
+            @Html.Action("PartialUser", new { data = Model.Data })
+        }
     </div>
 
     <div class="tab-pane fade" id="tab2">
-        <table class="table">
-            <tr>
-                <th>出発地</th>
-                <th>案内回数</th>
-            </tr>
-
-            @foreach (var item in Model.Data.Origin)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.PlaceMark.Name ?? $"場所({item.PlaceMark.Id})", "Details", "Map", new { id = item.PlaceMark.Id }, null)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Count)
-                    </td>
-                </tr>
-            }
-        </table>
-
-        @{ var selectedMap = Model.Maps.SingleOrDefault(x => x.Id == Model.MapId); }
-        @if (selectedMap != null)
+        @if (Model.Data.Origin.Count == 0)
         {
-        <div class="map">
-            <div id="canvas">
-                <img src="~/Resources/Map/@selectedMap.MapImageFilePath">
-                <div id="svg_layer">
-                    <svg width="100%" height="100%" viewBox="0 0 @selectedMap.Width @selectedMap.Height">
-                        @{ double maximum = Model.Data.Origin.Max(x => x.Count); }
-                        @foreach (var item in Model.Data.Origin)
-                        {
-                            double r = item.Count / maximum * 40;
-                            <circle cx="@Html.DisplayFor(modelItem => item.PlaceMark.X)"
-                                    cy="@Html.DisplayFor(modelItem => item.PlaceMark.Y)"
-                                    r="@Html.DisplayFor(modelItem => r)"
-                                    fill="orange" />
-                        }
-                    </svg>
-                </div>
-            </div>
-        </div>
+            <p>表示できるデータがありません。</p>
+        }
+        else
+        {
+            @Html.Action("PartialPlaceTable", new { data = Model.Data.Origin })
+            if (!Model.RequestAllFloors)
+            {
+                @Html.Action("PartialPlaceMap", new { data = Model.Data.Origin, map = Model.RequestedMap })
+            }
         }
     </div>
 
     <div class="tab-pane fade" id="tab3">
-        <table class="table">
-            <tr>
-                <th>目的地</th>
-                <th>案内回数</th>
-            </tr>
-
-            @foreach (var item in Model.Data.Dest)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.PlaceMark.Name, "Details", "Map", new { id = item.PlaceMark.Id }, null)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Count)
-                    </td>
-                </tr>
-            }
-        </table>
-        @if (selectedMap != null)
+        @if (Model.Data.Dest.Count == 0)
         {
-        <div class="map">
-            <div id="canvas">
-                <img src="~/Resources/Map/@selectedMap.MapImageFilePath">
-                <div id="svg_layer">
-                    <svg width="100%" height="100%" viewBox="0 0 @selectedMap.Width @selectedMap.Height">
-                        @{ double maximum = Model.Data.Dest.Max(x => x.Count); }
-                        @foreach (var item in Model.Data.Dest)
-                        {
-                            double r = item.Count / maximum * 40;
-                            <circle cx="@Html.DisplayFor(modelItem => item.PlaceMark.X)"
-                                    cy="@Html.DisplayFor(modelItem => item.PlaceMark.Y)"
-                                    r="@Html.DisplayFor(modelItem => r)"
-                                    fill="orange" />
-                        }
-                    </svg>
-                </div>
-            </div>
-        </div>
+            <p>表示できるデータがありません。</p>
+        }
+        else
+        {
+            @Html.Action("PartialPlaceTable", new { data = Model.Data.Dest })
+            if (!Model.RequestAllFloors)
+            {
+                @Html.Action("PartialPlaceMap", new { data = Model.Data.Dest, map = Model.RequestedMap })
+            }
         }
     </div>
 </div>
-
-
-<script type="text/javascript">
-    var chartSex = AmCharts.makeChart("sex", {
-        "type": "pie",
-        "theme": "none",
-        "dataProvider": @Html.Raw(Model.Data.Sex.ToJson()),
-        "valueField": "Value",
-        "titleField": "Key",
-        "balloon": {
-            "fixedPosition": true
-        },
-        "export": {
-            "enabled": true
-        }
-    });
-
-    var chartSex = AmCharts.makeChart("country", {
-        "type": "pie",
-        "theme": "none",
-        "dataProvider": @Html.Raw(Model.Data.Country.ToJson()),
-        "valueField": "Value",
-        "titleField": "Key",
-        "balloon": {
-            "fixedPosition": true
-        },
-        "export": {
-            "enabled": true
-        }
-    });
-
-    var chartAge = AmCharts.makeChart("age", {
-        "type": "serial",
-        "theme": "light",
-        "dataProvider": @Html.Raw(Model.Data.Age.ToJson()),
-        "valueAxes": [{
-            "gridColor": "#FFFFFF",
-            "gridAlpha": 0.2,
-            "dashLength": 0
-        }],
-        "gridAboveGraphs": true,
-        "startDuration": 1,
-        "graphs": [{
-            "balloonText": "[[category]]: <b>[[value]]</b>",
-            "fillAlphas": 0.8,
-            "lineAlpha": 0.2,
-            "type": "column",
-            "valueField": "Value"
-        }],
-        "chartCursor": {
-            "categoryBalloonEnabled": false,
-            "cursorAlpha": 0,
-            "zoomable": false
-        },
-        "categoryField": "Key",
-        "categoryAxis": {
-            "gridPosition": "start",
-            "gridAlpha": 0,
-            "tickPosition": "start",
-            "tickLength": 20
-        },
-        "export": {
-            "enabled": true
-        }
-
-    });
-</script>
-
 }

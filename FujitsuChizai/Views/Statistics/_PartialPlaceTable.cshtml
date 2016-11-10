@@ -1,0 +1,20 @@
+﻿@model List<FujitsuChizai.Models.PlaceMarkFreq>
+
+<table class="table">
+    <tr>
+        <th>出発地</th>
+        <th>案内回数</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.PlaceMark.Name ?? $"場所({item.PlaceMark.Id})", "Details", "Map", new { id = item.PlaceMark.Id }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+        </tr>
+    }
+</table>

@@ -75,7 +75,8 @@ namespace FujitsuChizai.Controllers
         {
             return View(new StatisticsViewModel()
             {
-                Maps = db.Maps.ToList()
+                Maps = db.Maps.ToList(),
+                HasNoContent = true
             });
         }
 
@@ -127,7 +128,25 @@ namespace FujitsuChizai.Controllers
                 return View(vm);
             }
         }
-        
+
+
+        [ChildActionOnly]
+        public ActionResult PartialUser(StatisticsData data)
+        {
+            return PartialView("_PartialUser", data);
+        }
+
+        [ChildActionOnly]
+        public ActionResult PartialPlaceTable(List<PlaceMarkFreq> data)
+        {
+            return PartialView("_PartialPlaceTable", data);
+        }
+
+        [ChildActionOnly]
+        public ActionResult PartialPlaceMap(List<PlaceMarkFreq> data, Map map)
+        {
+            return PartialView("_PartialPlaceMap", new MapFreqPair(data, map));
+        }
 
         protected override void Dispose(bool disposing)
         {

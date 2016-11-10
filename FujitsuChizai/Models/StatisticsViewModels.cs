@@ -40,6 +40,19 @@ namespace FujitsuChizai.Models
         public List<DataProvider> Sex { get; set; }
     }
 
+    public class MapFreqPair
+    {
+        public MapFreqPair() { }
+        public MapFreqPair(List<PlaceMarkFreq> freq, Map requestedMap)
+        {
+            this.Freq = freq;
+            this.RequestedMap = requestedMap;
+        }
+
+        public Map RequestedMap { get; set; }
+        public List<PlaceMarkFreq> Freq { get; set; }
+    }
+
     public static class StatisticsViewModelExtension
     {
         public static IEnumerable<PlaceMarkFreq> ToPlaceMarkFreq(this IEnumerable<IGrouping<PlaceMark, History>> group)

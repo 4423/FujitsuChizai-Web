@@ -346,7 +346,9 @@
     <Content Include="Views\Statistics\Details.cshtml" />
     <Content Include="Views\Statistics\Edit.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
-    <Content Include="Views\Statistics\_PartialStat.cshtml" />
+    <Content Include="Views\Statistics\_PartialUser.cshtml" />
+    <Content Include="Views\Statistics\_PartialPlaceTable.cshtml" />
+    <Content Include="Views\Statistics\_PartialPlaceMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Providers\" />
