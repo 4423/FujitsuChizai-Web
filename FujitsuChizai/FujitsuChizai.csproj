@@ -248,6 +248,7 @@
     <Compile Include="Models\PlaceBindingModels.cs" />
     <Compile Include="Models\PlaceViewModels.cs" />
     <Compile Include="Models\RouteFinding.cs" />
+    <Compile Include="Models\StatisticsBindingModels.cs" />
     <Compile Include="Models\StatisticsViewModels.cs" />
     <Compile Include="Models\TranslationExt.cs" />
     <Compile Include="Models\UserBindingModels.cs" />

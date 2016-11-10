@@ -15,47 +15,32 @@ namespace FujitsuChizai.Controllers
     {
         private ModelContext db = new ModelContext();
 
-        private StatisticsData GetStatisticsData(int floor, DateTime beginDate, DateTime endDate)
+
+        private List<PlaceMarkFreq> GetOrigin(IEnumerable<History> src)
+            => src.GroupBy(x => x.Origin).ToPlaceMarkFreqDesc().ToList();
+
+        private List<PlaceMarkFreq> GetOrigin(IEnumerable<History> src, int floor)
+            => src.Where(x => x.Origin.Floor == floor).GroupBy(x => x.Origin).ToPlaceMarkFreqDesc().ToList();
+
+        private List<PlaceMarkFreq> GetDest(IEnumerable<History> src)
+           => src.GroupBy(x => x.Dest).ToPlaceMarkFreqDesc().ToList();
+
+        private List<PlaceMarkFreq> GetDest(IEnumerable<History> src, int floor)
+            => src.Where(x => x.Dest.Floor == floor).GroupBy(x => x.Dest).ToPlaceMarkFreqDesc().ToList();
+
+        private List<DataProvider> GetCountry(IEnumerable<History> src)
+            => src.Select(x => x.User.Country).GroupBy(x => x).ToDataProvider().ToList();
+
+        private List<DataProvider> GetSex(IEnumerable<History> src)
+            => src.Select(x => x.User.Sex).GroupBy(x => x).ToDataProvider().ToList();
+
+        private List<DataProvider> GetAge(IEnumerable<History> src)
         {
-            var q = db.Histories
-                .Where(x => x.Origin.Floor == floor || x.Dest.Floor == floor)
-                .Where(x => beginDate <= x.Timestamp && x.Timestamp <= endDate);
-
-            if(q.Count() == 0)
-            {
-                return null;
-            }
-
-            return new StatisticsData()
-            {
-                Origin = q.Where(x => x.Origin.Floor == floor).GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
-                Dest = q.Where(x => x.Dest.Floor == floor).GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
-                Age = q.Select(x => DateTime.Now.Year - x.User.BornIn).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
-                Sex = q.Select(x => x.User.Sex).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
-                Country = q.Select(x => x.User.Country).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList()
-            };
+            var data = src.Select(x => DateTime.Now.Year - x.User.BornIn).GroupBy(x => x).ToDataProvider();
+            return AgeHist(data).ToList();
         }
 
-        private StatisticsData GetStatisticsData(DateTime beginDate, DateTime endDate)
-        {
-            var q = db.Histories.Where(x => beginDate <= x.Timestamp && x.Timestamp <= endDate);
-
-            if (q.Count() == 0)
-            {
-                return null;
-            }
-
-            return new StatisticsData()
-            {
-                Origin = q.GroupBy(x => x.Origin).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
-                Dest = q.GroupBy(x => x.Dest).Select(g => new PlaceMarkFreq() { PlaceMark = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).ToList(),
-                Age = AgeHist(q.Select(x => DateTime.Now.Year - x.User.BornIn).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() })),
-                Sex = q.Select(x => x.User.Sex).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList(),
-                Country = q.Select(x => x.User.Country).GroupBy(x => x).Select(g => new DataProvider() { Key = g.Key.ToString(), Value = g.Count() }).ToList()
-            };
-        }
-
-        private List<DataProvider> AgeHist(IEnumerable<DataProvider> data)
+        private IEnumerable<DataProvider> AgeHist(IEnumerable<DataProvider> data)
         {
             var hist = new List<DataProvider>()
             {
@@ -81,44 +66,66 @@ namespace FujitsuChizai.Controllers
                     hist[age / 10].Value += item.Value;
                 }
             }
-            return hist.ToList();
+            return hist;
         }
+
 
         // GET: Statistics
         public ActionResult Index()
         {
-            return View(new Models.StatisticsViewModel()
+            return View(new StatisticsViewModel()
             {
-                Data = null,
-                Maps = db.Maps.ToList(),
-                MapId = -2
+                Maps = db.Maps.ToList()
             });
         }
 
+        
         [HttpPost]
-        public ActionResult Index(int mapId, string daterange)
+        public ActionResult Index(StatisticsBindingModel input)
         {
-            var beginDate = DateTime.Parse(daterange.Split('-')[0]);
-            var endDate = DateTime.Parse(daterange.Split('-')[1]);
-            
-            StatisticsData data;
-            if (mapId == -1)
+            var vm = new StatisticsViewModel()
             {
-                data = GetStatisticsData(beginDate, endDate);
+                Maps = db.Maps.ToList(),
+                RequestedMap = db.Maps.Find(input.MapId),
+                RequestAllFloors = input.MapId == -1,
+            };
+                      
+            if (vm.RequestedMap == null && !vm.RequestAllFloors)
+            {
+                vm.HasNoContent = true;
+                return View(vm);
+            }
+
+            var q = db.Histories
+                .Where(x => input.DateBegin <= x.Timestamp && x.Timestamp <= input.DateEnd).ToList()
+                .Where(x => input.TimeBegin <= x.Timestamp.TimeOfDay && x.Timestamp.TimeOfDay <= input.TimeEnd);
+
+            if (vm.RequestAllFloors)
+            {
+                vm.Data = new StatisticsData()
+                {
+                    Origin = GetOrigin(q),
+                    Dest = GetDest(q),
+                    Age = GetAge(q),
+                    Sex = GetSex(q),
+                    Country = GetCountry(q)
+                };
+                return View(vm);
             }
             else
             {
-                data = GetStatisticsData(db.Maps.Find(mapId).Floor, beginDate, endDate);
+                int floor = vm.RequestedMap.Floor;
+                q = q.Where(x => x.Origin.Floor == floor || x.Dest.Floor == floor);
+                vm.Data = new StatisticsData()
+                {
+                    Origin = GetOrigin(q, floor),
+                    Dest = GetDest(q, floor),
+                    Age = GetAge(q),
+                    Sex = GetSex(q),
+                    Country = GetCountry(q)
+                };
+                return View(vm);
             }
-
-            var a = data.Country.ToJson();
-
-            return View(new Models.StatisticsViewModel()
-            {
-                Data = data,
-                Maps = db.Maps.ToList(),
-                MapId = mapId
-            });
         }
         
 
