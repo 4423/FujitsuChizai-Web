@@ -36,42 +36,7 @@ namespace FujitsuChizai.Controllers
 
             return Ok(edge);
         }
-
-        // PUT: api/edges/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutEdge(int id, Edge edge)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != edge.PlaceMarkId1)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(edge).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EdgeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+        
         // POST: api/edges
         [ResponseType(typeof(Edge))]
         public IHttpActionResult PostEdge(Edge edge)
