@@ -10,6 +10,16 @@ namespace FujitsuChizai.Models
     interface IRouteFinding
     {
         /// <summary>
+        /// 最短経路木が初期化されたかどうかを示します。
+        /// </summary>
+        bool IsInitialized { get; }
+
+        /// <summary>
+        /// 最短経路木の初期化を要求します。
+        /// </summary>
+        void RequestInitialization();
+
+        /// <summary>
         /// 最短経路木を初期化します。
         /// </summary>
         void InitializeShortestPathTree();

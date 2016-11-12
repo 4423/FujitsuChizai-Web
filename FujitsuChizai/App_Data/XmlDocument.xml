@@ -921,6 +921,16 @@
             床に反射した照明
             </summary>
         </member>
+        <member name="P:FujitsuChizai.Models.IRouteFinding.IsInitialized">
+            <summary>
+            最短経路木が初期化されたかどうかを示します。
+            </summary>
+        </member>
+        <member name="M:FujitsuChizai.Models.IRouteFinding.RequestInitialization">
+            <summary>
+            最短経路木の初期化を要求します。
+            </summary>
+        </member>
         <member name="M:FujitsuChizai.Models.IRouteFinding.InitializeShortestPathTree">
             <summary>
             最短経路木を初期化します。

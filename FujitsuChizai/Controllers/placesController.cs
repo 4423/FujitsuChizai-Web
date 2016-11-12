@@ -15,6 +15,7 @@ namespace FujitsuChizai.Controllers
     public class placesController : ErrorHandleableApiController
     {
         private ModelContext db = new ModelContext();
+        private IRouteFinding rf = RouteFinding.Instance;
         private string acceptLanguage => Request.Headers.AcceptLanguage.First().Value;
 
         private HttpResponseException ResponseCore(List<PlaceMark> p)
@@ -146,6 +147,9 @@ namespace FujitsuChizai.Controllers
             var p = value.ToPlaceMark();
             db.PlaceMarks.Add(p);
             db.SaveChanges();
+
+            rf.RequestInitialization();
+
             throw OKResponse(p);
         }
 
@@ -176,6 +180,9 @@ namespace FujitsuChizai.Controllers
             p.WarpId = value.WarpId;
             p.LightId = value.LightId;
             db.SaveChanges();
+
+            rf.RequestInitialization();
+
             throw OKResponse(p);
         }
 
@@ -192,6 +199,9 @@ namespace FujitsuChizai.Controllers
             }
             db.PlaceMarks.Remove(p);
             db.SaveChanges();
+
+            rf.RequestInitialization();
+
             throw ErrorResponse(HttpStatusCode.Accepted);
         }
     }

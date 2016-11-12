@@ -20,6 +20,17 @@ namespace FujitsuChizai.Models
 
         public bool IsInitialized => Dist != null;
 
+        // Singleton
+        private RouteFinding() { }
+        private static RouteFinding instance;
+        public static RouteFinding Instance
+            => instance ?? (instance = new RouteFinding());
+
+
+        public void RequestInitialization()
+        {
+            Dist = Pred = null;
+        }
 
         private void WarshallFloyd(int n)
         {

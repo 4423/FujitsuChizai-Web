@@ -15,7 +15,7 @@ namespace FujitsuChizai.Controllers
     public class directionsController : ErrorHandleableApiController
     {
         ModelContext db = new ModelContext();
-        IRouteFinding rf = new RouteFinding();
+        IRouteFinding rf = RouteFinding.Instance;
         private string acceptLanguage => Request.Headers.AcceptLanguage.First().Value;
 
         private bool AddHistory(int originId, int destId, int? userId)

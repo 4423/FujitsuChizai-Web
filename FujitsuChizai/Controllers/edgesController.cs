@@ -9,12 +9,14 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using FujitsuChizai.Models.Entities;
+using FujitsuChizai.Models;
 
 namespace FujitsuChizai.Controllers
 {
     public class edgesController : ApiController
     {
         private ModelContext db = new ModelContext();
+        private IRouteFinding rf = RouteFinding.Instance;
 
         // GET: api/edges
         public IQueryable<Edge> GetEdges()
@@ -97,6 +99,8 @@ namespace FujitsuChizai.Controllers
                 }
             }
 
+            rf.RequestInitialization();
+
             return CreatedAtRoute("DefaultApi", new { id = edge.PlaceMarkId1 }, edge);
         }
 
@@ -112,6 +116,8 @@ namespace FujitsuChizai.Controllers
 
             db.Edges.Remove(edge);
             db.SaveChanges();
+
+            rf.RequestInitialization();
 
             return Ok(edge);
         }
