@@ -45,7 +45,8 @@
     }
 
     var e = edge.prototype;
-    
+    e.className = "Edge";
+
     // この edge を登録
     e.register = function (successCallback, errorCallbak) {
         data = {

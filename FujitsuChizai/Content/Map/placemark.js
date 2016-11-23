@@ -22,6 +22,8 @@
         }
     }
 
+    get className() { return "PlaceMark"; }
+
 
     serialize() {
         return {

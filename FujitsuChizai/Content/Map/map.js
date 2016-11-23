@@ -223,8 +223,17 @@ $(function () {
 });
 
 
+function hasEdge(pm) {
+    var count = $('path[id1^="' + pm.id + '"]').length + $('path[id2^="' + pm.id + '"]').length;
+    return count > 0;
+}
 
 function confirmDelete(pm) {
+    if (pm.className == "PlaceMark" && hasEdge(pm)) {
+        swal({ title: "Error", text: "Delete all connections with this data first.", type: "error" }, null);
+        return;
+    }
+
     config = {
         title: "Are you sure?",
         text: "You will not be able to recover this data!",
