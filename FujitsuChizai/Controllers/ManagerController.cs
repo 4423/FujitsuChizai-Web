@@ -177,7 +177,13 @@ namespace FujitsuChizai.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Map map = db.Maps.Find(id);
+            int f = map.Floor;
+            var edges = db.Edges.Where(x => x.PlaceMark1.Floor == f || x.PlaceMark2.Floor == f);
+            var pm = db.PlaceMarks.Where(x => x.Floor == f);
+
             db.Maps.Remove(map);
+            db.Edges.RemoveRange(edges);
+            db.PlaceMarks.RemoveRange(pm);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
