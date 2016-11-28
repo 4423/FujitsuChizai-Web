@@ -251,7 +251,9 @@
                             warpId="@Html.DisplayFor(modelItem => item.WarpId)"
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
                             type="@Html.DisplayFor(modelItem => item.Type)"
-                            name="@Html.DisplayFor(modelItem => item.Name)" />
+                            name="@Html.DisplayFor(modelItem => item.Name)" >
+                        <title>@Html.DisplayFor(modelItem => item.Id)</title>
+                    </circle>
                 }
                 @foreach (var item in Model.Paths)
                 {
