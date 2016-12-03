@@ -20,16 +20,15 @@ namespace FujitsuChizai
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            // データ投入したいときはコメントアウト
-            // Database.SetInitializer<Models.Entities.ModelContext>(new Migrations.LightMapInitializer());
-
+            
             // JSONをLowerCamelCaseで返す
-            var config = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            var config = GlobalConfiguration.Configuration;
+            var jsonFormatter = config.Formatters.JsonFormatter;
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // JSONのみを使用
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            config.Formatters.Clear();
+            config.Formatters.Add(jsonFormatter);
         }
     }
 }
