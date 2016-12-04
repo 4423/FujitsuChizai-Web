@@ -199,6 +199,9 @@ namespace FujitsuChizai.Controllers
             var edges = db.Edges.Where(x => x.PlaceMark1.Floor == f || x.PlaceMark2.Floor == f);
             var pm = db.PlaceMarks.Where(x => x.Floor == f);
 
+            var path = Path.Combine(Server.MapPath("~/Resources/Map"), map.MapImageFilePath);
+            System.IO.File.Delete(path);
+
             db.Maps.Remove(map);
             db.Edges.RemoveRange(edges);
             db.PlaceMarks.RemoveRange(pm);
