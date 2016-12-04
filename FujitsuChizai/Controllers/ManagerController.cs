@@ -70,7 +70,7 @@ namespace FujitsuChizai.Controllers
             && map.Picture.ContentType.Contains("image")
             && map.Picture.ContentLength > 0;
 
-        private Image SaveImage(string fileName, HttpPostedFileBase uploadedPict)
+        private void SaveImage(string fileName, HttpPostedFileBase uploadedPict)
         {
             var destinationFolder = Server.MapPath("~/Resources/Map");
             if (!Directory.Exists(destinationFolder))
@@ -80,10 +80,7 @@ namespace FujitsuChizai.Controllers
 
             // ファイル保存
             var path = Path.Combine(destinationFolder, fileName);
-            uploadedPict.SaveAs(path);
-
-            // 画像化
-            return Image.FromStream(uploadedPict.InputStream);
+            uploadedPict.SaveAs(path);            
         }
 
         // POST: Manager/Create
@@ -96,7 +93,18 @@ namespace FujitsuChizai.Controllers
             if (IsMapBindingModelValid(input))
             {
                 var fileName = Path.GetFileName(input.Picture.FileName);
-                var image = SaveImage(fileName, input.Picture);
+                Image image = null;
+                try
+                {
+                    // 画像化
+                    image = Image.FromStream(input.Picture.InputStream);
+                }
+                catch (ArgumentException)
+                {
+                    return View();
+                }
+
+                SaveImage(fileName, input.Picture);
 
                 // DB保存
                 var m = new Map()
