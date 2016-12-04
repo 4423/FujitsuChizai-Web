@@ -147,7 +147,17 @@ namespace FujitsuChizai.Controllers
             if (IsMapBindingModelValid(input))
             {
                 var fileName = Path.GetFileName(input.Picture.FileName);
-                var image = SaveImage(fileName, input.Picture);
+                Image image = null;
+                try
+                {
+                    // 画像化
+                    image = Image.FromStream(input.Picture.InputStream);
+                }
+                catch (ArgumentException)
+                {
+                    return View();
+                }
+                SaveImage(fileName, input.Picture);
 
                 // DB保存
                 var map = db.Maps.Find(id);
