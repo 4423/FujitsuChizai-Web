@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<FujitsuChizai.Models.Entities.Map>
 
 @{
-    ViewBag.Title = "管理ページ";
+    ViewBag.Title = "地図管理ページ";
 }
 
-<h2>管理ページ</h2>
-<p>
-    各フロアの情報を表示・設定することができます。
-</p>
+<h2>地図管理ページ</h2>
 
 <p>
-    @Html.ActionLink("新しいフロアを登録", "Create")
+    @Html.ActionLink("新しい地図を登録", "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,7 +38,7 @@
             @Html.ActionLink("編集", "Edit", new { id=item.Id }) |
             @Html.ActionLink("削除", "Delete", new { id = item.Id }) |
             @Html.ActionLink("詳細", "Details", new { id=item.Id }) |
-            @Html.ActionLink("照明・場所情報", "Map", new { id=item.Id })
+            @Html.ActionLink("経路管理", "Map", new { id=item.Id })
         </td>
     </tr>
 }

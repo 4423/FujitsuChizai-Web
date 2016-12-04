@@ -1,13 +1,12 @@
 ﻿@model FujitsuChizai.Models.Entities.Map
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "地図詳細";
 }
 
-<h2>Details</h2>
+<h2>地図詳細</h2>
 
 <div>
-    <h4>Map</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,7 +26,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MapImageFilePath)
+            Picture
         </dt>
 
         <dd>
@@ -51,6 +50,7 @@
         </dd>
 
     </dl>
+    <img src="~/Resources/Map/@Model.MapImageFilePath" style="width: 100%;">
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
