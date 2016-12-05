@@ -13,7 +13,6 @@ namespace FujitsuChizai
     {
         public void Configuration(IAppBuilder app)
         {
-           // Database.SetInitializer(new DropCreateDatabaseIfModelChanges<Models.Entities.ModelContext>());
         }
     }
 }
