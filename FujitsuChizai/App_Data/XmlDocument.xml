@@ -488,24 +488,24 @@
         </member>
         <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32,FujitsuChizai.Models.Entities.PlaceMarkType,FujitsuChizai.Models.Entities.PlaceMarkType)">
             <summary>
-            2点間の案内経路を取得します。
+            出発地から目的地までの案内経路を取得します。
             </summary>
-            <param name="originId">始点となる照明IDまたは場所ID（既定は照明ID）</param>
-            <param name="destinationId">終点となる照明IDまたは場所ID（既定は場所ID）</param>
-            <param name="originType">始点の種類</param>
-            <param name="destinationType">終点の種類</param>
+            <param name="originId">出発地の照明IDまたは場所ID（既定は照明ID）</param>
+            <param name="destinationId">目的地の照明IDまたは場所ID（既定は場所ID）</param>
+            <param name="originType">出発地の種類</param>
+            <param name="destinationType">目的地の種類</param>
             <returns>2点間の案内経路</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.directionsController.Get(System.Int32,System.Int32,System.Int32,FujitsuChizai.Models.Entities.PlaceMarkType,FujitsuChizai.Models.Entities.PlaceMarkType)">
             <summary>
-            2点間の案内経路を取得します。
-            userId を指定した場合、この要求は記録されます。
+            出発地から目的地までの案内経路を取得します。
+            ユーザIDを指定した場合、この案内履歴は記録されます。
             </summary>
-            <param name="originId">始点となる照明光IDまたは場所ID（既定は照明ID）</param>
-            <param name="destinationId">終点となる照明光IDまたは場所ID（既定は場所ID）</param>
+            <param name="originId">出発地の照明IDまたは場所ID（既定は照明ID）</param>
+            <param name="destinationId">目的地の照明IDまたは場所ID（既定は場所ID）</param>
             <param name="userId">ユーザID</param>
-            <param name="originType">始点の種類</param>
-            <param name="destinationType">終点の種類</param>
+            <param name="originType">出発地の種類</param>
+            <param name="destinationType">目的地の種類</param>
             <returns>2点間の案内経路</returns>
         </member>
         <member name="T:FujitsuChizai.Controllers.geocodeController">
@@ -523,7 +523,7 @@
         </member>
         <member name="T:FujitsuChizai.Controllers.lightsController">
             <summary>
-            照明を扱うエンドポイントです。
+            照明情報を扱うエンドポイントです。
             </summary>
         </member>
         <member name="M:FujitsuChizai.Controllers.lightsController.Get">
@@ -543,8 +543,8 @@
             <summary>
             指定されたパラメータに一致する照明情報を取得します。
             </summary>
-            <param name="x">X座標地点</param>
-            <param name="y">Y座標地点</param>
+            <param name="x">X座標</param>
+            <param name="y">Y座標</param>
             <param name="floor">階</param>
             <param name="radius">半径</param>
             <returns>指定されたパラメータと一致した照明情報</returns>
@@ -579,7 +579,7 @@
         </member>
         <member name="T:FujitsuChizai.Controllers.placesController">
             <summary>
-            場所（店舗・部屋・エレベータなど）を扱うエンドポイントです。
+            場所情報を扱うエンドポイントです。
             </summary>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.Get">
@@ -592,7 +592,7 @@
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
-            <param name="keyword">場所を示すキーワード</param>
+            <param name="keyword">場所名</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
         </member>
         <member name="M:FujitsuChizai.Controllers.placesController.GetFloor(System.Int32)">
@@ -606,8 +606,8 @@
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
-            <param name="x">X座標地点</param>
-            <param name="y">Y座標地点</param>
+            <param name="x">X座標</param>
+            <param name="y">Y座標</param>
             <param name="floor">階</param>
             <param name="radius">半径</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
@@ -616,9 +616,9 @@
             <summary>
             指定されたパラメータに一致する場所情報を取得します。
             </summary>
-            <param name="keyword">場所を示すキーワード</param>
-            <param name="x">X座標地点</param>
-            <param name="y">Y座標地点</param>
+            <param name="keyword">場所名</param>
+            <param name="x">X座標</param>
+            <param name="y">Y座標</param>
             <param name="floor">階</param>
             <param name="radius">半径</param>
             <returns>指定されたパラメータと一致した場所情報</returns>
@@ -688,12 +688,12 @@
         </member>
         <member name="P:FujitsuChizai.Models.DirectionViewModel.Origin">
             <summary>
-            経路の始点
+            出発地
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.DirectionViewModel.Destination">
             <summary>
-            経路の終点
+            目的地
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.DirectionViewModel.Routes">
@@ -743,17 +743,17 @@
         </member>
         <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMarkId1">
             <summary>
-            1つめの PlaceMark の ID
+            1つめの場所ID
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMarkId2">
             <summary>
-            2つめの PlaceMark の ID
+            2つめの場所ID
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.Edge.Cost">
             <summary>
-            辺の重み
+            重み
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.Edge.PlaceMark1">
@@ -778,42 +778,42 @@
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Id">
             <summary>
-            この PlaceMark の場所ID
+            場所ID
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.X">
             <summary>
-            この PlaceMark の位置するX座標
+            X座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Y">
             <summary>
-            この PlaceMark の位置するY座標
+            Y座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Floor">
             <summary>
-            この PlaceMark の位置する階数
+            階
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Type">
             <summary>
-            この PlaceMark の種類
+            種類
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.Name">
             <summary>
-            Type が Place または Warp の場合にのみ格納される場所名
+            場所名(Type が Place または Warp の場合にのみ有効)
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.LightId">
             <summary>
-            Type が Light の場合にのみ格納される照明ID
+            照明ID(Type が Light の場合にのみ有効)
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.Entities.PlaceMark.WarpId">
             <summary>
-            Type が Warp の場合にのみ格納される接続ID
+            接続ID(Type が Warp の場合にのみ有効)
             </summary>
         </member>
         <member name="T:FujitsuChizai.Models.Entities.PlaceMarkType">
@@ -871,6 +871,17 @@
             登録日時
             </summary>
         </member>
+        <member name="T:FujitsuChizai.Models.Entities.Sexes">
+            <summary>
+            性別を表します。
+            この性別は ISO/IEC 5218 に基きます。
+            </summary>
+        </member>
+        <member name="T:FujitsuChizai.Models.Entities.Countries">
+            <summary>
+            国を表します。
+            </summary>
+        </member>
         <member name="T:FujitsuChizai.Models.ErrorMessageViewModel">
             <summary>
             エラー情報を表します。
@@ -893,12 +904,12 @@
         </member>
         <member name="P:FujitsuChizai.Models.GeocodeViewModel.X">
             <summary>
-            X座標位置
+            X座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.GeocodeViewModel.Y">
             <summary>
-            Y座標位置
+            Y座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.GeocodeViewModel.Floor">
@@ -913,12 +924,12 @@
         </member>
         <member name="P:FujitsuChizai.Models.GeocodeViewModel.CeilingLight">
             <summary>
-            天井の照明
+            天井の照明情報
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.GeocodeViewModel.FloorLight">
             <summary>
-            床に反射した照明
+            床に反射した照明情報
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.IRouteFinding.IsInitialized">
@@ -944,6 +955,11 @@
             <param name="goal"></param>
             <returns></returns>
         </member>
+        <member name="T:FujitsuChizai.Models.LightBindingModel">
+            <summary>
+            登録・更新する照明情報を表します。
+            </summary>
+        </member>
         <member name="P:FujitsuChizai.Models.LightBindingModel.LightId">
             <summary>
             照明ID
@@ -951,12 +967,12 @@
         </member>
         <member name="P:FujitsuChizai.Models.LightBindingModel.X">
             <summary>
-            X座標地点
+            X座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.LightBindingModel.Y">
             <summary>
-            Y座標地点
+            Y座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.LightBindingModel.Floor">
@@ -976,17 +992,17 @@
         </member>
         <member name="T:FujitsuChizai.Models.PlaceBindingModel">
             <summary>
-            場所情報の登録に使用するフォーマットを表します。
+            登録・更新する場所情報を表します。
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.X">
             <summary>
-            X座標位置
+            X座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.Y">
             <summary>
-            Y座標位置
+            Y座標
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.Floor">
@@ -1001,7 +1017,7 @@
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.Type">
             <summary>
-            この場所の種類（ Place または Warp ）
+            種類（ Place または Warp ）
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.PlaceBindingModel.WarpId">
@@ -1031,7 +1047,7 @@
         </member>
         <member name="T:FujitsuChizai.Models.RegisterBindingModel">
             <summary>
-            ユーザ情報の登録に使用するフォーマットを表します。
+            登録するユーザ情報を表します。
             </summary>
         </member>
         <member name="P:FujitsuChizai.Models.RegisterBindingModel.BornIn">

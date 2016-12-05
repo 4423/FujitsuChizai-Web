@@ -25,29 +25,43 @@
         <div class="content-wrapper">
             <h2>Introduction</h2>
             <p>
-                Fujitsu-Chizai Web APIの仕様一覧です。
+                Web APIの仕様一覧です。
             </p>
+            <h2>Term</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>用語</th>
+                        <th>定義</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>照明情報</td>
+                        <td>TypeがLightであるPlaceMarkのデータ</td>
+                    </tr>
+                    <tr>
+                        <td>場所情報</td>
+                        <td>TypeがPlaceまたはWarpであるPlaceMarkのデータ</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <h2>Note</h2>
             <ul>
                 <li>
-                    lights エンドポイントは、PlaceMarkType が Light の情報のみを扱います。
+                    lights エンドポイントは、PlaceMark の Type が Light の情報のみを扱います。
                 </li>
                 <li>
-                    places エンドポイントは、PlaceMarkType が Light 以外の情報を扱います。
+                    places エンドポイントは、PlaceMark の Type が Light 以外の情報を扱います。
                     Warp なども返されることに注意してください。
                 </li>
                 <li>
-                    directions エンドポイントが提供する案内経路には、全ての PlaceMarkType の情報が含まれます。
+                    directions エンドポイントが提供する案内経路には、全ての PlaceMark の Type の情報が含まれます。
                 </li>
                 <li>
-                    [修正済み] <s>いくつかのエンドポイントで提供される半径 radius パラメータで指定可能な領域は、
-                    処理簡単化のためX座標±radius、Y座標±radiusの正方形となります。</s>
-                </li>
-                <li>
-                    場所IDは、PlaceMarkType に依らず全ての PlaceMark が持つ ID で、一意に固定されています。
-                    場所IDに加えて、任意に設定可能な ID として、照明IDと接続IDが提供されています。
-                    この Help Page 中の説明において、「 照明ID 」と記述されているIDには「 PlaceMark の LightId 」を、
-                    「 接続ID 」と記述されているIDには「 PlaceMark の WarpId 」を指定してください。
+                    場所IDは、PlaceMark の Type に依らないIDで、PlaceMark を一意に示すIDです。
+                    任意に設定可能なIDとしては、照明IDと接続IDが提供されています。
                 </li>
             </ul>
         </div>

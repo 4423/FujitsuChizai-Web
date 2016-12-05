@@ -9,7 +9,7 @@ using System.Web;
 namespace FujitsuChizai.Models
 {
     /// <summary>
-    /// ユーザ情報の登録に使用するフォーマットを表します。
+    /// 登録するユーザ情報を表します。
     /// </summary>
     public class RegisterBindingModel
     {

@@ -41,7 +41,10 @@ namespace FujitsuChizai.Models.Entities
         public virtual ICollection<History> Histories { get; set; }
     }
 
-    // ISO/IEC 5218:2004 Codes for the representation of human sexes
+    /// <summary>
+    /// 性別を表します。
+    /// この性別は ISO/IEC 5218 に基きます。
+    /// </summary>
     public enum Sexes
     {
         Unknown,
@@ -52,6 +55,9 @@ namespace FujitsuChizai.Models.Entities
 
     // 193 + 4 - 1 = 196国
     // http://www.mofa.go.jp/mofaj/files/000023536.pdf
+    /// <summary>
+    /// 国を表します。
+    /// </summary>
     public enum Countries
     {
         Afghanistan,

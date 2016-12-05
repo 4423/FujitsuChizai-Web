@@ -14,36 +14,36 @@ namespace FujitsuChizai.Models.Entities
     public class PlaceMark
     {
         /// <summary>
-        /// この PlaceMark の場所ID
+        /// 場所ID
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// この PlaceMark の位置するX座標
+        /// X座標
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// この PlaceMark の位置するY座標
+        /// Y座標
         /// </summary>
         public int Y { get; set; }
         /// <summary>
-        /// この PlaceMark の位置する階数
+        /// 階
         /// </summary>
         public int Floor { get; set; }
         /// <summary>
-        /// この PlaceMark の種類
+        /// 種類
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public PlaceMarkType Type { get; set; }
         /// <summary>
-        /// Type が Place または Warp の場合にのみ格納される場所名
+        /// 場所名(Type が Place または Warp の場合にのみ有効)
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Type が Light の場合にのみ格納される照明ID
+        /// 照明ID(Type が Light の場合にのみ有効)
         /// </summary>
         public int? LightId { get; set; }
         /// <summary>
-        /// Type が Warp の場合にのみ格納される接続ID
+        /// 接続ID(Type が Warp の場合にのみ有効)
         /// </summary>
         public int? WarpId { get; set; }
 

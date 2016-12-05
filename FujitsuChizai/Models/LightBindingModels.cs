@@ -6,6 +6,9 @@ using System.Web;
 
 namespace FujitsuChizai.Models
 {
+    /// <summary>
+    /// 登録・更新する照明情報を表します。
+    /// </summary>
     public class LightBindingModel
     {
         /// <summary>
@@ -13,11 +16,11 @@ namespace FujitsuChizai.Models
         /// </summary>
         public int LightId { get; set; }
         /// <summary>
-        /// X座標地点
+        /// X座標
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// Y座標地点
+        /// Y座標
         /// </summary>
         public int Y { get; set; }
         /// <summary>

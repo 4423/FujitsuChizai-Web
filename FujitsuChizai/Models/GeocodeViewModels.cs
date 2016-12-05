@@ -12,11 +12,11 @@ namespace FujitsuChizai.Models
     public class GeocodeViewModel
     {
         /// <summary>
-        /// X座標位置
+        /// X座標
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// Y座標位置
+        /// Y座標
         /// </summary>
         public int Y { get; set; }
         /// <summary>
@@ -28,11 +28,11 @@ namespace FujitsuChizai.Models
         /// </summary>
         public int Angle { get; set; }
         /// <summary>
-        /// 天井の照明
+        /// 天井の照明情報
         /// </summary>
         public PlaceMark CeilingLight { get; set; }
         /// <summary>
-        /// 床に反射した照明
+        /// 床に反射した照明情報
         /// </summary>
         public PlaceMark FloorLight { get; set; }
     }

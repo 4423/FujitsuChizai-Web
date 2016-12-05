@@ -27,7 +27,7 @@ namespace FujitsuChizai.Controllers
 
             if (db.Users.Find(userId) == null)
             {
-                // ユーザが見つからなくても無視して return false すべき？
+                // 案内履歴に関連付けるユーザが見つからない
                 throw ErrorResponse(HttpStatusCode.BadRequest);
             }
 
@@ -73,12 +73,12 @@ namespace FujitsuChizai.Controllers
         }
 
         /// <summary>
-        /// 2点間の案内経路を取得します。
+        /// 出発地から目的地までの案内経路を取得します。
         /// </summary>
-        /// <param name="originId">始点となる照明IDまたは場所ID（既定は照明ID）</param>
-        /// <param name="destinationId">終点となる照明IDまたは場所ID（既定は場所ID）</param>
-        /// <param name="originType">始点の種類</param>
-        /// <param name="destinationType">終点の種類</param>
+        /// <param name="originId">出発地の照明IDまたは場所ID（既定は照明ID）</param>
+        /// <param name="destinationId">目的地の照明IDまたは場所ID（既定は場所ID）</param>
+        /// <param name="originType">出発地の種類</param>
+        /// <param name="destinationType">目的地の種類</param>
         /// <returns>2点間の案内経路</returns>
         public DirectionViewModel Get(int originId, int destinationId, PlaceMarkType originType = PlaceMarkType.Light, PlaceMarkType destinationType = PlaceMarkType.Place)
         {
@@ -86,14 +86,14 @@ namespace FujitsuChizai.Controllers
         }
 
         /// <summary>
-        /// 2点間の案内経路を取得します。
-        /// userId を指定した場合、この要求は記録されます。
+        /// 出発地から目的地までの案内経路を取得します。
+        /// ユーザIDを指定した場合、この案内履歴は記録されます。
         /// </summary>
-        /// <param name="originId">始点となる照明光IDまたは場所ID（既定は照明ID）</param>
-        /// <param name="destinationId">終点となる照明光IDまたは場所ID（既定は場所ID）</param>
+        /// <param name="originId">出発地の照明IDまたは場所ID（既定は照明ID）</param>
+        /// <param name="destinationId">目的地の照明IDまたは場所ID（既定は場所ID）</param>
         /// <param name="userId">ユーザID</param>
-        /// <param name="originType">始点の種類</param>
-        /// <param name="destinationType">終点の種類</param>
+        /// <param name="originType">出発地の種類</param>
+        /// <param name="destinationType">目的地の種類</param>
         /// <returns>2点間の案内経路</returns>
         public DirectionViewModel Get(int originId, int destinationId, int userId, PlaceMarkType originType = PlaceMarkType.Light, PlaceMarkType destinationType = PlaceMarkType.Place)
         {

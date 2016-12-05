@@ -16,11 +16,11 @@ namespace FujitsuChizai.Models
         /// </summary>
         public bool HasRegistered { get; set; }
         /// <summary>
-        /// 経路の始点
+        /// 出発地
         /// </summary>
         public PlaceMark Origin { get; set; }
         /// <summary>
-        /// 経路の終点
+        /// 目的地
         /// </summary>
         public PlaceMark Destination { get; set; }
         /// <summary>

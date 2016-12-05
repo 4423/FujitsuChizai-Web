@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace FujitsuChizai.Controllers
 {
     /// <summary>
-    /// 場所（店舗・部屋・エレベータなど）を扱うエンドポイントです。
+    /// 場所情報を扱うエンドポイントです。
     /// </summary>
     public class placesController : ErrorHandleableApiController
     {
@@ -48,7 +48,7 @@ namespace FujitsuChizai.Controllers
         /// <summary>
         /// 指定されたパラメータに一致する場所情報を取得します。
         /// </summary>
-        /// <param name="keyword">場所を示すキーワード</param>
+        /// <param name="keyword">場所名</param>
         /// <returns>指定されたパラメータと一致した場所情報</returns>
         public PlaceListViewModel Get(string keyword)
         {
@@ -79,8 +79,8 @@ namespace FujitsuChizai.Controllers
         /// <summary>
         /// 指定されたパラメータに一致する場所情報を取得します。
         /// </summary>
-        /// <param name="x">X座標地点</param>
-        /// <param name="y">Y座標地点</param>
+        /// <param name="x">X座標</param>
+        /// <param name="y">Y座標</param>
         /// <param name="floor">階</param>
         /// <param name="radius">半径</param>
         /// <returns>指定されたパラメータと一致した場所情報</returns>
@@ -98,9 +98,9 @@ namespace FujitsuChizai.Controllers
         /// <summary>
         /// 指定されたパラメータに一致する場所情報を取得します。
         /// </summary>
-        /// <param name="keyword">場所を示すキーワード</param>
-        /// <param name="x">X座標地点</param>
-        /// <param name="y">Y座標地点</param>
+        /// <param name="keyword">場所名</param>
+        /// <param name="x">X座標</param>
+        /// <param name="y">Y座標</param>
         /// <param name="floor">階</param>
         /// <param name="radius">半径</param>
         /// <returns>指定されたパラメータと一致した場所情報</returns>

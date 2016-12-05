@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace FujitsuChizai.Controllers
 {
     /// <summary>
-    /// 照明を扱うエンドポイントです。
+    /// 照明情報を扱うエンドポイントです。
     /// </summary>
     public class lightsController : ErrorHandleableApiController
     {
@@ -57,8 +57,8 @@ namespace FujitsuChizai.Controllers
         /// <summary>
         /// 指定されたパラメータに一致する照明情報を取得します。
         /// </summary>
-        /// <param name="x">X座標地点</param>
-        /// <param name="y">Y座標地点</param>
+        /// <param name="x">X座標</param>
+        /// <param name="y">Y座標</param>
         /// <param name="floor">階</param>
         /// <param name="radius">半径</param>
         /// <returns>指定されたパラメータと一致した照明情報</returns>

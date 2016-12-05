@@ -9,16 +9,16 @@ using System.Web;
 namespace FujitsuChizai.Models
 {
     /// <summary>
-    /// 場所情報の登録に使用するフォーマットを表します。
+    /// 登録・更新する場所情報を表します。
     /// </summary>
     public class PlaceBindingModel
     {
         /// <summary>
-        /// X座標位置
+        /// X座標
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// Y座標位置
+        /// Y座標
         /// </summary>
         public int Y { get; set; }
         /// <summary>
@@ -30,7 +30,7 @@ namespace FujitsuChizai.Models
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// この場所の種類（ Place または Warp ）
+        /// 種類（ Place または Warp ）
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public PlaceMarkType Type { get; set; }
