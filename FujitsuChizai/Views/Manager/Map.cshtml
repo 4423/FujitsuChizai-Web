@@ -240,6 +240,7 @@
         <img src="~/Resources/Map/@Model.Map.MapImageFilePath" style="position:absolute;">
         <div id="svg_layer" style="position:absolute;">
             <svg width="@Model.Map.Width" height="@Model.Map.Height">
+                @{ var formgroupHtmlBase = "<div class='form-group' style='margin-top:0px;margin-bottom:0px;'><label class='col-xs-6 control-label'>$LABEL$</label><div class='col-xs-6'><p class='form-control-static'>$VALUE$</p></div></div>"; }
                 @foreach (var item in Model.PlaceMarks)
                 {
                     <circle cx="@Html.DisplayFor(modelItem => item.X)"
@@ -251,9 +252,17 @@
                             warpId="@Html.DisplayFor(modelItem => item.WarpId)"
                             floor="@Html.DisplayFor(modelItem => item.Floor)"
                             type="@Html.DisplayFor(modelItem => item.Type)"
-                            name="@Html.DisplayFor(modelItem => item.Name)" >
-                        <title>@Html.DisplayFor(modelItem => item.Id)</title>
-                    </circle>
+                            name="@Html.DisplayFor(modelItem => item.Name)" 
+                            data-html="true"
+                            data-toggle="tooltip"
+                            title="<div class='form-horizontal' style='width:100px;margin:5px 5px 10px 5px;'>
+                                    @formgroupHtmlBase.Replace("$LABEL$", "ID").Replace("$VALUE$", item.Id.ToString())
+                                    @formgroupHtmlBase.Replace("$LABEL$", "X").Replace("$VALUE$", item.X.ToString())
+                                    @formgroupHtmlBase.Replace("$LABEL$", "Y").Replace("$VALUE$", item.Y.ToString())
+                                    @if (item.Type == PlaceMarkType.Light) { @formgroupHtmlBase.Replace("$LABEL$", "LightID").Replace("$VALUE$", item.LightId.ToString()) }
+                                    @if (item.Type == PlaceMarkType.Warp) { @formgroupHtmlBase.Replace("$LABEL$", "WarpID").Replace("$VALUE$", item.WarpId.ToString()) }
+                                    @if (item.Type == PlaceMarkType.Warp || item.Type == PlaceMarkType.Place) { @formgroupHtmlBase.Replace("$LABEL$", "Name").Replace("$VALUE$", item.Name) }
+                                </div>" />
                 }
                 @foreach (var item in Model.Paths)
                 {
@@ -270,3 +279,11 @@
 </div>
 
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            'container': 'body',
+            'placement': 'bottom'
+        });
+    });
+</script>

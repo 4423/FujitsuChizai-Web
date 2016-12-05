@@ -82,9 +82,14 @@
     _setCircleAttr(key, value) {
         if (this._$circle != null) {
             this._$circle.attr(key, value);
+            this._updateTooltip();
         }
     }
 
+    _updateTooltip() {
+        var title = "";
+        this._$circle.attr("title", title);
+    }
 
     // Properties
     get id() { return this._id; }
