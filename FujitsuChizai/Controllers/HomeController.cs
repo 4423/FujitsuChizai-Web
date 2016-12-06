@@ -10,7 +10,7 @@ namespace FujitsuChizai.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Fujitsu-Chizai Web";
 
             return View();
         }
