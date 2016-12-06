@@ -228,7 +228,6 @@
       <DependentUpon>201610192234502_AddDestHistory2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Migrations\LightMapInitializer.cs" />
     <Compile Include="Models\DirectionViewModels.cs" />
     <Compile Include="Models\Entities\Edge.cs" />
     <Compile Include="Models\Entities\History.cs" />
