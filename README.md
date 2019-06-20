@@ -1,10 +1,24 @@
-# FujitsuChizai-Web
-FujitsuChizaiのサーバ側
+# 学校案内アプリNAVI（サーバサイド）
+![](https://4423lab.wpblog.jp/wp-content/uploads/2019/05/HmupbatQwLik8o.jpg)
 
+サーバサイドは以下の機能を持つ。
++ 経路を提供するWebAPI
++ 地図を管理するWebページ
++ 経路案内の統計を表示するWebページ
+
+![](https://4423lab.wpblog.jp/wp-content/uploads/2019/06/img1.png)
 
 ## API仕様
 [Fujitsu-Chizai Web API Help Page](https://fujitsu-chizai.azurewebsites.net/help/)
 
+## 地図を管理するWebページ
+![](https://4423lab.wpblog.jp/wp-content/uploads/2019/06/img2.png)
+
+## 経路案内の統計を表示するWebページ
+![](https://4423lab.wpblog.jp/wp-content/uploads/2019/06/img3.png)
+
+## データベースのスキーマ
+![](https://4423lab.wpblog.jp/wp-content/uploads/2019/06/img4.png)
 
 ## 使用ライブラリ
 [SweetAlert](http://t4t5.github.io/sweetalert/)
